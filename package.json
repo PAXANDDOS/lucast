@@ -7,9 +7,9 @@
 	"main": "dist/main/index.cjs",
 	"scripts": {
 		"dev": "node scripts/watch.mjs",
-		"build": "node scripts/build.mjs && electron-builder",
+		"build": "node scripts/build.mjs && electron-builder --config .electron-builder.config.js",
 		"lint": "eslint . --ext js,ts,tsx",
-		"typecheck": "npm run typecheck-main && npm run typecheck-preload && npm run typecheck-renderer"
+		"typecheck": "tsc --noEmit -p packages/renderer/tsconfig.json"
 	},
 	"engines": {
 		"node": ">=14.17.0"
@@ -36,7 +36,6 @@
 		"vite-plugin-resolve": "^1.4.0"
 	},
 	"env": {
-		"//": "Used in build scripts",
 		"HOST": "127.0.0.1",
 		"PORT": 3344
 	}
