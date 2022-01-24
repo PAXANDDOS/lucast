@@ -1,13 +1,13 @@
 import { clipboard } from 'electron'
 
-function App() {
+const App = () => {
 	const addToClipboard = () => {
 		clipboard.writeText('Example String', 'selection')
 		console.log(clipboard.readText('selection'))
 	}
 
 	return (
-		<div className="App">
+		<div>
 			<button onClick={addToClipboard}>Click me</button>
 		</div>
 	)

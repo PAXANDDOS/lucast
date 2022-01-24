@@ -1,0 +1,29 @@
+{
+	"env": {
+		"browser": true,
+		"node": false
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:react-hooks/recommended"
+	],
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser",
+		"ecmaVersion": 12,
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"sourceType": "module"
+	},
+	"plugins": ["react"],
+	"rules": {
+		"react/react-in-jsx-scope": "off"
+	},
+	"settings": {
+		"react": {
+			"pragma": "React",
+			"version": "17.0.2"
+		}
+	}
+}
