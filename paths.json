@@ -1,10 +1,10 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/renderer/src/*"],
-      "src/*": ["src/*"]
-    }
-  }
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"@/*": ["packages/renderer/src/*"],
+			"packages/*": ["packages/*"]
+		}
+	}
 }
