@@ -2,9 +2,9 @@ import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron'
 import Store from 'electron-store'
 import os from 'os'
 import { join } from 'path'
-import './includes/input-sources'
-import './includes/save-recording'
-import './includes/system-info'
+import './samples/input-sources'
+import './samples/save-recording'
+import './samples/system-info'
 
 // @ts-ignore
 const isDev = import.meta.env.MODE === 'development'
@@ -87,13 +87,20 @@ app.on('window-all-closed', () => {
 
 const store = new Store({
 	schema: {
-		startRecord: {
-			type: 'string',
-			default: 'Alt+1',
-		},
-		stopRecord: {
-			type: 'string',
-			default: 'Alt+2',
+		preferences: {
+			type: 'object',
+			default: {
+				video: {
+					format: 'webm',
+				},
+				audio: {
+					enabled: false,
+				},
+				bindings: {
+					start: 'Alt+1',
+					stop: 'Alt+2',
+				},
+			},
 		},
 	},
 })
@@ -114,11 +121,11 @@ ipcMain.handle(
 app.whenReady()
 	.then(() => {
 		// @ts-ignore
-		globalShortcut.register(store.get('startRecord'), () => {
+		globalShortcut.register(store.get('preferences.bindings.start'), () => {
 			win?.webContents.send('start-recording')
 		})
 		// @ts-ignore
-		globalShortcut.register(store.get('stopRecord'), () => {
+		globalShortcut.register(store.get('preferences.bindings.stop'), () => {
 			win?.webContents.send('stop-recording')
 		})
 	})

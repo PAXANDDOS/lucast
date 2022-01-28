@@ -15,6 +15,14 @@ interface osInfoInterface {
 	release: string
 }
 
+interface videoInterface {
+	format: string
+}
+
+interface audioInterface {
+	enabled: boolean
+}
+
 interface bindsInterface {
 	start: string
 	stop: string
@@ -22,33 +30,50 @@ interface bindsInterface {
 
 const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 	const [osInfo, setOsInfo] = useState<osInfoInterface>()
+	const [videoSettings, setVideoSettings] = useState<videoInterface>()
+	const [audioSettings, setAudioSettings] = useState<audioInterface>()
 	const [binds, setBinds] = useState<bindsInterface>()
-	const [needRestart, setNeedRestart] = useState<boolean>(false)
+	const [warning, setWarning] = useState<string>()
 	const updateRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		window.ipcRenderer.invoke('get-os-info').then((res) => setOsInfo(res))
 
-		const startPromise = store.get('startRecord')
-		const stopPromise = store.get('stopRecord')
-		Promise.all([startPromise, stopPromise]).then(
-			([startResult, stopResult]) => {
+		const videoPromise = store.get('preferences.video')
+		const audioPromise = store.get('preferences.audio')
+		const bindsPromise = store.get('preferences.bindings')
+		Promise.all([videoPromise, audioPromise, bindsPromise]).then(
+			([videoResult, audioResult, bindsResult]) => {
+				setVideoSettings({
+					format: videoResult.format,
+				})
+				setAudioSettings({
+					enabled: audioResult.enabled,
+				})
 				setBinds({
-					start: startResult,
-					stop: stopResult,
+					start: bindsResult.start,
+					stop: bindsResult.stop,
 				})
 			}
 		)
 	}, [])
 
-	const handleChange = (e: KeyboardEvent) => {
-		console.log(e)
+	const handleBindChange = (e: KeyboardEvent) => {
 		let trusted = null
 
 		if (e.ctrlKey) trusted = 'CmdOrCtrl'
 		else if (e.altKey) trusted = 'Alt'
-		else return
+		else
+			return setWarning(
+				'Key combination should start with Control or Alt!'
+			)
 
+		switch (e.key) {
+			case 'Alt':
+			case 'Control':
+			case 'Shift':
+				return
+		}
 		const custom = e.key
 		// @ts-ignore
 		setBinds({
@@ -58,15 +83,29 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 		})
 	}
 
-	const handleSubmit = async () => {
-		const startInitial = await store.get('startRecord')
-		const stopInitial = await store.get('stopRecord')
-		if (startInitial !== binds?.start)
-			await store.set('startRecord', binds?.start)
-		if (stopInitial !== binds?.stop)
-			await store.set('stopRecord', binds?.stop)
+	const handleAudioChange = async () => {
+		await store.set('preferences.audio.enabled', !audioSettings?.enabled)
+		setAudioSettings({
+			enabled: !audioSettings?.enabled,
+		})
+	}
 
-		setNeedRestart(true)
+	const handleBindSubmit = async () => {
+		if (binds?.start === binds?.stop)
+			return setWarning('Key combination should not be the same!')
+
+		const bindsInitial = await store.get('preferences.bindings')
+		let changed = false
+		if (bindsInitial.start !== binds?.start) {
+			await store.set('preferences.bindings.start', binds?.start)
+			changed = true
+		}
+		if (bindsInitial.stop !== binds?.stop) {
+			await store.set('preferences.bindings.stop', binds?.stop)
+			changed = true
+		}
+
+		changed && setWarning('Restart program for the changes to take effect!')
 	}
 
 	const checkUpdates = () => {
@@ -101,10 +140,9 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 				<div className={style.settingsBox}>
 					<h2 className={style.settingsTitle}>Video</h2>
 					<div className={style.settingsBindObject}>
-						<select>
+						<select value={videoSettings?.format.toUpperCase()}>
 							<option>WEBM</option>
-							<option>MP4</option>
-							<option>AVI</option>
+							<option disabled>MP4</option>
 						</select>
 						<span>Video format</span>
 					</div>
@@ -112,21 +150,23 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 				<div className={style.settingsBox}>
 					<h2 className={style.settingsTitle}>Audio</h2>
 					<div className={style.settingsBindObject}>
-						<input type="checkbox" />
+						<input
+							type="checkbox"
+							checked={audioSettings?.enabled}
+							onChange={handleAudioChange}
+						/>
 						<span>Enable audio</span>
 					</div>
 				</div>
 				<div className={style.settingsBox}>
 					<h2 className={style.settingsTitle}>Key bindings</h2>
-					{needRestart && (
-						<span className={style.restartWarning}>
-							Restart program for the changes to take effect!
-						</span>
+					{warning && (
+						<span className={style.settingsWarning}>{warning}</span>
 					)}
 					<div className={style.settingsBindObject}>
 						<input
-							onKeyDown={handleChange}
-							onBlur={handleSubmit}
+							onKeyDown={handleBindChange}
+							onBlur={handleBindSubmit}
 							value={binds?.start}
 							name="start"
 						/>
@@ -134,8 +174,8 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 					</div>
 					<div className={style.settingsBindObject}>
 						<input
-							onKeyDown={handleChange}
-							onBlur={handleSubmit}
+							onKeyDown={handleBindChange}
+							onBlur={handleBindSubmit}
 							value={binds?.stop}
 							name="stop"
 						/>
