@@ -55,42 +55,6 @@ const HomePage = () => {
 			'window',
 		])
 		window.ipcRenderer.send('show-input-sources', JSON.stringify(sources))
-
-		window.ipcRenderer.on(
-			'input-source-selected',
-			async (e, source: DesktopCapturerSource) => {
-				if (!ref.current) return
-
-				const mediaDevices = navigator.mediaDevices as any
-				const stream = await mediaDevices.getUserMedia({
-					audio: false,
-					video: {
-						mandatory: {
-							chromeMediaSource: 'desktop',
-							chromeMediaSourceId: source.id,
-						},
-					},
-				})
-
-				ref.current.srcObject = stream
-				ref.current.play()
-
-				const newMediaRecorder = new MediaRecorder(stream, {
-					mimeType: 'video/webm; codecs=vp9',
-				})
-				newMediaRecorder.ondataavailable = handleDataAvailable
-				newMediaRecorder.onstop = handleStopRecorder
-				setMediaRecorder(newMediaRecorder)
-				setState({
-					...state,
-					startActive: true,
-					source:
-						source.name.length > 13
-							? `${source.name.slice(0, 11)}..`
-							: source.name,
-				})
-			}
-		)
 	}
 
 	const handleDataAvailable = (e: BlobEvent) => recordedChunks.push(e.data)
@@ -131,26 +95,57 @@ const HomePage = () => {
 	}
 
 	useEffect(() => {
-		const startPromise = store.get('startRecord')
-		const stopPromise = store.get('stopRecord')
-		Promise.all([startPromise, stopPromise]).then(
-			([startResult, stopResult]) => {
-				setBinds({
-					start: startResult,
-					stop: stopResult,
+		store.get('preferences.bindings').then((binds) =>
+			setBinds({
+				start: binds.start,
+				stop: binds.stop,
+			})
+		)
+
+		window.ipcRenderer.on('start-recording', () => {
+			state.startActive && handleStart()
+			new Notification('Recording has started')
+		})
+		window.ipcRenderer.on('stop-recording', () => {
+			state.stopActive && handleStop()
+			new Notification('Recording stopped')
+		})
+		window.ipcRenderer.on(
+			'input-source-selected',
+			async (e, source: DesktopCapturerSource) => {
+				if (!ref.current) return
+
+				const mediaDevices = navigator.mediaDevices as any
+				const stream = await mediaDevices.getUserMedia({
+					audio: false,
+					video: {
+						mandatory: {
+							chromeMediaSource: 'desktop',
+							chromeMediaSourceId: source.id,
+						},
+					},
+				})
+
+				ref.current.srcObject = stream
+				ref.current.play()
+
+				const newMediaRecorder = new MediaRecorder(stream, {
+					mimeType: 'video/webm; codecs=vp9',
+				})
+				newMediaRecorder.ondataavailable = handleDataAvailable
+				newMediaRecorder.onstop = handleStopRecorder
+				setMediaRecorder(newMediaRecorder)
+				setState({
+					...state,
+					startActive: true,
+					source:
+						source.name.length > 13
+							? `${source.name.slice(0, 11)}..`
+							: source.name,
 				})
 			}
 		)
-
-		window.ipcRenderer.on(
-			'start-recording',
-			() => state.startActive && handleStart()
-		)
-		window.ipcRenderer.on(
-			'stop-recording',
-			() => state.stopActive && handleStop()
-		)
-	}, [handleStart, handleStop, state.startActive, state.stopActive])
+	}, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className={style.homePage}>

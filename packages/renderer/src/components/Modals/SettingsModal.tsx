@@ -31,8 +31,13 @@ interface bindsInterface {
 const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 	const [osInfo, setOsInfo] = useState<osInfoInterface>()
 	const [videoSettings, setVideoSettings] = useState<videoInterface>()
-	const [audioSettings, setAudioSettings] = useState<audioInterface>()
-	const [binds, setBinds] = useState<bindsInterface>()
+	const [audioSettings, setAudioSettings] = useState<audioInterface>({
+		enabled: false,
+	})
+	const [binds, setBinds] = useState<bindsInterface>({
+		start: '',
+		stop: '',
+	})
 	const [warning, setWarning] = useState<string>()
 	const updateRef = useRef<HTMLDivElement>(null)
 
@@ -165,6 +170,7 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 					)}
 					<div className={style.settingsBindObject}>
 						<input
+							onChange={() => null}
 							onKeyDown={handleBindChange}
 							onBlur={handleBindSubmit}
 							value={binds?.start}
@@ -174,6 +180,7 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 					</div>
 					<div className={style.settingsBindObject}>
 						<input
+							onChange={() => null}
 							onKeyDown={handleBindChange}
 							onBlur={handleBindSubmit}
 							value={binds?.stop}
