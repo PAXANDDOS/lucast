@@ -15,6 +15,6 @@
 		"strict": true,
 		"jsx": "react-jsx",
 		"types": ["node"],
-		"typeRoots": ["node_modules/@types"]
+		"typeRoots": ["node_modules/@types", "types/*"]
 	}
 }

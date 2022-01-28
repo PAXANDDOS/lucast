@@ -1,8 +1,12 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron'
+import Store from 'electron-store'
 import os from 'os'
 import { join } from 'path'
-import './samples/electron-store'
+import './includes/input-sources'
+import './includes/save-recording'
+import './includes/system-info'
 
+// @ts-ignore
 const isDev = import.meta.env.MODE === 'development'
 
 const isWin7 = os.release().startsWith('6.1')
@@ -13,54 +17,57 @@ if (!app.requestSingleInstanceLock()) {
 	process.exit(0)
 }
 
-let window: BrowserWindow | null = null
+let win: BrowserWindow | null = null
 
 const createWindow = async () => {
-	window = new BrowserWindow({
+	win = new BrowserWindow({
 		title: 'Screencast',
+		width: 1280,
+		height: 720,
+		minWidth: 940,
+		minHeight: 560,
 		show: false,
+		icon: join(__dirname, '../../build/icon.ico'),
+		autoHideMenuBar: true,
+		titleBarStyle: 'hidden',
 		webPreferences: {
 			webviewTag: false,
 			nativeWindowOpen: true,
-			nodeIntegration: true,
-			contextIsolation: false,
+			nodeIntegration: false,
+			contextIsolation: true,
 			preload: join(__dirname, '../preload/index.cjs'),
 		},
 	})
 
-	window.on('ready-to-show', () => {
-		window?.show()
-		isDev && window?.webContents.openDevTools()
+	win.on('ready-to-show', () => {
+		win?.show()
+		isDev && win?.webContents.openDevTools()
 	})
 
 	if (app.isPackaged) {
-		window.loadFile(join(__dirname, '../renderer/index.html'))
+		win.loadFile(join(__dirname, '../renderer/index.html'))
 	} else {
 		const pkg = await import('../../package.json')
 		const url = `http://${pkg.env.HOST || '127.0.0.1'}:${pkg.env.PORT}`
 
-		window.loadURL(url)
+		win.loadURL(url)
 	}
 
-	window.webContents.on('did-finish-load', () => {
-		window?.webContents.send(
+	win.webContents.on('did-finish-load', () => {
+		win?.webContents.send(
 			'main-process-message',
 			new Date().toLocaleString()
 		)
 	})
+
+	win.on('maximize', () => win?.webContents.send('isMaximized'))
+	win.on('unmaximize', () => win?.webContents.send('isRestored'))
 }
 
-app.whenReady().then(createWindow)
-
-app.on('window-all-closed', () => {
-	window = null
-	if (process.platform !== 'darwin') app.quit()
-})
-
 app.on('second-instance', () => {
-	if (window) {
-		if (window.isMinimized()) window.restore()
-		window.focus()
+	if (win) {
+		if (win.isMinimized()) win.restore()
+		win.focus()
 	}
 })
 
@@ -68,4 +75,66 @@ app.on('activate', () => {
 	const allWindows = BrowserWindow.getAllWindows()
 	if (allWindows.length) allWindows[0].focus()
 	else createWindow()
+})
+
+app.on('window-all-closed', () => {
+	win = null
+	process.platform !== 'darwin' && app.quit()
+})
+
+// Electron Store
+//
+
+const store = new Store({
+	schema: {
+		startRecord: {
+			type: 'string',
+			default: 'Alt+1',
+		},
+		stopRecord: {
+			type: 'string',
+			default: 'Alt+2',
+		},
+	},
+})
+
+ipcMain.handle(
+	'electron-store',
+	async (_evnet, methodSign: string, ...args: any[]) => {
+		if (typeof (store as any)[methodSign] === 'function') {
+			return (store as any)[methodSign](...args)
+		}
+		return (store as any)[methodSign]
+	}
+)
+
+// Registering shortcuts and starting
+//
+
+app.whenReady()
+	.then(() => {
+		// @ts-ignore
+		globalShortcut.register(store.get('startRecord'), () => {
+			win?.webContents.send('start-recording')
+		})
+		// @ts-ignore
+		globalShortcut.register(store.get('stopRecord'), () => {
+			win?.webContents.send('stop-recording')
+		})
+	})
+	.then(createWindow)
+
+// Custom title bar handlers
+//
+
+ipcMain.on('app-minimize', () => win?.minimize())
+
+ipcMain.on('app-maximize', () =>
+	win?.isMaximized() ? win.restore() : win?.maximize()
+)
+
+ipcMain.on('app-close', () => {
+	win?.close()
+	win = null
+	process.platform !== 'darwin' && app.quit()
 })

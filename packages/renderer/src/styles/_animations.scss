@@ -1,0 +1,78 @@
+@mixin fade-in($duration: 0.5s) {
+	animation: fadeIn $duration ease forwards;
+	opacity: 0;
+	@keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+}
+
+@mixin fade-out($duration: 0.5s) {
+	animation: fadeOut $duration ease forwards;
+	@keyframes fadeOut {
+		0% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+}
+
+@mixin pop-up($duration: 0.1s) {
+	animation: popUp $duration ease forwards;
+	@keyframes popUp {
+		0% {
+			opacity: 0;
+			transform: translateY(100%);
+		}
+		50% {
+			opacity: 0.5;
+		}
+		100% {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+}
+
+@mixin pop-in($duration: 0.2s) {
+	animation: popIn $duration ease forwards;
+	transform: scale(0);
+	@keyframes popIn {
+		0% {
+			transform: scale(0);
+		}
+		100% {
+			transform: scale(1);
+		}
+	}
+}
+
+@mixin pop-out($duration: 0.2s) {
+	animation: popOut $duration ease forwards;
+	@keyframes popOut {
+		0% {
+			transform: scale(1);
+		}
+		100% {
+			transform: scale(0);
+		}
+	}
+}
+
+@mixin spin() {
+	animation: spin 1s infinite ease;
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+}

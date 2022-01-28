@@ -1,5 +1,4 @@
 * text=auto
 * eol=lf
-*.mjs linguist-language=TypeScript
 *.html linguist-generated
 *.md linguist-generated

@@ -3,8 +3,8 @@
  * @see https://www.electron.build/configuration/configuration
  */
 module.exports = {
-	appId: 'com.paxanddos.screencast',
-	productName: 'Screencast: Screen Recorder',
+	appId: 'com.paxanddos.lucast',
+	productName: 'Lucast',
 	copyright: 'Copyright © 2022 ${author}',
 	asar: true,
 	directories: {

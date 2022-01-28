@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 export {}
 
 declare global {
 	interface Window {
-		// fs: typeof import('fs')
-		// ipcRenderer: import('electron').IpcRenderer
+		ipcRenderer: import('electron').IpcRenderer
 		removeLoading: () => void
 	}
 }

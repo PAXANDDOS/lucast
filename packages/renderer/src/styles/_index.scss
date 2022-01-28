@@ -1,0 +1,70 @@
+$dark-0: #202020;
+$dark-1: #252525;
+$dark-2: #303030;
+$dark-3: #474747;
+$dark-4: #4d4d4d;
+$dark-5: #606060;
+$dark-6: #aaaaaa;
+$dark-7: #d4d4d4;
+$dark-8: #d5d5d5;
+$brand-blue: #3d8cdb;
+$accent-header: $dark-8;
+$accent-paragraph: $dark-7;
+$svg: $dark-6;
+$danger-red: rgba(255, 0, 0, 0.7);
+$shadow-lighten: 0px 2px 14px rgba(0, 0, 0, 0.07);
+$shadow-default: 0px 4px 17px rgba(0, 0, 0, 0.1);
+$shadow-darken: 0px 0px 20px rgba(0, 0, 0, 0.25);
+$transition-default: 0.1s cubic-bezier(1, 0.3, 0.51, 0.6);
+
+@mixin unselectable {
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+@mixin flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+@mixin flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin grid-center {
+	display: grid;
+	place-items: center;
+}
+
+@mixin transition($duration: 0) {
+	@if $duration != 0 {
+		transition: $duration cubic-bezier(1, 0.3, 0.51, 0.6);
+	} @else {
+		transition: $transition-default;
+	}
+	transition-property: background, border, fill, transform, box-shadow, stroke;
+}
+
+@mixin input-dark-border($top, $right, $bottom, $left) {
+	border: 0 solid $dark-5;
+	border-width: $top $right $bottom $left;
+	height: 40px;
+	padding: 6px;
+	font-size: 16px;
+	background: transparent;
+	transition: 160ms cubic-bezier(1, 0.3, 0.51, 0.6);
+	transition-property: background, border, fill, transform, box-shadow, stroke;
+	&:focus {
+		border-color: $dark-6;
+	}
+}
