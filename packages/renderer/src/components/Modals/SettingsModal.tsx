@@ -148,6 +148,9 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 						<select value={videoSettings?.format.toUpperCase()}>
 							<option>WEBM</option>
 							<option disabled>MP4</option>
+							<option disabled>GIF</option>
+							<option disabled>APNG</option>
+							<option disabled>WEBP</option>
 						</select>
 						<span>Video format</span>
 					</div>

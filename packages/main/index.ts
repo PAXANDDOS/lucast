@@ -18,10 +18,11 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 let win: BrowserWindow | null = null
+app.commandLine.appendSwitch('enable-webgl')
 
 const createWindow = async () => {
 	win = new BrowserWindow({
-		title: 'Screencast',
+		title: 'Lucast',
 		width: 1280,
 		height: 720,
 		minWidth: 940,

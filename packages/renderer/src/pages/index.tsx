@@ -4,7 +4,8 @@ import style from '@/styles/home.module.scss'
 import store from '@/utils/electron-store'
 import type { DesktopCapturerSource } from 'electron'
 import type { MouseEvent } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { webmFixDuration } from 'webm-fix-duration'
 import {
 	Info,
 	RecordStart,
@@ -59,24 +60,18 @@ const HomePage = () => {
 
 	const handleDataAvailable = (e: BlobEvent) => recordedChunks.push(e.data)
 
-	const handleStopRecorder = async () => {
-		const blob = new Blob(recordedChunks, {
-			type: 'video/webm; codecs=vp9',
-		})
-		window.ipcRenderer.send('save-blob', await blob.arrayBuffer())
-	}
-
-	const handleStart = useCallback(() => {
+	const handleStart = () => {
 		mediaRecorder?.start()
+		store.set('temp.start', Date.now())
 		setState({
 			...state,
 			label: 'Recording...',
 			startActive: false,
 			stopActive: true,
 		})
-	}, [mediaRecorder, state])
+	}
 
-	const handleStop = useCallback(() => {
+	const handleStop = () => {
 		mediaRecorder?.stop()
 		setState({
 			...state,
@@ -84,7 +79,7 @@ const HomePage = () => {
 			startActive: true,
 			stopActive: false,
 		})
-	}, [mediaRecorder, state])
+	}
 
 	const handleModalChange = ({ currentTarget }: MouseEvent) => {
 		const element = currentTarget as HTMLButtonElement
@@ -95,45 +90,78 @@ const HomePage = () => {
 	}
 
 	useEffect(() => {
-		store.get('preferences.bindings').then((binds) =>
-			setBinds({
-				start: binds.start,
-				stop: binds.stop,
-			})
-		)
-
 		window.ipcRenderer.on('start-recording', () => {
-			state.startActive && handleStart()
-			new Notification('Recording has started')
+			if (state.startActive) {
+				handleStart()
+				new Notification('Recording has started')
+			}
 		})
+		return () => {
+			window.ipcRenderer.removeAllListeners('start-recording')
+		}
+	})
+
+	useEffect(() => {
 		window.ipcRenderer.on('stop-recording', () => {
-			state.stopActive && handleStop()
-			new Notification('Recording stopped')
+			if (state.stopActive) {
+				handleStop()
+				new Notification('Recording stopped')
+			}
 		})
+		return () => {
+			window.ipcRenderer.removeAllListeners('stop-recording')
+		}
+	})
+
+	useEffect(() => {
 		window.ipcRenderer.on(
 			'input-source-selected',
 			async (e, source: DesktopCapturerSource) => {
 				if (!ref.current) return
 
 				const mediaDevices = navigator.mediaDevices as any
-				const stream = await mediaDevices.getUserMedia({
-					audio: false,
-					video: {
-						mandatory: {
-							chromeMediaSource: 'desktop',
-							chromeMediaSourceId: source.id,
-						},
+				const audioEnabled: boolean = await store.get(
+					'preferences.audio.enabled'
+				)
+				const mandatory = {
+					mandatory: {
+						chromeMediaSource: 'desktop',
+						chromeMediaSourceId: source.id,
 					},
+				}
+				const stream = await mediaDevices.getUserMedia({
+					audio: audioEnabled ? mandatory : false,
+					video: mandatory,
 				})
 
 				ref.current.srcObject = stream
+				ref.current.muted = true
 				ref.current.play()
 
 				const newMediaRecorder = new MediaRecorder(stream, {
-					mimeType: 'video/webm; codecs=vp9',
+					mimeType: `video/webm; codecs=vp9${
+						audioEnabled ? ', opus' : ''
+					}`,
+					audioBitsPerSecond: 128000,
+					videoBitsPerSecond: 8000000,
 				})
 				newMediaRecorder.ondataavailable = handleDataAvailable
-				newMediaRecorder.onstop = handleStopRecorder
+				newMediaRecorder.onstop = async () => {
+					const blob = new Blob(recordedChunks, {
+						type: `video/webm; codecs=vp9${
+							audioEnabled && ', opus'
+						}`,
+					})
+					const duration =
+						Date.now() - (await store.get('temp.start'))
+					const fixedBlob = await webmFixDuration(blob, duration)
+					window.ipcRenderer.send(
+						'save-blob',
+						await fixedBlob.arrayBuffer()
+					)
+					recordedChunks.length = 0
+				}
+
 				setMediaRecorder(newMediaRecorder)
 				setState({
 					...state,
@@ -145,7 +173,19 @@ const HomePage = () => {
 				})
 			}
 		)
-	}, []) // eslint-disable-line react-hooks/exhaustive-deps
+		return () => {
+			window.ipcRenderer.removeAllListeners('input-source-selected')
+		}
+	})
+
+	useEffect(() => {
+		store.get('preferences.bindings').then((binds) =>
+			setBinds({
+				start: binds.start,
+				stop: binds.stop,
+			})
+		)
+	}, [])
 
 	return (
 		<div className={style.homePage}>
