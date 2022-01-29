@@ -1,4 +1,5 @@
 import style from '@/styles/modal.module.scss'
+import Footer from '../Footers/InfoFooter'
 import Modal from './Modal'
 
 interface InfoModalInterface {
@@ -7,7 +8,12 @@ interface InfoModalInterface {
 
 const InfoModal = ({ onClose }: InfoModalInterface) => {
 	return (
-		<Modal title="About Lucast" isOpen={true} onClose={onClose}>
+		<Modal
+			title="About Lucast"
+			isOpen={true}
+			onClose={onClose}
+			Footer={<Footer />}
+		>
 			<div className={style.infoModal}>
 				<div className={style.infoModalPreview}></div>
 				<div className={style.infoModalContent}>

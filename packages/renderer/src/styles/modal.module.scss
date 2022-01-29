@@ -164,6 +164,10 @@
 					svg {
 						width: 20px;
 						fill: $dark-7;
+						stroke: $dark-7;
+						&[name='nofill'] {
+							fill: none;
+						}
 					}
 				}
 				span {

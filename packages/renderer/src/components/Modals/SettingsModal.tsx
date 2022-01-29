@@ -1,49 +1,39 @@
-import { Update } from '@/assets/icons/Misc'
 import style from '@/styles/modal.module.scss'
 import store from '@/utils/electron-store'
 import type { KeyboardEvent } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import Footer from '../Footers/UpdateFooter'
 import Modal from './Modal'
 
 interface SettingsModalInterface {
 	onClose: () => void
 }
 
-interface osInfoInterface {
-	version: string
-	arch: string
-	release: string
-}
-
-interface videoInterface {
+type videoState = {
 	format: string
 }
 
-interface audioInterface {
+type audioState = {
 	enabled: boolean
 }
 
-interface bindsInterface {
+type bindsState = {
 	start: string
 	stop: string
 }
 
 const SettingsModal = ({ onClose }: SettingsModalInterface) => {
-	const [osInfo, setOsInfo] = useState<osInfoInterface>()
-	const [videoSettings, setVideoSettings] = useState<videoInterface>()
-	const [audioSettings, setAudioSettings] = useState<audioInterface>({
+	const [videoSettings, setVideoSettings] = useState<videoState>()
+	const [audioSettings, setAudioSettings] = useState<audioState>({
 		enabled: false,
 	})
-	const [binds, setBinds] = useState<bindsInterface>({
+	const [binds, setBinds] = useState<bindsState>({
 		start: '',
 		stop: '',
 	})
 	const [warning, setWarning] = useState<string>()
-	const updateRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
-		window.ipcRenderer.invoke('get-os-info').then((res) => setOsInfo(res))
-
 		const videoPromise = store.get('preferences.video')
 		const audioPromise = store.get('preferences.audio')
 		const bindsPromise = store.get('preferences.bindings')
@@ -80,7 +70,6 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 				return
 		}
 		const custom = e.key
-		// @ts-ignore
 		setBinds({
 			...binds,
 			// @ts-ignore
@@ -88,11 +77,11 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 		})
 	}
 
-	const handleAudioChange = async () => {
-		await store.set('preferences.audio.enabled', !audioSettings?.enabled)
+	const handleAudioChange = () => {
 		setAudioSettings({
 			enabled: !audioSettings?.enabled,
 		})
+		store.set('preferences.audio.enabled', !audioSettings?.enabled)
 	}
 
 	const handleBindSubmit = async () => {
@@ -113,34 +102,13 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 		changed && setWarning('Restart program for the changes to take effect!')
 	}
 
-	const checkUpdates = () => {
-		if (
-			!updateRef.current ||
-			updateRef.current.className === style.spinAnimation
-		)
-			return
-		updateRef.current.className = style.spinAnimation
-	}
-
-	const Footer = (
-		<div className={style.modalFooterSettings}>
-			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<span>Preview v1.2.2</span>
-				<span>
-					{osInfo?.version} {osInfo?.arch} ({osInfo?.release})
-				</span>
-			</div>
-			<button className={style.checkForUpdatesBtn} onClick={checkUpdates}>
-				<div ref={updateRef}>
-					<Update />
-				</div>
-				<span>Check for update</span>
-			</button>
-		</div>
-	)
-
 	return (
-		<Modal title="Settings" isOpen={true} onClose={onClose} Footer={Footer}>
+		<Modal
+			title="Settings"
+			isOpen={true}
+			onClose={onClose}
+			Footer={<Footer />}
+		>
 			<div className={style.settingsModal}>
 				<div className={style.settingsBox}>
 					<h2 className={style.settingsTitle}>Video</h2>

@@ -2,9 +2,10 @@ import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron'
 import Store from 'electron-store'
 import os from 'os'
 import { join } from 'path'
+import './samples/app-info'
 import './samples/input-sources'
+import './samples/os-info'
 import './samples/save-recording'
-import './samples/system-info'
 
 // @ts-ignore
 const isDev = import.meta.env.MODE === 'development'
@@ -101,6 +102,12 @@ const store = new Store({
 					start: 'Alt+1',
 					stop: 'Alt+2',
 				},
+			},
+		},
+		update: {
+			type: 'object',
+			default: {
+				available: false,
 			},
 		},
 	},
