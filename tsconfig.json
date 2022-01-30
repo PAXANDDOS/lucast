@@ -5,7 +5,7 @@
 		"module": "ESNext",
 		"lib": ["ESNext"],
 		"sourceMap": true,
-		"allowJs": false,
+		"allowJs": true,
 		"skipLibCheck": true,
 		"skipDefaultLibCheck": true,
 		"esModuleInterop": true,

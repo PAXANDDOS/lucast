@@ -1,13 +1,14 @@
-import { builtinModules } from 'module'
-import { join } from 'path'
+import { builtinModules, createRequire } from 'module'
 import { defineConfig } from 'vite'
-import pkg from '../package.json'
+
+const require = createRequire(import.meta.url)
+const pkg = require('../package.json')
 
 export default defineConfig({
 	mode: process.env.NODE_ENV,
-	root: join(__dirname, '../packages/main'),
+	// root: [path],
 	build: {
-		outDir: '../../dist/main',
+		// outDir: [path],
 		lib: {
 			entry: 'index.ts',
 			formats: ['cjs'],
@@ -18,7 +19,7 @@ export default defineConfig({
 			external: [
 				'electron',
 				...builtinModules,
-				...Object.keys((pkg as Record<string, any>).dependencies || {}),
+				...Object.keys(pkg.dependencies || {}),
 			],
 			output: {
 				entryFileNames: '[name].cjs',

@@ -1,10 +1,7 @@
 import style from '@/styles/modal.module.scss'
+import type { InfoModalInterface } from 'packages/renderer/types/InfoModal'
 import Footer from '../Footers/InfoFooter'
 import Modal from './Modal'
-
-interface InfoModalInterface {
-	onClose: () => void
-}
 
 const InfoModal = ({ onClose }: InfoModalInterface) => {
 	return (

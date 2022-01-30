@@ -3,32 +3,13 @@ import style from '@/styles/modal.module.scss'
 import store from '@/utils/electron-store'
 import sleep from '@/utils/sleep'
 import versionCmp from '@/utils/version-cmp'
+import type * as Type from 'packages/renderer/types/UpdateFooter'
 import { useEffect, useRef, useState } from 'react'
 
-type OsInfo = {
-	os: string
-	version: string
-	arch: string
-	release: string
-}
-
-type AppInfo = {
-	name: string
-	path: string
-	version: string
-	locale: string
-}
-
-type UpdateData = {
-	available: boolean
-	version: string
-	path: string
-}
-
 const UpdateBlock = () => {
-	const [osInfo, setOsInfo] = useState<OsInfo>()
-	const [appInfo, setAppInfo] = useState<AppInfo>()
-	const [updateData, setUpdateData] = useState<UpdateData>()
+	const [osInfo, setOsInfo] = useState<Type.OsInfo>()
+	const [appInfo, setAppInfo] = useState<Type.AppInfo>()
+	const [updateData, setUpdateData] = useState<Type.UpdateData>()
 	const updateRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {

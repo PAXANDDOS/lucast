@@ -25,7 +25,7 @@
 	"homepage": "https://github.com/PAXANDDOS/lucast-electron#readme",
 	"scripts": {
 		"dev": "node scripts/watch.mjs",
-		"build": "node scripts/build.mjs && electron-builder --config ./config/electron-builder.config.js",
+		"build": "tsc --project packages/renderer/tsconfig.json && node scripts/build.mjs && electron-builder --config ./electron-builder.config.js",
 		"lint": "eslint . --ext js,ts,tsx",
 		"typecheck": "tsc --noEmit -p packages/renderer/tsconfig.json"
 	},
@@ -52,7 +52,7 @@
 		"sass": "^1.49.0",
 		"typescript": "^4.5.5",
 		"vite": "^2.7.13",
-		"vite-plugin-resolve": "^1.4.2"
+		"vite-plugin-resolve": "^1.4.3"
 	},
 	"env": {
 		"HOST": "127.0.0.1",

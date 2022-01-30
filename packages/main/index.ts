@@ -8,7 +8,7 @@ import './samples/os-info'
 import './samples/save-recording'
 
 // @ts-ignore
-const isDev = import.meta.env.MODE === 'development'
+const isDev = import.meta.env.NODE_ENV === 'development'
 
 const isWin7 = os.release().startsWith('6.1')
 if (isWin7) app.disableHardwareAcceleration()

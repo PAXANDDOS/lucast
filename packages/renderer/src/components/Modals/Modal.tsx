@@ -1,16 +1,8 @@
 import { Cross } from '@/assets/icons/Misc'
 import style from '@/styles/modal.module.scss'
-import type { ReactNode } from 'react'
+import type { ModalInterface } from 'packages/renderer/types/Modal'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-
-interface ModalInterface {
-	title: string
-	isOpen: boolean
-	children: ReactNode
-	Footer: ReactNode
-	onClose: () => void
-}
 
 const Modal = ({
 	title,

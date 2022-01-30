@@ -1,33 +1,17 @@
 import style from '@/styles/modal.module.scss'
 import store from '@/utils/electron-store'
+import type * as Type from 'packages/renderer/types/SettingsModal'
 import type { KeyboardEvent } from 'react'
 import { useEffect, useState } from 'react'
 import Footer from '../Footers/UpdateFooter'
 import Modal from './Modal'
 
-interface SettingsModalInterface {
-	onClose: () => void
-}
-
-type videoState = {
-	format: string
-}
-
-type audioState = {
-	enabled: boolean
-}
-
-type bindsState = {
-	start: string
-	stop: string
-}
-
-const SettingsModal = ({ onClose }: SettingsModalInterface) => {
-	const [videoSettings, setVideoSettings] = useState<videoState>()
-	const [audioSettings, setAudioSettings] = useState<audioState>({
+const SettingsModal = ({ onClose }: Type.SettingsModalInterface) => {
+	const [videoSettings, setVideoSettings] = useState<Type.Video>()
+	const [audioSettings, setAudioSettings] = useState<Type.Audio>({
 		enabled: false,
 	})
-	const [binds, setBinds] = useState<bindsState>({
+	const [binds, setBinds] = useState<Type.Binds>({
 		start: '',
 		stop: '',
 	})

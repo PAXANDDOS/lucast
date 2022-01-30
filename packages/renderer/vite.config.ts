@@ -4,11 +4,11 @@ import { join } from 'path'
 import type { Plugin } from 'vite'
 import { defineConfig } from 'vite'
 import resolve from 'vite-plugin-resolve'
-import pkg from '../package.json'
+import pkg from '../../package.json'
 
 export default defineConfig({
 	mode: process.env.NODE_ENV,
-	root: join(__dirname, '../packages/renderer'),
+	root: __dirname,
 	plugins: [react(), resolveElectron()],
 	base: './',
 	build: {
@@ -17,8 +17,8 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			'@': join(__dirname, '../packages/renderer/src'),
-			packages: join(__dirname, '../packages'),
+			'@': join(__dirname, 'src'),
+			packages: join(__dirname, '../../packages'),
 		},
 	},
 	server: {
@@ -28,7 +28,7 @@ export default defineConfig({
 })
 
 export function resolveElectron(
-	dict: Parameters<typeof resolve>[0] = {}
+	resolves: Parameters<typeof resolve>[0] = {}
 ): Plugin[] {
 	const builtins = builtinModules.filter((t) => !t.startsWith('_'))
 
@@ -46,7 +46,7 @@ export function resolveElectron(
 		resolve({
 			electron: electronExport(),
 			...builtinModulesExport(builtins),
-			...dict,
+			...resolves,
 		}),
 	]
 

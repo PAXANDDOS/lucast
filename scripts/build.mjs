@@ -1,24 +1,40 @@
 process.env.NODE_ENV = 'production'
 
 import chalk from 'chalk'
-import { build as viteBuild } from 'vite'
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
+import { build } from 'vite'
 
-const TAG = chalk.bgBlue('[build.mjs]')
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const TAG = chalk.bgBlue(' build.mjs ')
 
-const config = {
-	main: 'config/vite.main.ts',
-	preload: 'config/vite.preload.ts',
-	renderer: 'config/vite.renderer.ts',
+/**
+ * @type {Record<string, import('vite').InlineConfig>}
+ */
+const viteConfigs = {
+	main: {
+		configFile: 'scripts/vite.config.mjs',
+		root: join(__dirname, '../packages/main'),
+		build: {
+			outDir: '../../dist/main',
+		},
+	},
+	preload: {
+		configFile: 'scripts/vite.config.mjs',
+		root: join(__dirname, '../packages/preload'),
+		build: {
+			outDir: '../../dist/preload',
+		},
+	},
+	renderer: {
+		configFile: 'packages/renderer/vite.config.ts',
+	},
 }
 
 async function buildElectron() {
-	for (const [name, configPath] of Object.entries(config)) {
-		console.group(TAG, name)
-		await viteBuild({
-			configFile: configPath,
-			mode: process.env.NODE_ENV,
-		})
-		console.groupEnd()
+	for (const [name, config] of Object.entries(viteConfigs)) {
+		console.log(TAG, name)
+		await build(config)
 		console.log()
 	}
 }

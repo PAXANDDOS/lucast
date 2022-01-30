@@ -3,6 +3,7 @@ import SettingsModal from '@/components/Modals/SettingsModal'
 import style from '@/styles/home.module.scss'
 import store from '@/utils/electron-store'
 import type { DesktopCapturerSource } from 'electron'
+import type * as Type from 'packages/renderer/types/HomePage'
 import type { MouseEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { webmFixDuration } from 'webm-fix-duration'
@@ -14,36 +15,19 @@ import {
 	ShareScreen,
 } from '../assets/icons/Misc'
 
-type State = {
-	label: string
-	source: string
-	startActive: boolean
-	stopActive: boolean
-}
-
-type ModalState = {
-	info: boolean
-	settings: boolean
-}
-
-type BindsState = {
-	start: string
-	stop: string
-}
-
 const HomePage = () => {
 	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>()
-	const [state, setState] = useState<State>({
+	const [state, setState] = useState<Type.State>({
 		label: 'Start recording',
 		source: 'Select source',
 		startActive: false,
 		stopActive: false,
 	})
-	const [modal, setModal] = useState<ModalState>({
+	const [modal, setModal] = useState<Type.ModalState>({
 		info: false,
 		settings: false,
 	})
-	const [binds, setBinds] = useState<BindsState>({
+	const [binds, setBinds] = useState<Type.BindsState>({
 		start: 'No bind',
 		stop: 'No bind',
 	})
