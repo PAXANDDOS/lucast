@@ -21,7 +21,7 @@
 		@include flex-column;
 		@include anim.pop-in(0.16s);
 		width: 460px;
-		height: 500px;
+		height: 560px;
 		max-height: calc(100vh - 40px);
 		background: $dark-3;
 		border-radius: 6px;
@@ -67,14 +67,60 @@
 				padding: 0 14px;
 				.infoModalPreview {
 					width: 100%;
-					min-height: 200px;
-					border: 2px solid $dark-5;
+					min-height: 216px;
 					border-radius: 6px;
+					overflow: hidden;
+					img {
+						width: 100%;
+						height: 100%;
+					}
 				}
 				.infoModalContent {
+					@include flex-column;
 					width: 100%;
 					height: fit-content;
 					margin: 20px 0;
+					.infoModalContentText {
+						font-size: initial;
+					}
+					.infoModalContentLabel {
+						width: 100%;
+						font-size: large;
+						text-align: start;
+						line-height: 0.1em;
+						margin: 20px 0 14px 0;
+						span {
+							padding: 0 10px 0 0;
+							background: $dark-3;
+						}
+						&[data-color='pink'] {
+							border-bottom: 1px solid $brand-pink;
+							span {
+								color: $brand-pink;
+							}
+						}
+						&[data-color='green'] {
+							border-bottom: 1px solid $brand-green;
+							span {
+								color: $brand-green;
+							}
+						}
+						&[data-color='yellow'] {
+							border-bottom: 1px solid $brand-yellow;
+							span {
+								color: $brand-yellow;
+							}
+						}
+					}
+					.infoModalContentList {
+						color: $dark-8;
+						padding-left: 20px;
+						padding-right: 10px;
+						font-weight: 300;
+						li {
+							margin-bottom: 10px;
+						}
+					}
 				}
 			}
 			.settingsModal {
@@ -94,14 +140,16 @@
 					.settingsWarning {
 						font-size: 14px;
 						font-weight: 600;
+						padding-left: 10px;
 						color: rgb(230, 41, 41);
 					}
-					.settingsBindObject {
+					.settingsObject {
 						@include flex-row;
 						align-items: center;
 						width: 100%;
 						height: 32px;
 						margin: 16px 0;
+						padding-left: 10px;
 						input,
 						select {
 							margin-right: 12px;
@@ -113,6 +161,31 @@
 						span {
 							color: $dark-8;
 						}
+					}
+				}
+			}
+			.updateModal {
+				@include flex-center;
+				flex-direction: column;
+				padding: 30px;
+				width: 100%;
+				height: 100%;
+				cursor: default;
+				.updateLogoBox {
+					width: 200px;
+					height: 200px;
+					@include anim.spin;
+				}
+				.updateDataBox {
+					@include flex-column;
+					margin-top: 50px;
+					align-items: center;
+					width: 100%;
+					h1 {
+						font-size: 36px;
+					}
+					span {
+						color: $dark-7;
 					}
 				}
 			}
@@ -164,6 +237,10 @@
 					svg {
 						width: 20px;
 						fill: $dark-7;
+						stroke: $dark-7;
+						&[name='nofill'] {
+							fill: none;
+						}
 					}
 				}
 				span {

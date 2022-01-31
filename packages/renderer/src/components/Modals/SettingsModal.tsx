@@ -1,49 +1,27 @@
-import { Update } from '@/assets/icons/Misc'
 import style from '@/styles/modal.module.scss'
+import type * as Type from '@/types/SettingsModal'
 import store from '@/utils/electron-store'
-import type { KeyboardEvent } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import type { ChangeEvent, KeyboardEvent } from 'react'
+import { useEffect, useState } from 'react'
+import Footer from '../Footers/UpdateFooter'
 import Modal from './Modal'
 
-interface SettingsModalInterface {
-	onClose: () => void
-}
-
-interface osInfoInterface {
-	version: string
-	arch: string
-	release: string
-}
-
-interface videoInterface {
-	format: string
-}
-
-interface audioInterface {
-	enabled: boolean
-}
-
-interface bindsInterface {
-	start: string
-	stop: string
-}
-
-const SettingsModal = ({ onClose }: SettingsModalInterface) => {
-	const [osInfo, setOsInfo] = useState<osInfoInterface>()
-	const [videoSettings, setVideoSettings] = useState<videoInterface>()
-	const [audioSettings, setAudioSettings] = useState<audioInterface>({
-		enabled: false,
+const SettingsModal = ({ onClose }: Type.SettingsModalInterface) => {
+	const [videoSettings, setVideoSettings] = useState<Type.Video>({
+		format: 'webm',
+		bitrate: '1080p',
 	})
-	const [binds, setBinds] = useState<bindsInterface>({
+	const [audioSettings, setAudioSettings] = useState<Type.Audio>({
+		enabled: false,
+		bitrate: '128Kbps',
+	})
+	const [binds, setBinds] = useState<Type.Binds>({
 		start: '',
 		stop: '',
 	})
 	const [warning, setWarning] = useState<string>()
-	const updateRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
-		window.ipcRenderer.invoke('get-os-info').then((res) => setOsInfo(res))
-
 		const videoPromise = store.get('preferences.video')
 		const audioPromise = store.get('preferences.audio')
 		const bindsPromise = store.get('preferences.bindings')
@@ -51,9 +29,11 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 			([videoResult, audioResult, bindsResult]) => {
 				setVideoSettings({
 					format: videoResult.format,
+					bitrate: videoResult.bitrate,
 				})
 				setAudioSettings({
 					enabled: audioResult.enabled,
+					bitrate: audioResult.bitrate,
 				})
 				setBinds({
 					start: bindsResult.start,
@@ -80,19 +60,40 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 				return
 		}
 		const custom = e.key
-		// @ts-ignore
+		const { name } = e.target as HTMLInputElement
 		setBinds({
 			...binds,
-			// @ts-ignore
-			[e.target.name]: `${trusted}+${custom}`,
+			[name]: `${trusted}+${custom}`,
 		})
 	}
 
-	const handleAudioChange = async () => {
-		await store.set('preferences.audio.enabled', !audioSettings?.enabled)
+	const handleAudioChange = () => {
 		setAudioSettings({
+			...audioSettings,
 			enabled: !audioSettings?.enabled,
 		})
+		store.set('preferences.audio.enabled', !audioSettings?.enabled)
+		window.ipcRenderer.send('reset-source')
+	}
+
+	const handleVideoBitrateChange = ({ target }: ChangeEvent) => {
+		const { value } = target as any
+		setVideoSettings({
+			...videoSettings,
+			bitrate: value,
+		})
+		store.set('preferences.video.bitrate', +value)
+		window.ipcRenderer.send('reset-source')
+	}
+
+	const handleAudioBitrateChange = ({ target }: ChangeEvent) => {
+		const { value } = target as any
+		setAudioSettings({
+			...audioSettings,
+			bitrate: value,
+		})
+		store.set('preferences.audio.bitrate', +value)
+		window.ipcRenderer.send('reset-source')
 	}
 
 	const handleBindSubmit = async () => {
@@ -113,48 +114,49 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 		changed && setWarning('Restart program for the changes to take effect!')
 	}
 
-	const checkUpdates = () => {
-		if (
-			!updateRef.current ||
-			updateRef.current.className === style.spinAnimation
-		)
-			return
-		updateRef.current.className = style.spinAnimation
-	}
-
-	const Footer = (
-		<div className={style.modalFooterSettings}>
-			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<span>Preview v1.2.2</span>
-				<span>
-					{osInfo?.version} {osInfo?.arch} ({osInfo?.release})
-				</span>
-			</div>
-			<button className={style.checkForUpdatesBtn} onClick={checkUpdates}>
-				<div ref={updateRef}>
-					<Update />
-				</div>
-				<span>Check for update</span>
-			</button>
-		</div>
-	)
-
 	return (
-		<Modal title="Settings" isOpen={true} onClose={onClose} Footer={Footer}>
+		<Modal
+			title="Settings"
+			isOpen={true}
+			onClose={onClose}
+			Footer={<Footer />}
+		>
 			<div className={style.settingsModal}>
 				<div className={style.settingsBox}>
 					<h2 className={style.settingsTitle}>Video</h2>
-					<div className={style.settingsBindObject}>
-						<select value={videoSettings?.format.toUpperCase()}>
+					<div className={style.settingsObject}>
+						<select
+							value={videoSettings?.format.toUpperCase()}
+							onChange={() => {
+								null
+							}}
+						>
 							<option>WEBM</option>
 							<option disabled>MP4</option>
+							<option disabled>GIF</option>
+							<option disabled>APNG</option>
+							<option disabled>WEBP</option>
 						</select>
 						<span>Video format</span>
+					</div>
+					<div className={style.settingsObject}>
+						<select
+							value={videoSettings?.bitrate}
+							onChange={handleVideoBitrateChange}
+						>
+							<option value={41943040}>2160p</option>
+							<option value={16777216}>1440p</option>
+							<option value={8388608}>1080p</option>
+							<option value={5242880}>720p</option>
+							<option value={2621440}>480p</option>
+							<option value={1048576}>360p</option>
+						</select>
+						<span>Video bitrate</span>
 					</div>
 				</div>
 				<div className={style.settingsBox}>
 					<h2 className={style.settingsTitle}>Audio</h2>
-					<div className={style.settingsBindObject}>
+					<div className={style.settingsObject}>
 						<input
 							type="checkbox"
 							checked={audioSettings?.enabled}
@@ -162,13 +164,23 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 						/>
 						<span>Enable audio</span>
 					</div>
+					<div className={style.settingsObject}>
+						<select
+							value={audioSettings.bitrate}
+							onChange={handleAudioBitrateChange}
+						>
+							<option value={128000}>128Kbps</option>
+							<option value={64000}>64Kbps</option>
+						</select>
+						<span>Audio bitrate</span>
+					</div>
 				</div>
 				<div className={style.settingsBox}>
 					<h2 className={style.settingsTitle}>Key bindings</h2>
 					{warning && (
 						<span className={style.settingsWarning}>{warning}</span>
 					)}
-					<div className={style.settingsBindObject}>
+					<div className={style.settingsObject}>
 						<input
 							onChange={() => null}
 							onKeyDown={handleBindChange}
@@ -178,7 +190,7 @@ const SettingsModal = ({ onClose }: SettingsModalInterface) => {
 						/>
 						<span>Start recording</span>
 					</div>
-					<div className={style.settingsBindObject}>
+					<div className={style.settingsObject}>
 						<input
 							onChange={() => null}
 							onKeyDown={handleBindChange}

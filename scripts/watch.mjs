@@ -3,73 +3,71 @@ process.env.NODE_ENV = 'development'
 import { spawn } from 'child_process'
 import electron from 'electron'
 import { createRequire } from 'module'
-import { build as viteBuild, createServer } from 'vite'
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
+import { build, createServer } from 'vite'
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
 const require = createRequire(import.meta.url)
 const pkg = require('../package.json')
 
 /**
- * @param {{ name: string; configFile: string; writeBundle: import('rollup').OutputPlugin['writeBundle'] }} param0
- * @returns {import('rollup').RollupWatcher}
+ * @type {() => Promise<import('rollup').RollupWatcher>}
  */
-function getWatcher({ name, configFile, writeBundle }) {
-	return viteBuild({
-		mode: process.env.NODE_ENV,
-		build: {
-			watch: {},
-		},
-		configFile,
-		plugins: [{ name, writeBundle }],
-	})
-}
-
-/**
- * @returns {Promise<import('rollup').RollupWatcher>}
- */
-async function watchMain() {
+function watchMain() {
 	/**
 	 * @type {import('child_process').ChildProcessWithoutNullStreams | null}
 	 */
 	let electronProcess = null
 
-	/**
-	 * @type {import('rollup').RollupWatcher}
-	 */
-	const watcher = await getWatcher({
-		name: 'electron-main-watcher',
-		configFile: 'config/vite.main.ts',
-		writeBundle() {
-			electronProcess && electronProcess.kill()
-			electronProcess = spawn(electron, ['.'], {
-				stdio: 'inherit',
-				env: Object.assign(process.env, pkg.env),
-			})
+	return build({
+		configFile: 'scripts/vite.config.mjs',
+		root: join(__dirname, '../packages/main'),
+		build: {
+			outDir: '../../dist/main',
+			watch: true,
 		},
+		plugins: [
+			{
+				name: 'electron-main-watcher',
+				writeBundle() {
+					electronProcess && electronProcess.kill()
+					electronProcess = spawn(electron, ['.'], {
+						stdio: 'inherit',
+						env: Object.assign(process.env, pkg.env),
+					})
+				},
+			},
+		],
 	})
-
-	return watcher
 }
 
 /**
- * @param {import('vite').ViteDevServer} viteDevServer
- * @returns {Promise<import('rollup').RollupWatcher>}
+ * @type {(server: import('vite').ViteDevServer) => Promise<import('rollup').RollupWatcher>}
  */
-async function watchPreload(viteDevServer) {
-	return getWatcher({
-		name: 'electron-preload-watcher',
-		configFile: 'config/vite.preload.ts',
-		writeBundle() {
-			viteDevServer.ws.send({
-				type: 'full-reload',
-			})
+function watchPreload(server) {
+	return build({
+		configFile: 'scripts/vite.config.mjs',
+		root: join(__dirname, '../packages/preload'),
+		build: {
+			outDir: '../../dist/preload',
+			watch: true,
 		},
+		plugins: [
+			{
+				name: 'electron-preload-watcher',
+				writeBundle() {
+					server.ws.send({ type: 'full-reload' })
+				},
+			},
+		],
 	})
 }
 
-const viteDevServer = await createServer({
-	configFile: 'config/vite.renderer.ts',
+const server = await createServer({
+	configFile: 'packages/renderer/vite.config.ts',
 })
 
-await viteDevServer.listen()
-await watchPreload(viteDevServer)
+await server.listen()
+await watchPreload(server)
 await watchMain()
