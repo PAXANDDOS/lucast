@@ -33,7 +33,6 @@ export default (
 	v2: string,
 	options?: Options
 ): number | typeof NaN => {
-	console.log(v1, v2)
 	const lexicographical = options && options.lexicographical,
 		zeroExtend = options && options.zeroExtend
 	let v1parts = v1.split('.') as any

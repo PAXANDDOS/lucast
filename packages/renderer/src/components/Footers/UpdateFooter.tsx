@@ -50,7 +50,7 @@ const UpdateBlock = () => {
 				return new Notification('An error occured.')
 		}
 
-		const suffix = osInfo?.os === 'Windows' ? '-Setup' : ''
+		const suffix = osInfo?.os === 'Windows' ? 'Setup' : 'Installer'
 		let ext = 'exe'
 		switch (osInfo?.os) {
 			case 'macOS':
@@ -60,7 +60,7 @@ const UpdateBlock = () => {
 				ext = 'AppImage'
 				break
 		}
-		const userAsset = `${appInfo.name}${suffix}-${release.tag_name}.${ext}`
+		const userAsset = `Lucast-${suffix}.${ext}`
 		let path = 'link'
 
 		release.assets.forEach(function (asset: any) {

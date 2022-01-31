@@ -25,7 +25,7 @@
 	"homepage": "https://github.com/PAXANDDOS/lucast-electron#readme",
 	"scripts": {
 		"dev": "node scripts/watch.mjs",
-		"build": "node scripts/build.mjs && electron-builder --config ./electron-builder.config.js",
+		"build": "node scripts/build.mjs && electron-builder --config .electron-builder.config.js",
 		"lint": "eslint . --ext js,ts,tsx",
 		"typecheck": "tsc --noEmit -p packages/renderer/tsconfig.json"
 	},
