@@ -5,7 +5,7 @@ ipcMain.handle('get-os-info', () => {
 	let userOs = 'Windows'
 	switch (os.type()) {
 		case 'Darwin':
-			userOs = 'MacOS'
+			userOs = 'macOS'
 			break
 		case 'Linux':
 			userOs = 'Linux'

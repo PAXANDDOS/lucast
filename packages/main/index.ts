@@ -1,13 +1,13 @@
-import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron'
+import { app, BrowserWindow, globalShortcut, ipcMain, shell } from 'electron'
 import Store from 'electron-store'
 import os from 'os'
 import { join } from 'path'
 import './samples/app-info'
+import './samples/download-file'
 import './samples/input-sources'
 import './samples/os-info'
 import './samples/save-recording'
 
-// @ts-ignore
 const isDev = import.meta.env.NODE_ENV === 'development'
 
 const isWin7 = os.release().startsWith('6.1')
@@ -62,6 +62,11 @@ const createWindow = async () => {
 		)
 	})
 
+	win.webContents.setWindowOpenHandler(({ url }) => {
+		if (url.startsWith('https:')) shell.openExternal(url)
+		return { action: 'deny' }
+	})
+
 	win.on('maximize', () => win?.webContents.send('isMaximized'))
 	win.on('unmaximize', () => win?.webContents.send('isRestored'))
 }
@@ -94,9 +99,11 @@ const store = new Store({
 			default: {
 				video: {
 					format: 'webm',
+					bitrate: 8388608,
 				},
 				audio: {
 					enabled: false,
+					bitrate: 128000,
 				},
 				bindings: {
 					start: 'Alt+1',
@@ -128,11 +135,9 @@ ipcMain.handle(
 
 app.whenReady()
 	.then(() => {
-		// @ts-ignore
 		globalShortcut.register(store.get('preferences.bindings.start'), () => {
 			win?.webContents.send('start-recording')
 		})
-		// @ts-ignore
 		globalShortcut.register(store.get('preferences.bindings.stop'), () => {
 			win?.webContents.send('stop-recording')
 		})

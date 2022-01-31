@@ -4,10 +4,12 @@ export interface SettingsModalInterface {
 
 export type Video = {
 	format: string
+	bitrate: string
 }
 
 export type Audio = {
 	enabled: boolean
+	bitrate: string
 }
 
 export type Binds = {

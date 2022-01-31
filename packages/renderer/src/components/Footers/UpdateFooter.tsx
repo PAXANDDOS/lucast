@@ -1,15 +1,17 @@
 import { Download, Update } from '@/assets/icons/Misc'
 import style from '@/styles/modal.module.scss'
+import type * as Type from '@/types/UpdateFooter'
 import store from '@/utils/electron-store'
 import sleep from '@/utils/sleep'
 import versionCmp from '@/utils/version-cmp'
-import type * as Type from 'packages/renderer/types/UpdateFooter'
 import { useEffect, useRef, useState } from 'react'
+import UpdateModal from '../Modals/UpdateModal'
 
 const UpdateBlock = () => {
 	const [osInfo, setOsInfo] = useState<Type.OsInfo>()
 	const [appInfo, setAppInfo] = useState<Type.AppInfo>()
 	const [updateData, setUpdateData] = useState<Type.UpdateData>()
+	const [isUpdating, setIsUpdating] = useState(false)
 	const updateRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
@@ -28,7 +30,7 @@ const UpdateBlock = () => {
 		updateRef.current.className = style.spinAnimation
 
 		const response = await fetch(
-			'https://api.github.com/repos/daltonmenezes/electron-screen-recorder/releases/latest'
+			'https://api.github.com/repos/paxanddos/lucast-electron/releases/latest'
 		)
 		const release = await response.json()
 		release.tag_name = release.tag_name.substring(1)
@@ -51,7 +53,7 @@ const UpdateBlock = () => {
 		const suffix = osInfo?.os === 'Windows' ? '-Setup' : ''
 		let ext = 'exe'
 		switch (osInfo?.os) {
-			case 'MacOS':
+			case 'macOS':
 				ext = 'dmg'
 				break
 			case 'Linux':
@@ -77,14 +79,12 @@ const UpdateBlock = () => {
 		return new Notification('Update available!')
 	}
 
-	const installUpdate = async () => {
-		console.log('s')
-	}
+	const installUpdate = () => setIsUpdating(true)
 
 	return (
 		<div className={style.modalFooterSettings}>
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<span>Preview v{appInfo?.version}</span>
+				<span>Stable v{appInfo?.version} (01.02.2022)</span>
 				<span>
 					{osInfo?.version} {osInfo?.arch} ({osInfo?.release})
 				</span>
@@ -93,11 +93,14 @@ const UpdateBlock = () => {
 				<button
 					className={style.checkForUpdatesBtn}
 					onClick={installUpdate}
+					style={{
+						background: '#6772eb',
+					}}
 				>
 					<div>
 						<Download name="nofill" />
 					</div>
-					<span>Download update</span>
+					<span style={{ color: 'white' }}>Download update</span>
 				</button>
 			) : (
 				<button
@@ -110,6 +113,7 @@ const UpdateBlock = () => {
 					<span>Check for update</span>
 				</button>
 			)}
+			{isUpdating && <UpdateModal />}
 		</div>
 	)
 }

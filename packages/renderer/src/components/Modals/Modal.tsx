@@ -1,6 +1,6 @@
 import { Cross } from '@/assets/icons/Misc'
 import style from '@/styles/modal.module.scss'
-import type { ModalInterface } from 'packages/renderer/types/Modal'
+import type { ModalInterface } from '@/types/Modal'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 

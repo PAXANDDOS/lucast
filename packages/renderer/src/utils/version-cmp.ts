@@ -36,8 +36,8 @@ export default (
 	console.log(v1, v2)
 	const lexicographical = options && options.lexicographical,
 		zeroExtend = options && options.zeroExtend
-	let v1parts = v1.split('.')
-	let v2parts = v2.split('.')
+	let v1parts = v1.split('.') as any
+	let v2parts = v2.split('.') as any
 
 	function isValidPart(x: string) {
 		return (lexicographical ? /^\d+[A-Za-z]*$/ : /^\d+$/).test(x)
@@ -53,9 +53,7 @@ export default (
 	}
 
 	if (!lexicographical) {
-		// @ts-ignore
 		v1parts = v1parts.map(Number)
-		// @ts-ignore
 		v2parts = v2parts.map(Number)
 	}
 

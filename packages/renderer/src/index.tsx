@@ -1,6 +1,5 @@
 import TitleBar from '@/components/TitleBar'
 import App from '@/pages/index'
-import '@/utils/electron-store'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './styles/index.css'

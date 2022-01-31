@@ -1,9 +1,9 @@
 import InfoModal from '@/components/Modals/InfoModal'
 import SettingsModal from '@/components/Modals/SettingsModal'
 import style from '@/styles/home.module.scss'
+import type * as Type from '@/types/HomePage'
 import store from '@/utils/electron-store'
 import type { DesktopCapturerSource } from 'electron'
-import type * as Type from 'packages/renderer/types/HomePage'
 import type { MouseEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { webmFixDuration } from 'webm-fix-duration'
@@ -16,10 +16,12 @@ import {
 } from '../assets/icons/Misc'
 
 const HomePage = () => {
-	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>()
+	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
+		null
+	)
 	const [state, setState] = useState<Type.State>({
 		label: 'Start recording',
-		source: 'Select source',
+		source: 'Source',
 		startActive: false,
 		stopActive: false,
 	})
@@ -103,19 +105,30 @@ const HomePage = () => {
 			async (e, source: DesktopCapturerSource) => {
 				if (!ref.current) return
 
+				if (!source) {
+					ref.current.srcObject = null
+					setState({
+						label: 'Start recording',
+						startActive: false,
+						stopActive: false,
+						source: 'Source',
+					})
+					setMediaRecorder(null)
+					return
+				}
+
 				const mediaDevices = navigator.mediaDevices as any
-				const audioEnabled: boolean = await store.get(
-					'preferences.audio.enabled'
-				)
-				const mandatory = {
+				const videoSettings = await store.get('preferences.video')
+				const audioSettings = await store.get('preferences.audio')
+				const constraints = {
 					mandatory: {
 						chromeMediaSource: 'desktop',
 						chromeMediaSourceId: source.id,
 					},
 				}
 				const stream = await mediaDevices.getUserMedia({
-					audio: audioEnabled ? mandatory : false,
-					video: mandatory,
+					audio: audioSettings.enabled ? constraints : false,
+					video: constraints,
 				})
 
 				ref.current.srcObject = stream
@@ -124,16 +137,16 @@ const HomePage = () => {
 
 				const newMediaRecorder = new MediaRecorder(stream, {
 					mimeType: `video/webm; codecs=vp9${
-						audioEnabled ? ', opus' : ''
+						audioSettings.enabled ? ', opus' : ''
 					}`,
-					audioBitsPerSecond: 128000,
-					videoBitsPerSecond: 8000000,
+					audioBitsPerSecond: audioSettings.bitrate,
+					videoBitsPerSecond: videoSettings.bitrate,
 				})
 				newMediaRecorder.ondataavailable = handleDataAvailable
 				newMediaRecorder.onstop = async () => {
 					const blob = new Blob(recordedChunks, {
 						type: `video/webm; codecs=vp9${
-							audioEnabled && ', opus'
+							audioSettings.enabled && ', opus'
 						}`,
 					})
 					const duration =

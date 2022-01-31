@@ -8,3 +8,7 @@ ipcMain.handle('get-app-info', () => {
 		locale: app.getLocale(),
 	}
 })
+
+ipcMain.handle('get-app-path', (event, param) => {
+	return app.getPath(param)
+})

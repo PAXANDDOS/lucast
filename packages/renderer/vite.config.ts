@@ -29,80 +29,62 @@ export default defineConfig({
 
 export function resolveElectron(
 	resolves: Parameters<typeof resolve>[0] = {}
-): Plugin[] {
+): Plugin {
 	const builtins = builtinModules.filter((t) => !t.startsWith('_'))
 
-	return [
-		{
-			name: 'vite-plugin-electron-config',
-			config(config) {
-				if (!config.optimizeDeps) config.optimizeDeps = {}
-				if (!config.optimizeDeps.exclude)
-					config.optimizeDeps.exclude = []
-
-				config.optimizeDeps.exclude.push('electron', ...builtins)
-			},
-		},
-		resolve({
-			electron: electronExport(),
-			...builtinModulesExport(builtins),
-			...resolves,
-		}),
-	]
+	return resolve({
+		electron: electronExport(),
+		...builtinModulesExport(builtins),
+		...resolves,
+	})
 
 	function electronExport() {
 		return `
-			/**
-			 * All exports module see https://www.electronjs.org -> API -> Renderer Process Modules
-			 */
-			const electron = require("electron");
-			const {
-				clipboard,
-				nativeImage,
-				shell,
-				contextBridge,
-				crashReporter,
-				ipcRenderer,
-				webFrame,
-				desktopCapturer,
-				deprecate,
-			} = electron;
+        const electron = require("electron");
+        const {
+            clipboard,
+            nativeImage,
+            shell,
+            contextBridge,
+            crashReporter,
+            ipcRenderer,
+            webFrame,
+            desktopCapturer,
+            deprecate,
+        } = electron;
 
-			export {
-				electron as default,
-				clipboard,
-				nativeImage,
-				shell,
-				contextBridge,
-				crashReporter,
-				ipcRenderer,
-				webFrame,
-				desktopCapturer,
-				deprecate,
-			}
-			`
+        export {
+            electron as default,
+            clipboard,
+            nativeImage,
+            shell,
+            contextBridge,
+            crashReporter,
+            ipcRenderer,
+            webFrame,
+            desktopCapturer,
+            deprecate,
+        }
+    `
 	}
 
 	function builtinModulesExport(modules: string[]) {
 		return modules
 			.map((moduleId) => {
 				const nodeModule = require(moduleId)
-				const requireModule = `const __builtinModule = require("${moduleId}");`
-				const exportDefault = 'export default __builtinModule'
+				const requireModule = `const M = require("${moduleId}");`
+				const exportDefault = 'export default M;'
 				const exportMembers =
 					Object.keys(nodeModule)
-						.map(
-							(attr) =>
-								`export const ${attr} = __builtinModule.${attr}`
-						)
+						.map((attr) => `export const ${attr} = M.${attr}`)
 						.join(';\n') + ';'
 				const nodeModuleCode = `
-					${requireModule}
+                    ${requireModule}
 
-					${exportDefault}
+                    ${exportDefault}
 
-					${exportMembers}
-					`
+                    ${exportMembers}
+                `
 				return { [moduleId]: nodeModuleCode }
 			})
 			.reduce((memo, item) => Object.assign(memo, item), {})
