@@ -1,90 +1,9 @@
 @use './index' as *;
 
 .homePage {
-	@include flex-column;
+	@include flex-row;
 	width: 100vw;
 	height: calc(100vh - 30px);
-	background: $dark-2;
+	background: $dark-1;
 	overflow: hidden;
-
-	.recordBlock {
-		@include flex-column;
-		width: 100%;
-		height: 100%;
-		justify-content: center;
-		align-items: center;
-		.videoBox {
-			width: 70%;
-			height: 70%;
-			border: 2px solid $dark-3;
-			margin-bottom: 32px;
-			border-radius: 6px;
-		}
-		.controlBtns {
-			@include flex-row;
-			width: 70%;
-			height: fit-content;
-			justify-content: space-between;
-			align-items: center;
-			.controlGroup {
-				@include flex-row;
-				height: 100%;
-			}
-			.controlBtnWrapper {
-				@include flex-column;
-				align-items: center;
-				width: fit-content;
-				margin-left: 10px;
-				&:first-child {
-					margin-left: 0;
-				}
-				.controlBtn {
-					@include flex-row;
-					justify-content: center;
-					align-items: center;
-					height: 40px;
-					background: $dark-3;
-					border-radius: 6px;
-					padding: 6px 10px;
-					box-shadow: $shadow-darken;
-					cursor: pointer;
-					@include transition;
-					svg {
-						height: 80%;
-						fill: $dark-8;
-						stroke: $dark-8;
-					}
-					span {
-						color: $dark-8;
-						margin-left: 4px;
-					}
-					&[name='start'] {
-						background: $brand-blue;
-						&:hover {
-							background: lighten($brand-blue, 5%);
-						}
-					}
-					&[name='stop'] {
-						background: $danger-red;
-						&:hover {
-							background: lighten($danger-red, 5%);
-						}
-					}
-					&:disabled {
-						cursor: default;
-						opacity: 0.5;
-					}
-					&:hover {
-						background: lighten($dark-3, 5%);
-					}
-				}
-				.controlBtnHint {
-					color: $dark-5;
-					padding: 6px 0;
-					font-weight: 600;
-					font-size: 14px;
-				}
-			}
-		}
-	}
 }

@@ -10,8 +10,7 @@ import './samples/save-recording'
 
 const isDev = import.meta.env.NODE_ENV === 'development'
 
-const isWin7 = os.release().startsWith('6.1')
-if (isWin7) app.disableHardwareAcceleration()
+if (os.release().startsWith('6.1')) app.disableHardwareAcceleration()
 
 if (!app.requestSingleInstanceLock()) {
 	app.quit()
@@ -24,9 +23,9 @@ app.commandLine.appendSwitch('enable-webgl')
 const createWindow = async () => {
 	win = new BrowserWindow({
 		title: 'Lucast',
-		width: 1280,
+		width: 1420,
 		height: 720,
-		minWidth: 940,
+		minWidth: 1040,
 		minHeight: 560,
 		show: false,
 		icon: join(__dirname, '../../build/icon.ico'),
