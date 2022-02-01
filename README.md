@@ -37,11 +37,17 @@ _Lucast has its own **updater**, so you won't need to check this page for new re
 
 I would love to make this project better, and here's what I'm planning to do:
 
+### In update v1.4.0
 -   **New face.** This logo is not what I wanted it to be made. I plan to make it better, to be more unique.
+-   **New UI.** Not just a big block with buttons, I've prepared something better!
+-   **Video player.** All your recorded videos will be saved to a single folder, and you will have a list of them on the menu, tap to play!
+
+### Other planned features
 -   **More video formats.** This includes the installation of **FFMPEG**, which I tried to do but have faced different difficulties. FFMPEG will make videos on the output much better.
 -   **More settings.** Configuring custom _resolution_ or _FPS_ is currently impossible because the application uses a built-in [MediaStream Recording API](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API) to record videos from a selected screen or window.
--   **Other useful features.** Features like _screenshots_ or a _video editor_ for recorded videos may be a good idea! This list will be edited if a new feature will be in progress or something from the above releases.
+-   **Other useful features.** Features like _screenshots_ or a _video editor_ for recorded videos may be a good idea!
 
+This list will be edited if a new feature will be in progress or something from the above releases.
 ## :memo: Changelog
 
 ### Update v1.3.0:
