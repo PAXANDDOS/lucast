@@ -1,16 +1,26 @@
 import style from '@/styles/menu.module.scss'
+import type { IVideoProps } from '@/types/Menu'
+import formatDuration from '@/utils/format-duration'
 
-const VideoObject = () => {
+const VideoObject = ({ video }: IVideoProps) => {
+	const openVideo = () =>
+		window.ipcRenderer.send('open-video', video.format.filename)
 	return (
-		<div className={style.videoObject}>
-			<img src="/img/Cover.png" />
+		<div className={style.videoObject} onClick={openVideo}>
+			<img src="/img/thumbnail.png" />
 			<div className={style.videoObjectInfo}>
-				<h4>Video #3</h4>
+				<h4>{video.filename}</h4>
 				<div className={style.videoObjectTags}>
-					<span className={style.videoObjectTag}>1080p</span>
-					<span className={style.videoObjectTag}>30FPS</span>
+					<span className={style.videoObjectTag}>
+						{video.video.height}p
+					</span>
+					<span className={style.videoObjectTag}>
+						{video.video.r_frame_rate?.split('/')[0]}FPS
+					</span>
 				</div>
-				<span className={style.videoObjectLength}>13:27</span>
+				<span className={style.videoObjectLength}>
+					{formatDuration(video.format.duration)}
+				</span>
 			</div>
 		</div>
 	)

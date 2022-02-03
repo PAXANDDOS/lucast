@@ -1,4 +1,4 @@
-export function useLoading() {
+export default () => {
 	const className = 'loaders-css__square-spin'
 	const styleContent = `
         @keyframes square-spin {

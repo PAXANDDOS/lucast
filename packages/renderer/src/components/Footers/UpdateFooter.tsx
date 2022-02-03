@@ -1,6 +1,6 @@
 import { Download, Update } from '@/assets/icons/Misc'
 import style from '@/styles/modal.module.scss'
-import type * as Type from '@/types/UpdateFooter'
+import type { TApp, TOs, TUpdate } from '@/types/Footer'
 import store from '@/utils/electron-store'
 import sleep from '@/utils/sleep'
 import versionCmp from '@/utils/version-cmp'
@@ -8,9 +8,9 @@ import { useEffect, useRef, useState } from 'react'
 import UpdateModal from '../Modals/UpdateModal'
 
 const UpdateBlock = () => {
-	const [osInfo, setOsInfo] = useState<Type.OsInfo>()
-	const [appInfo, setAppInfo] = useState<Type.AppInfo>()
-	const [updateData, setUpdateData] = useState<Type.UpdateData>()
+	const [osInfo, setOsInfo] = useState<TOs>()
+	const [appInfo, setAppInfo] = useState<TApp>()
+	const [updateData, setUpdateData] = useState<TUpdate>()
 	const [isUpdating, setIsUpdating] = useState(false)
 	const updateRef = useRef<HTMLDivElement>(null)
 
@@ -84,7 +84,7 @@ const UpdateBlock = () => {
 	return (
 		<div className={style.modalFooterSettings}>
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<span>Stable v{appInfo?.version} (01.02.2022)</span>
+				<span>Stable v{appInfo?.version} (06.02.2022)</span>
 				<span>
 					{osInfo?.version} {osInfo?.arch} ({osInfo?.release})
 				</span>

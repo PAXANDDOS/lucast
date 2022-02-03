@@ -1,16 +1,15 @@
 import { app, BrowserWindow, globalShortcut, ipcMain, shell } from 'electron'
 import Store from 'electron-store'
-import os from 'os'
+import { release } from 'os'
 import { join } from 'path'
-import './samples/app-info'
 import './samples/download-file'
 import './samples/input-sources'
-import './samples/os-info'
-import './samples/save-recording'
+import './samples/sys-info'
+import './samples/video-handler'
 
 const isDev = import.meta.env.NODE_ENV === 'development'
 
-if (os.release().startsWith('6.1')) app.disableHardwareAcceleration()
+if (release().startsWith('6.1')) app.disableHardwareAcceleration()
 
 if (!app.requestSingleInstanceLock()) {
 	app.quit()
@@ -97,12 +96,15 @@ const store = new Store({
 			type: 'object',
 			default: {
 				video: {
-					format: 'webm',
+					format: 'mp4',
+					quality: 0,
 					bitrate: 8388608,
+					fps: 30,
 				},
 				audio: {
 					enabled: false,
 					bitrate: 128000,
+					volume: 1.0,
 				},
 				bindings: {
 					start: 'Alt+1',

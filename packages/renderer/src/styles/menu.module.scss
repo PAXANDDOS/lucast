@@ -19,6 +19,7 @@
 			small {
 				font-size: 12px;
 				color: $dark-5;
+				cursor: pointer;
 			}
 		}
 		.videoList {
@@ -26,53 +27,58 @@
 			width: 100%;
 			height: fit-content;
 			overflow-y: scroll;
-			overflow-x: hidden;
-			.videoObject {
-				@include flex-row;
-				align-items: center;
+			.listContent {
 				width: 100%;
-				min-height: 80px;
-				max-height: 80px;
-				padding: 0 16px;
-				cursor: pointer;
-				@include transition(60ms);
-				img {
-					width: 86px;
-					height: 60%;
-					object-fit: cover;
-					margin-right: 10px;
-					border-radius: 4px;
-				}
-				.videoObjectInfo {
-					@include flex-column;
-					justify-content: center;
-					height: 100%;
-					h4 {
-						font-size: 14px;
+				overflow-x: hidden;
+				.videoObject {
+					@include flex-row;
+					align-items: center;
+					width: 100%;
+					min-height: 80px;
+					max-height: 80px;
+					padding: 0 16px;
+					cursor: pointer;
+					@include transition(60ms);
+					img {
+						width: 86px;
+						height: 60%;
+						object-fit: cover;
+						margin-right: 10px;
+						border-radius: 4px;
 					}
-					.videoObjectTags {
-						@include flex-row;
-						width: 100%;
-						height: 20px;
-						margin: 6px 0;
-						.videoObjectTag {
-							@include flex-center;
-							flex-direction: row;
-							border-radius: 4px;
+					.videoObjectInfo {
+						@include flex-column;
+						justify-content: center;
+						height: 100%;
+						h4 {
+							font-size: 14px;
+							overflow-x: hidden;
+							white-space: nowrap;
+						}
+						.videoObjectTags {
+							@include flex-row;
+							width: 100%;
+							height: 20px;
+							margin: 6px 0;
+							.videoObjectTag {
+								@include flex-center;
+								flex-direction: row;
+								border-radius: 4px;
+								font-size: 12px;
+								color: $dark-7;
+								padding: 4px;
+								background: $dark-3;
+								margin-right: 4px;
+							}
+						}
+						.videoObjectLength {
+							color: $dark-6;
 							font-size: 12px;
-							color: $dark-7;
-							padding: 4px;
-							background: $dark-3;
-							margin-right: 4px;
 						}
 					}
-					.videoObjectLength {
-						color: $dark-6;
-						font-size: 12px;
+					&:hover {
+						background: $dark-2;
 					}
-				}
-				&:hover {
-					background: $dark-2;
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 import { Logo } from '@/assets/icons/Brand'
 import style from '@/styles/modal.module.scss'
-import type { Progress } from '@/types/UpdateModal'
+import type { TProgress } from '@/types/Modal'
 import store from '@/utils/electron-store'
 import formatBytes from '@/utils/format-bytes'
 import { useEffect, useRef, useState } from 'react'
@@ -8,7 +8,7 @@ import { createPortal } from 'react-dom'
 import ProgressBar from '../ProgressBar'
 
 const UpdateModal = () => {
-	const [progress, setProgress] = useState<Progress>({
+	const [progress, setProgress] = useState<TProgress>({
 		current: 'Initializing...',
 		bytes: '0 Bytes',
 		total: '',

@@ -6,12 +6,11 @@ const pkg = require('../package.json')
 
 export default defineConfig({
 	mode: process.env.NODE_ENV,
-	// root: [path],
 	build: {
-		// outDir: [path],
 		lib: {
 			entry: 'index.ts',
 			formats: ['cjs'],
+			fileName: () => '[name].cjs',
 		},
 		minify: process.env.NODE_ENV === 'production',
 		emptyOutDir: true,
@@ -21,9 +20,6 @@ export default defineConfig({
 				...builtinModules,
 				...Object.keys(pkg.dependencies || {}),
 			],
-			output: {
-				entryFileNames: '[name].cjs',
-			},
 		},
 	},
 })

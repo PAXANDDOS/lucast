@@ -1,21 +1,24 @@
 import style from '@/styles/modal.module.scss'
-import type * as Type from '@/types/SettingsModal'
+import type { ICModalProps, TAudio, TBinds, TVideo } from '@/types/Modal'
 import store from '@/utils/electron-store'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 import { useEffect, useState } from 'react'
 import Footer from '../Footers/UpdateFooter'
 import Modal from './Modal'
 
-const SettingsModal = ({ onClose }: Type.SettingsModalInterface) => {
-	const [videoSettings, setVideoSettings] = useState<Type.Video>({
-		format: 'webm',
-		bitrate: '1080p',
+const SettingsModal = ({ onClose }: ICModalProps) => {
+	const [videoSettings, setVideoSettings] = useState<TVideo>({
+		format: 'mp4',
+		quality: 1080,
+		bitrate: 8388608,
+		fps: 30,
 	})
-	const [audioSettings, setAudioSettings] = useState<Type.Audio>({
+	const [audioSettings, setAudioSettings] = useState<TAudio>({
 		enabled: false,
-		bitrate: '128Kbps',
+		bitrate: 128000,
+		volume: 1.0,
 	})
-	const [binds, setBinds] = useState<Type.Binds>({
+	const [binds, setBinds] = useState<TBinds>({
 		start: '',
 		stop: '',
 	})
@@ -29,11 +32,14 @@ const SettingsModal = ({ onClose }: Type.SettingsModalInterface) => {
 			([videoResult, audioResult, bindsResult]) => {
 				setVideoSettings({
 					format: videoResult.format,
-					bitrate: videoResult.bitrate,
+					quality: +videoResult.quality,
+					bitrate: +videoResult.bitrate,
+					fps: +videoResult.fps,
 				})
 				setAudioSettings({
 					enabled: audioResult.enabled,
-					bitrate: audioResult.bitrate,
+					bitrate: +audioResult.bitrate,
+					volume: +audioResult.volume,
 				})
 				setBinds({
 					start: bindsResult.start,
@@ -67,12 +73,23 @@ const SettingsModal = ({ onClose }: Type.SettingsModalInterface) => {
 		})
 	}
 
-	const handleAudioChange = () => {
-		setAudioSettings({
-			...audioSettings,
-			enabled: !audioSettings?.enabled,
+	const handleVideoFormatChange = ({ target }: ChangeEvent) => {
+		const { value } = target as any
+		setVideoSettings({
+			...videoSettings,
+			format: value,
 		})
-		store.set('preferences.audio.enabled', !audioSettings?.enabled)
+		store.set('preferences.video.format', value)
+		window.ipcRenderer.send('reset-source')
+	}
+
+	const handleVideoQualityChange = ({ target }: ChangeEvent) => {
+		const { value } = target as any
+		setVideoSettings({
+			...videoSettings,
+			quality: +value,
+		})
+		store.set('preferences.video.quality', +value)
 		window.ipcRenderer.send('reset-source')
 	}
 
@@ -86,6 +103,25 @@ const SettingsModal = ({ onClose }: Type.SettingsModalInterface) => {
 		window.ipcRenderer.send('reset-source')
 	}
 
+	const handleVideoFrameChange = ({ target }: ChangeEvent) => {
+		const { value } = target as any
+		setVideoSettings({
+			...videoSettings,
+			fps: value,
+		})
+		store.set('preferences.video.fps', +value)
+		window.ipcRenderer.send('reset-source')
+	}
+
+	const handleAudioChange = () => {
+		setAudioSettings({
+			...audioSettings,
+			enabled: !audioSettings?.enabled,
+		})
+		store.set('preferences.audio.enabled', !audioSettings?.enabled)
+		window.ipcRenderer.send('reset-source')
+	}
+
 	const handleAudioBitrateChange = ({ target }: ChangeEvent) => {
 		const { value } = target as any
 		setAudioSettings({
@@ -93,6 +129,18 @@ const SettingsModal = ({ onClose }: Type.SettingsModalInterface) => {
 			bitrate: value,
 		})
 		store.set('preferences.audio.bitrate', +value)
+		window.ipcRenderer.send('reset-source')
+	}
+
+	const handleAudioVolumeChange = ({ target }: ChangeEvent) => {
+		const { value } = target as any
+		const volume = value / 100
+
+		setAudioSettings({
+			...audioSettings,
+			volume: volume,
+		})
+		store.set('preferences.audio.volume', volume)
 		window.ipcRenderer.send('reset-source')
 	}
 
@@ -126,32 +174,58 @@ const SettingsModal = ({ onClose }: Type.SettingsModalInterface) => {
 					<h2 className={style.settingsTitle}>Video</h2>
 					<div className={style.settingsObject}>
 						<select
-							value={videoSettings?.format.toUpperCase()}
-							onChange={() => {
-								null
-							}}
+							value={videoSettings?.format}
+							onChange={handleVideoFormatChange}
 						>
-							<option>WEBM</option>
-							<option disabled>MP4</option>
-							<option disabled>GIF</option>
-							<option disabled>APNG</option>
-							<option disabled>WEBP</option>
+							<option value="mp4">MP4</option>
+							<option value="avi">AVI</option>
+							<option value="mov">MOV</option>
+							<option value="flv">FLV</option>
+							<option value="webm">WEBM</option>
+							<option value="gif">GIF</option>
 						</select>
 						<span>Video format</span>
+					</div>
+					<div className={style.settingsObject}>
+						<select
+							value={videoSettings?.quality}
+							onChange={handleVideoQualityChange}
+						>
+							<option value={0}>Native</option>
+							<option value={2160}>2160p</option>
+							<option value={1440}>1440p</option>
+							<option value={1080}>1080p</option>
+							<option value={720}>720p</option>
+							<option value={480}>480p</option>
+							<option value={360}>360p</option>
+						</select>
+						<span>Video quality</span>
 					</div>
 					<div className={style.settingsObject}>
 						<select
 							value={videoSettings?.bitrate}
 							onChange={handleVideoBitrateChange}
 						>
-							<option value={41943040}>2160p</option>
-							<option value={16777216}>1440p</option>
-							<option value={8388608}>1080p</option>
-							<option value={5242880}>720p</option>
-							<option value={2621440}>480p</option>
-							<option value={1048576}>360p</option>
+							<option value={41943040}>40Mbps</option>
+							<option value={16777216}>16Mbps</option>
+							<option value={8388608}>8Mbps</option>
+							<option value={5242880}>5Mbps</option>
+							<option value={2621440}>2.5Mbps</option>
+							<option value={1048576}>1Mbps</option>
 						</select>
 						<span>Video bitrate</span>
+					</div>
+					<div className={style.settingsObject}>
+						<select
+							value={videoSettings?.fps}
+							onChange={handleVideoFrameChange}
+						>
+							<option value={60}>60FPS</option>
+							<option value={30}>30FPS</option>
+							<option value={24}>24FPS</option>
+							<option value={16}>16FPS</option>
+						</select>
+						<span>Video framerate</span>
 					</div>
 				</div>
 				<div className={style.settingsBox}>
@@ -173,6 +247,18 @@ const SettingsModal = ({ onClose }: Type.SettingsModalInterface) => {
 							<option value={64000}>64Kbps</option>
 						</select>
 						<span>Audio bitrate</span>
+					</div>
+					<div className={style.settingsObject}>
+						<input
+							type="range"
+							min="0"
+							max="100"
+							value={Math.round(audioSettings.volume * 100)}
+							onChange={handleAudioVolumeChange}
+						/>
+						<span>
+							Volume: {Math.round(audioSettings.volume * 100)}
+						</span>
 					</div>
 				</div>
 				<div className={style.settingsBox}>

@@ -1,22 +1,21 @@
 import { RecordStart, RecordStop, ShareScreen } from '@/assets/icons/Misc'
 import style from '@/styles/recorder.module.scss'
-import type * as Type from '@/types/HomePage'
+import type { TBinds, TState } from '@/types/Recorder'
 import store from '@/utils/electron-store'
 import type { DesktopCapturerSource } from 'electron'
 import { useEffect, useRef, useState } from 'react'
-import { webmFixDuration } from 'webm-fix-duration'
 
 const Recorder = () => {
 	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
 		null
 	)
-	const [state, setState] = useState<Type.State>({
+	const [state, setState] = useState<TState>({
 		label: 'Start recording',
 		source: 'Source',
 		startActive: false,
 		stopActive: false,
 	})
-	const [binds, setBinds] = useState<Type.BindsState>({
+	const [binds, setBinds] = useState<TBinds>({
 		start: 'No bind',
 		stop: 'No bind',
 	})
@@ -128,13 +127,12 @@ const Recorder = () => {
 							audioSettings.enabled && ', opus'
 						}`,
 					})
-					const duration =
-						Date.now() - (await store.get('temp.start'))
-					const fixedBlob = await webmFixDuration(blob, duration)
-					window.ipcRenderer.send(
-						'save-blob',
-						await fixedBlob.arrayBuffer()
-					)
+					window.ipcRenderer.send('save-blob', {
+						blob: await blob.arrayBuffer(),
+						duration: Date.now() - (await store.get('temp.start')),
+						video: videoSettings,
+						audio: audioSettings,
+					})
 					recordedChunks.length = 0
 				}
 

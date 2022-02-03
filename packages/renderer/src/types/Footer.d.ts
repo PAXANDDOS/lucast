@@ -1,18 +1,18 @@
-export type OsInfo = {
+export type TOs = {
 	os: string
 	version: string
 	arch: string
 	release: string
 }
 
-export type AppInfo = {
+export type TApp = {
 	name: string
 	path: string
 	version: string
 	locale: string
 }
 
-export type UpdateData = {
+export type TUpdate = {
 	available: boolean
 	version: string
 	path: string
