@@ -37,17 +37,20 @@ _Lucast has its own **updater**, so you won't need to check this page for new re
 
 I would love to make this project better, and here's what I'm planning to do:
 
-### In update v1.4.0
--   **New face.** This logo is not what I wanted it to be made. I plan to make it better, to be more unique.
--   **New UI.** Not just a big block with buttons, I've prepared something better!
--   **Video player.** All your recorded videos will be saved to a single folder, and you will have a list of them on the menu, tap to play!
+### In update v2.0.0 🥳
+Approximate release date of **Lucast v2.0.0**: **February 6, 2022**
+
+-   **Featuring FFmpeg and FFprobe!** It's a huge change for the quality of recorded videos and configuration! FFmpeg helps to handle video, audio, and other multimedia files and streams. What does it mean for Lucast? Now you have a wide variety of formats to choose from, you can set a resolution that differs from your native, you can customize your recorder videos frame rate, and you can configure the volume of your audio! Whatever you choose, the quality of the output video will be so much better than in v1.3.0! High-quality video and clear audio with a small file size, that is what it means!
+-   **New UI.** Not just a big block with buttons now! Now there are much fancier control buttons at the bottom and a menu to the left!
+-   **New face.** Now Lucast has its own face! A brand new unique logo should fit well!
+-   **Menu and video list.** Now there is a nice menu to the left with all your recorded videos, click on them to play! Or click on the folder directory to open it with your explorer. Also "information" and "settings" buttons are there, as well as the new information about your disk usage, so you can keep track of how many videos you can record until your disk drive is full.
 
 ### Other planned features
--   **More video formats.** This includes the installation of **FFMPEG**, which I tried to do but have faced different difficulties. FFMPEG will make videos on the output much better.
--   **More settings.** Configuring custom _resolution_ or _FPS_ is currently impossible because the application uses a built-in [MediaStream Recording API](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API) to record videos from a selected screen or window.
+
 -   **Other useful features.** Features like _screenshots_ or a _video editor_ for recorded videos may be a good idea!
 
 This list will be edited if a new feature will be in progress or something from the above releases.
+
 ## :memo: Changelog
 
 ### Update v1.3.0:
