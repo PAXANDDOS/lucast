@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'development'
+process.env.MODE = 'development'
 
 import { spawn } from 'child_process'
 import electron from 'electron'

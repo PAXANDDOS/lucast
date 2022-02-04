@@ -1,13 +1,14 @@
 import style from '@/styles/menu.module.scss'
 import type { IVideoProps } from '@/types/Menu'
 import formatDuration from '@/utils/format-duration'
+import thumbnail from '/img/thumbnail.png'
 
 const VideoObject = ({ video }: IVideoProps) => {
 	const openVideo = () =>
 		window.ipcRenderer.send('open-video', video.format.filename)
 	return (
 		<div className={style.videoObject} onClick={openVideo}>
-			<img src="/img/thumbnail.png" />
+			<img src={thumbnail} />
 			<div className={style.videoObjectInfo}>
 				<h4>{video.filename}</h4>
 				<div className={style.videoObjectTags}>

@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'production'
+process.env.MODE = 'production'
 
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
@@ -29,6 +29,8 @@ const viteConfigs = {
 	},
 }
 
-;async () => {
+const buildElectron = async () => {
 	for (const [, config] of Object.entries(viteConfigs)) await build(config)
 }
+
+await buildElectron()

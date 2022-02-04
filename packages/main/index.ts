@@ -7,7 +7,7 @@ import './samples/input-sources'
 import './samples/sys-info'
 import './samples/video-handler'
 
-const isDev = import.meta.env.NODE_ENV === 'development'
+const isDev = import.meta.env.MODE === 'development'
 
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
 

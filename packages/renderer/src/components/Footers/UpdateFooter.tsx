@@ -84,7 +84,7 @@ const UpdateBlock = () => {
 	return (
 		<div className={style.modalFooterSettings}>
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<span>Stable v{appInfo?.version} (06.02.2022)</span>
+				<span>Stable v{appInfo?.version} (05.02.2022)</span>
 				<span>
 					{osInfo?.version} {osInfo?.arch} ({osInfo?.release})
 				</span>

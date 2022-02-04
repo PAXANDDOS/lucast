@@ -7,7 +7,7 @@ import resolve from 'vite-plugin-resolve'
 import pkg from '../../package.json'
 
 export default defineConfig({
-	mode: process.env.NODE_ENV,
+	mode: process.env.MODE,
 	root: __dirname,
 	plugins: [react(), resolveElectron()],
 	base: './',
