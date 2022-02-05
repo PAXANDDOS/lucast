@@ -23,5 +23,5 @@
 		"src/types/**/*.d.ts",
 		"../../types/**/*.d.ts"
 	],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    "typeRoots": [ "./src/types", "../../node_modules/@types"]
 }

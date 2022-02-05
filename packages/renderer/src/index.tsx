@@ -1,16 +1,16 @@
 import TitleBar from '@/components/TitleBar'
-import App from '@/pages/index'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import HomePage from '@/pages/index'
+import { StrictMode } from 'react'
+import { render } from 'react-dom'
 import './styles/index.css'
 
-ReactDOM.render(
-	<React.StrictMode>
+render(
+	<StrictMode>
 		<TitleBar />
 		<main>
-			<App />
+			<HomePage />
 		</main>
-	</React.StrictMode>,
+	</StrictMode>,
 	document.getElementById('root'),
 	window.removeLoading
 )

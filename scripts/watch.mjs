@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'development'
+process.env.MODE = 'development'
 
 import { spawn } from 'child_process'
 import electron from 'electron'
@@ -14,7 +14,7 @@ const pkg = require('../package.json')
 /**
  * @type {() => Promise<import('rollup').RollupWatcher>}
  */
-function watchMain() {
+const watchMain = () => {
 	/**
 	 * @type {import('child_process').ChildProcessWithoutNullStreams | null}
 	 */
@@ -45,8 +45,8 @@ function watchMain() {
 /**
  * @type {(server: import('vite').ViteDevServer) => Promise<import('rollup').RollupWatcher>}
  */
-function watchPreload(server) {
-	return build({
+const watchPreload = (server) =>
+	build({
 		configFile: 'scripts/vite.config.mjs',
 		root: join(__dirname, '../packages/preload'),
 		build: {
@@ -62,7 +62,6 @@ function watchPreload(server) {
 			},
 		],
 	})
-}
 
 const server = await createServer({
 	configFile: 'packages/renderer/vite.config.ts',

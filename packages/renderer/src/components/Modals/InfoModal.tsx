@@ -1,10 +1,10 @@
 import style from '@/styles/modal.module.scss'
-import type { InfoModalInterface } from '@/types/InfoModal'
+import type { ICModalProps } from '@/types/Modal'
 import Footer from '../Footers/InfoFooter'
 import Modal from './Modal'
 import Banner from '/img/Cover.png'
 
-const InfoModal = ({ onClose }: InfoModalInterface) => {
+const InfoModal = ({ onClose }: ICModalProps) => {
 	return (
 		<Modal
 			title="About Lucast"
@@ -25,6 +25,20 @@ const InfoModal = ({ onClose }: InfoModalInterface) => {
 					</p>
 					<p
 						className={style.infoModalContentText}
+						style={{ marginTop: 10, fontSize: 14 }}
+					>
+						<b>Found a bug?</b>{' '}
+						<a
+							href="https://github.com/PAXANDDOS/lucast-electron/issues/new"
+							target="_blank"
+							rel="noreferrer"
+							style={{ opacity: 0.8, color: '#fee75c' }}
+						>
+							Report it here!
+						</a>
+					</p>
+					<p
+						className={style.infoModalContentText}
 						style={{ opacity: 0.7, marginTop: 10, fontSize: 12 }}
 					>
 						<b>Developer note:</b> This project is fully free-to-use
@@ -38,6 +52,77 @@ const InfoModal = ({ onClose }: InfoModalInterface) => {
 						data-color="pink"
 					>
 						<span>FEATURES</span>
+					</h4>
+					<ul className={style.infoModalContentList}>
+						<li>
+							<b>Featuring FFmpeg and FFprobe!</b> It&apos;s a
+							huge change for the quality of recorded videos and
+							configuration! FFmpeg helps to handle video, audio,
+							and other multimedia files and streams. What does it
+							mean for Lucast? Now you have a wide variety of
+							formats to choose from, you can set a resolution
+							that differs from your native, you can customize
+							your recorder videos frame rate, and you can
+							configure the volume of your audio! Whatever you
+							choose, the quality of the output video will be so
+							much better than in v1.3.0! High-quality video and
+							clear audio with a small file size, that is what it
+							means!
+						</li>
+						<li>
+							<b>New UI.</b> Not just a big block with buttons
+							now! Now there are much fancier control buttons at
+							the bottom and a menu to the left!
+						</li>
+						<li>
+							<b>New face.</b> Now Lucast has its own face! A
+							brand new unique logo should fit well!
+						</li>
+						<li>
+							<b>Menu and video list.</b> Now there is a nice menu
+							to the left with all your recorded videos, click on
+							them to play! Or click on the folder directory to
+							open it with your explorer. Also
+							&quot;information&quot; and &quot;settings&quot;
+							buttons are there, as well as the new information
+							about your disk usage, so you can keep track of how
+							many videos you can record until your disk drive is
+							full.
+						</li>
+					</ul>
+					<h4
+						className={style.infoModalContentLabel}
+						data-color="green"
+					>
+						<span>FIXES & OPTIMIZATION</span>
+					</h4>
+					<ul className={style.infoModalContentList}>
+						<li>
+							<b>Updated framework.</b> The core framework was
+							updated to the latest stable version, which brings
+							an updated browser, platform, and engine. Includes
+							different fixes, performance, and security
+							improvements.
+						</li>
+						<li>
+							<b>Restructured source code.</b> More readable and
+							simple, containing new importing choices and fixes.
+						</li>
+						<li>
+							<b>Fixed application name in notifications.</b>
+						</li>
+						<li>
+							<b>Simplified and optimized types.</b>
+						</li>
+						<li>
+							<b>Other fixes and improvements.</b>
+						</li>
+					</ul>
+					<h4
+						className={style.infoModalContentLabel}
+						data-color="yellow"
+					>
+						<span>FEATURE LOG: v1.3.0</span>
 					</h4>
 					<ul className={style.infoModalContentList}>
 						<li>
@@ -63,30 +148,6 @@ const InfoModal = ({ onClose }: InfoModalInterface) => {
 						<li>
 							<b>This fancy log window.</b> Now you can read more
 							about the update and view the update log.
-						</li>
-					</ul>
-					<h4
-						className={style.infoModalContentLabel}
-						data-color="green"
-					>
-						<span>FIXES & OPTIMIZATION</span>
-					</h4>
-					<ul className={style.infoModalContentList}>
-						<li>
-							<b>No leaking.</b> The fixed memory leak that
-							because of the unlimited creation of event
-							listeners.
-						</li>
-						<li>
-							<b>Video with no time.</b> Fixed metadata of the
-							output video that was saved without
-							&quot;start&quot; and &quot;end&quot; timestamps.
-							This made video players unable to determine video
-							duration and rewind it.
-						</li>
-						<li>
-							<b>Much more.</b> A lot of fixed bugs and general
-							improvements in types, scripts, and behavior.
 						</li>
 					</ul>
 					<h4

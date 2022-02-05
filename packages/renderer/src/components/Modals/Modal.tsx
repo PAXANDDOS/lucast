@@ -1,16 +1,10 @@
 import { Cross } from '@/assets/icons/Misc'
 import style from '@/styles/modal.module.scss'
-import type { ModalInterface } from '@/types/Modal'
+import type { IModalProps } from '@/types/Modal'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-const Modal = ({
-	title,
-	isOpen,
-	children,
-	Footer,
-	onClose,
-}: ModalInterface) => {
+const Modal = ({ title, isOpen, children, Footer, onClose }: IModalProps) => {
 	const [rendered, setRendered] = useState(isOpen)
 	const containerRef = useRef<HTMLDivElement>(null)
 	const contentRef = useRef<HTMLDivElement>(null)

@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { useLoading } from './loading'
+import useLoading from './use-loading'
 import { domReady } from './utils'
 
 const { appendLoading, removeLoading } = useLoading()

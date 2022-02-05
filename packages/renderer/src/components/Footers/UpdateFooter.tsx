@@ -1,6 +1,6 @@
 import { Download, Update } from '@/assets/icons/Misc'
 import style from '@/styles/modal.module.scss'
-import type * as Type from '@/types/UpdateFooter'
+import type { TApp, TOs, TUpdate } from '@/types/Footer'
 import store from '@/utils/electron-store'
 import sleep from '@/utils/sleep'
 import versionCmp from '@/utils/version-cmp'
@@ -8,9 +8,9 @@ import { useEffect, useRef, useState } from 'react'
 import UpdateModal from '../Modals/UpdateModal'
 
 const UpdateBlock = () => {
-	const [osInfo, setOsInfo] = useState<Type.OsInfo>()
-	const [appInfo, setAppInfo] = useState<Type.AppInfo>()
-	const [updateData, setUpdateData] = useState<Type.UpdateData>()
+	const [osInfo, setOsInfo] = useState<TOs>()
+	const [appInfo, setAppInfo] = useState<TApp>()
+	const [updateData, setUpdateData] = useState<TUpdate>()
 	const [isUpdating, setIsUpdating] = useState(false)
 	const updateRef = useRef<HTMLDivElement>(null)
 
@@ -41,13 +41,19 @@ const UpdateBlock = () => {
 				break
 			case 0:
 				updateRef.current.className = ''
-				return new Notification('You are already up-to-date!')
+				return window.ipcRenderer.send('show-notification', {
+					title: 'You are already up-to-date!',
+				})
 			case -1:
 				updateRef.current.className = ''
-				return new Notification('You are a cheater!')
+				return window.ipcRenderer.send('show-notification', {
+					title: 'You are a cheater!',
+				})
 			default:
 				updateRef.current.className = ''
-				return new Notification('An error occured.')
+				return window.ipcRenderer.send('show-notification', {
+					title: 'An error occured.',
+				})
 		}
 
 		const suffix = osInfo?.os === 'Windows' ? 'Setup' : 'Installer'
@@ -76,7 +82,10 @@ const UpdateBlock = () => {
 			version: release.tag_name,
 			path: path,
 		})
-		return new Notification('Update available!')
+
+		return window.ipcRenderer.send('show-notification', {
+			title: 'Update available!',
+		})
 	}
 
 	const installUpdate = () => setIsUpdating(true)
@@ -84,7 +93,7 @@ const UpdateBlock = () => {
 	return (
 		<div className={style.modalFooterSettings}>
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<span>Stable v{appInfo?.version} (01.02.2022)</span>
+				<span>Stable v{appInfo?.version} (05.02.2022)</span>
 				<span>
 					{osInfo?.version} {osInfo?.arch} ({osInfo?.release})
 				</span>

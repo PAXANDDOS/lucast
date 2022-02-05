@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-export {}
+import type { IpcRenderer } from 'electron'
 
 declare global {
 	interface Window {
-		ipcRenderer: import('electron').IpcRenderer
+		ipcRenderer: IpcRenderer
 		removeLoading: () => void
 	}
 }

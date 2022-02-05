@@ -1,18 +1,17 @@
 import { app, BrowserWindow, globalShortcut, ipcMain, shell } from 'electron'
 import Store from 'electron-store'
-import os from 'os'
+import { release } from 'os'
 import { join } from 'path'
-import './samples/app-info'
 import './samples/download-file'
 import './samples/input-sources'
-import './samples/os-info'
-import './samples/save-recording'
+import './samples/notification'
+import './samples/sys-info'
+import './samples/video-handler'
 
-const isDev = import.meta.env.NODE_ENV === 'development'
+const isDev = import.meta.env.MODE === 'development'
 
-const isWin7 = os.release().startsWith('6.1')
-if (isWin7) app.disableHardwareAcceleration()
-
+if (release().startsWith('6.1')) app.disableHardwareAcceleration()
+if (process.platform === 'win32') app.setAppUserModelId(app.getName())
 if (!app.requestSingleInstanceLock()) {
 	app.quit()
 	process.exit(0)
@@ -24,9 +23,9 @@ app.commandLine.appendSwitch('enable-webgl')
 const createWindow = async () => {
 	win = new BrowserWindow({
 		title: 'Lucast',
-		width: 1280,
+		width: 1420,
 		height: 720,
-		minWidth: 940,
+		minWidth: 1040,
 		minHeight: 560,
 		show: false,
 		icon: join(__dirname, '../../build/icon.ico'),
@@ -98,12 +97,15 @@ const store = new Store({
 			type: 'object',
 			default: {
 				video: {
-					format: 'webm',
+					format: 'mp4',
+					quality: 0,
 					bitrate: 8388608,
+					fps: 30,
 				},
 				audio: {
 					enabled: false,
 					bitrate: 128000,
+					volume: 1.0,
 				},
 				bindings: {
 					start: 'Alt+1',
