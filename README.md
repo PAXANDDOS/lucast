@@ -1,4 +1,4 @@
-<p align='center'><img src="https://raw.githubusercontent.com/PAXANDDOS/PAXANDDOS/main/lucast/icon.svg" height="120"></p>
+<p align='center'><img src="https://raw.githubusercontent.com/PAXANDDOS/PAXANDDOS/main/lucast/icon.png" height="120"></p>
 <p align="center">
         <a href="https://www.electronjs.org/" target="_blank">
             <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Electron_Software_Framework_Logo.svg" height="50">
@@ -23,27 +23,32 @@
 
 ## :inbox_tray: Downloads
 
-is made with Electron, which makes it possible to ship the application to different operating systems.
+Lucast is made with Electron, which makes it possible to ship the application to different operating systems.
 Download the latest release in the releases tab or below:
 
--   :window: **Windows** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v1.3.0/Lucast-Setup.exe)
--   :desktop_computer: **macOS** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v1.3.0/Lucast-Installer.dmg)
--   :penguin: **Linux** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v1.3.0/Lucast-Installer.AppImage)
+-   :window: **Windows** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v2.0.0/Lucast-Setup.exe)
+-   :desktop_computer: **macOS** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v2.0.0/Lucast-Installer.dmg)
+-   :penguin: **Linux** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v2.0.0/Lucast-Installer.AppImage)
 
 Or visit the [releases page](https://github.com/PAXANDDOS/lucast-electron/releases) to download any other version and read the changelog.  
 _Lucast has its own **updater**, so you won't need to check this page for new releases. Just click one button and if there is an update - Lucast will install it for you!_
+
+## :framed_picture: Screenshots
+
+![](https://raw.githubusercontent.com/PAXANDDOS/PAXANDDOS/main/lucast/screenshots/default.png)
+![](https://raw.githubusercontent.com/PAXANDDOS/PAXANDDOS/main/lucast/screenshots/game.png)
+![](https://raw.githubusercontent.com/PAXANDDOS/PAXANDDOS/main/lucast/screenshots/about.png)
+![](https://raw.githubusercontent.com/PAXANDDOS/PAXANDDOS/main/lucast/screenshots/settings.png)
+![](https://raw.githubusercontent.com/PAXANDDOS/PAXANDDOS/main/lucast/screenshots/updater.png)
 
 ## :world_map: Upcoming
 
 I would love to make this project better, and here's what I'm planning to do:
 
-### In update v2.0.0 🥳
-Approximate release date of **Lucast v2.0.0**: **February 6, 2022**
+### In update v2.1.0:
 
--   **Featuring FFmpeg and FFprobe!** It's a huge change for the quality of recorded videos and configuration! FFmpeg helps to handle video, audio, and other multimedia files and streams. What does it mean for Lucast? Now you have a wide variety of formats to choose from, you can set a resolution that differs from your native, you can customize your recorder videos frame rate, and you can configure the volume of your audio! Whatever you choose, the quality of the output video will be so much better than in v1.3.0! High-quality video and clear audio with a small file size, that is what it means!
--   **New UI.** Not just a big block with buttons now! Now there are much fancier control buttons at the bottom and a menu to the left!
--   **New face.** Now Lucast has its own face! A brand new unique logo should fit well!
--   **Menu and video list.** Now there is a nice menu to the left with all your recorded videos, click on them to play! Or click on the folder directory to open it with your explorer. Also "information" and "settings" buttons are there, as well as the new information about your disk usage, so you can keep track of how many videos you can record until your disk drive is full.
+-   **Improved visuals.** Different effects when the user interacts with buttons, styles for settings.
+-   **Progress messages.** Processing videos take some time and users don't really know what's happening. More messages with progress and status will help.
 
 ### Other planned features
 
@@ -53,15 +58,24 @@ This list will be edited if a new feature will be in progress or something from 
 
 ## :memo: Changelog
 
+### Update v2.0.0:
+
+-   **Featuring FFmpeg and FFprobe!** It's a huge change for the quality of recorded videos and configuration! FFmpeg helps to handle video, audio, and other multimedia files and streams. What does it mean for Lucast? Now you have a wide variety of formats to choose from, you can set a resolution that differs from your native, you can customize your recorder videos frame rate, and you can configure the volume of your audio! Whatever you choose, the quality of the output video will be so much better than in v1.3.0! High-quality video and clear audio with a small file size, that is what it means!
+-   **New UI.** Not just a big block with buttons now! Now there are much fancier control buttons at the bottom and a menu to the left!
+-   **New face.** Now Lucast has its own face! A brand new unique logo should fit well!
+-   **Menu and video list.** Now there is a nice menu to the left with all your recorded videos, click on them to play! Or click on the folder directory to open it with your explorer. Also "information" and "settings" buttons are there, as well as the new information about your disk usage, so you can keep track of how many videos you can record until your disk drive is full.
+-   Improvement: **Updated framework.** The core framework was updated to the latest stable version, which brings an updated browser, platform, and engine. Includes different fixes, performance, and security improvements.
+-   Improvement: **Restructured source code.** More readable and simple, containing new importing choices and fixes.
+-   Fix: **Fixed application name in notifications.**
+-   Improvement: **Simplified and optimized types.**
+-   **Other fixes and improvements.**
+
 ### Update v1.3.0:
 
 -   **Cool updater.** One simple button that will check if there is any update on the official resource. If so, it will install it for you!
 -   **Audio switch**. Now you can turn your system audio on and off! Remember that the audio is not captured directly from your system and not from a specific window!
 -   **You can change video and audio bitrate.** New options for both video and audio groups in the settings. Select any bitrate that you want, but remember, the most optional is the one with your screen resolution! Higher bitrate - higher image quality and bigger file size, lower quality - smaller size but an unclear image in motion.
 -   **Fancy log window.** Now you can read more about the update and view the update log.
--   Fix: **No leaking.** The fixed memory leak because of the unlimited creation of event listeners.
--   Fix: **Video with no time.** Fixed metadata of the output video that was saved without "start" and "end" timestamps. This made video players unable to determine video duration and rewind it.
--   Fix: **Much more.** A lot of fixed bugs and general improvements in types, scripts, and behavior.
 
 ### Update v1.2.0:
 
