@@ -109,6 +109,9 @@ const InfoModal = ({ onClose }: ICModalProps) => {
 							simple, containing new importing choices and fixes.
 						</li>
 						<li>
+							<b>Fixed application name in notifications.</b>
+						</li>
+						<li>
 							<b>Simplified and optimized types.</b>
 						</li>
 						<li>

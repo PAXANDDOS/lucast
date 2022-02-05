@@ -57,7 +57,9 @@ const Recorder = () => {
 		window.ipcRenderer.on('start-recording', () => {
 			if (state.startActive) {
 				handleStart()
-				new Notification('Recording has started')
+				window.ipcRenderer.send('show-notification', {
+					title: 'Recording has started',
+				})
 			}
 		})
 		return () => {
@@ -69,7 +71,9 @@ const Recorder = () => {
 		window.ipcRenderer.on('stop-recording', () => {
 			if (state.stopActive) {
 				handleStop()
-				new Notification('Recording stopped')
+				window.ipcRenderer.send('show-notification', {
+					title: 'Recording stopped',
+				})
 			}
 		})
 		return () => {

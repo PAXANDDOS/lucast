@@ -41,13 +41,19 @@ const UpdateBlock = () => {
 				break
 			case 0:
 				updateRef.current.className = ''
-				return new Notification('You are already up-to-date!')
+				return window.ipcRenderer.send('show-notification', {
+					title: 'You are already up-to-date!',
+				})
 			case -1:
 				updateRef.current.className = ''
-				return new Notification('You are a cheater!')
+				return window.ipcRenderer.send('show-notification', {
+					title: 'You are a cheater!',
+				})
 			default:
 				updateRef.current.className = ''
-				return new Notification('An error occured.')
+				return window.ipcRenderer.send('show-notification', {
+					title: 'An error occured.',
+				})
 		}
 
 		const suffix = osInfo?.os === 'Windows' ? 'Setup' : 'Installer'
@@ -76,7 +82,10 @@ const UpdateBlock = () => {
 			version: release.tag_name,
 			path: path,
 		})
-		return new Notification('Update available!')
+
+		return window.ipcRenderer.send('show-notification', {
+			title: 'Update available!',
+		})
 	}
 
 	const installUpdate = () => setIsUpdating(true)

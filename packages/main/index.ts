@@ -4,13 +4,14 @@ import { release } from 'os'
 import { join } from 'path'
 import './samples/download-file'
 import './samples/input-sources'
+import './samples/notification'
 import './samples/sys-info'
 import './samples/video-handler'
 
 const isDev = import.meta.env.MODE === 'development'
 
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
-
+if (process.platform === 'win32') app.setAppUserModelId(app.getName())
 if (!app.requestSingleInstanceLock()) {
 	app.quit()
 	process.exit(0)
