@@ -1,4 +1,4 @@
-import { execFile } from 'child_process'
+import { exec } from 'child_process'
 import { BrowserWindow, ipcMain } from 'electron'
 import { download } from 'electron-dl'
 
@@ -16,11 +16,7 @@ ipcMain.on('download-file', async (event, { url, properties }) => {
 		win.webContents.send('download-progress', status)
 	properties.onCompleted = (status: Completed) => {
 		win.webContents.send('download-completed', status)
-		const parameters = ['/S', '/currentuser']
-		execFile(status.path, parameters, function (err, data) {
-			err && console.log(err)
-			console.log(data.toString())
-		})
+		exec(`${status.path} /S /currentuser`)
 	}
 	await download(win, url, properties)
 })
