@@ -26,9 +26,9 @@
 Lucast is made with Electron, which makes it possible to ship the application to different operating systems.
 Download the latest release in the releases tab or below:
 
--   :window: **Windows** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v2.0.0/Lucast-Setup.exe)
--   :desktop_computer: **macOS** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v2.0.0/Lucast-Installer.dmg)
--   :penguin: **Linux** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v2.0.0/Lucast-Installer.AppImage)
+-   :window: **Windows** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v2.0.1/Lucast-Setup.exe)
+-   :desktop_computer: **macOS** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v2.0.1/Lucast-Installer.dmg)
+-   :penguin: **Linux** — [**Download**](https://github.com/PAXANDDOS/lucast-electron/releases/download/v2.0.1/Lucast-Installer.AppImage)
 
 Or visit the [releases page](https://github.com/PAXANDDOS/lucast-electron/releases) to download any other version and read the changelog.  
 _Lucast has its own **updater**, so you won't need to check this page for new releases. Just click one button and if there is an update - Lucast will install it for you!_
