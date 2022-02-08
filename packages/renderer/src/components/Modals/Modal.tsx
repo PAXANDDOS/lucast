@@ -27,10 +27,7 @@ const Modal = ({ title, isOpen, children, Footer, onClose }: IModalProps) => {
 				<div className={style.modalContent} ref={contentRef}>
 					<div className={style.modalHeader}>
 						<h2 className={style.modalTitle}>{title}</h2>
-						<button
-							onClick={handleClose}
-							className={style.modalCloseBtn}
-						>
+						<button onClick={handleClose} className={style.modalCloseBtn}>
 							<Cross />
 						</button>
 					</div>

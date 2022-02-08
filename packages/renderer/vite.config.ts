@@ -7,7 +7,7 @@ import resolve from 'vite-plugin-resolve'
 import pkg from '../../package.json'
 
 export default defineConfig({
-	mode: process.env.MODE,
+	mode: process.env.NODE_ENV,
 	root: __dirname,
 	plugins: [react(), resolveElectron()],
 	base: './',
@@ -22,15 +22,12 @@ export default defineConfig({
 		},
 	},
 	server: {
-		host: pkg.env.HOST,
 		port: pkg.env.PORT,
 	},
 })
 
-export function resolveElectron(
-	resolves: Parameters<typeof resolve>[0] = {}
-): Plugin {
-	const builtins = builtinModules.filter((t) => !t.startsWith('_'))
+export function resolveElectron(resolves: Parameters<typeof resolve>[0] = {}): Plugin {
+	const builtins = builtinModules.filter(t => !t.startsWith('_'))
 
 	return resolve({
 		electron: electronExport(),
@@ -70,13 +67,13 @@ export function resolveElectron(
 
 	function builtinModulesExport(modules: string[]) {
 		return modules
-			.map((moduleId) => {
+			.map(moduleId => {
 				const nodeModule = require(moduleId)
 				const requireModule = `const M = require("${moduleId}");`
 				const exportDefault = 'export default M;'
 				const exportMembers =
 					Object.keys(nodeModule)
-						.map((attr) => `export const ${attr} = M.${attr}`)
+						.map(attr => `export const ${attr} = M.${attr}`)
 						.join(';\n') + ';'
 				const nodeModuleCode = `
                     ${requireModule}

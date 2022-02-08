@@ -9,9 +9,7 @@ const TitleBar = () => {
 	const handleClose = () => window.ipcRenderer.send('app-close')
 
 	useEffect(() => {
-		window.ipcRenderer.on('isMaximized', () =>
-			setMaximized(<MaximizeRestore />)
-		)
+		window.ipcRenderer.on('isMaximized', () => setMaximized(<MaximizeRestore />))
 		window.ipcRenderer.on('isRestored', () => setMaximized(<Maximize />))
 	}, [])
 
@@ -21,25 +19,13 @@ const TitleBar = () => {
 				<h4>Lucast</h4>
 			</div>
 			<div className={style.systemBox}>
-				<div
-					data-type="min"
-					onClick={handleMinimize}
-					className={style.systemBoxProp}
-				>
+				<div data-type="min" onClick={handleMinimize} className={style.systemBoxProp}>
 					<Minimize />
 				</div>
-				<div
-					data-type="max"
-					onClick={handleMaximize}
-					className={style.systemBoxProp}
-				>
+				<div data-type="max" onClick={handleMaximize} className={style.systemBoxProp}>
 					{maximized}
 				</div>
-				<div
-					data-type="close"
-					onClick={handleClose}
-					className={style.systemBoxProp}
-				>
+				<div data-type="close" onClick={handleClose} className={style.systemBoxProp}>
 					<Cross />
 				</div>
 			</div>

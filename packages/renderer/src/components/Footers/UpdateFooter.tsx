@@ -15,17 +15,13 @@ const UpdateBlock = () => {
 	const updateRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
-		store.get('update').then((res) => setUpdateData(res))
-		window.ipcRenderer.invoke('get-os-info').then((res) => setOsInfo(res))
-		window.ipcRenderer.invoke('get-app-info').then((res) => setAppInfo(res))
+		store.get('update').then(res => setUpdateData(res))
+		window.ipcRenderer.invoke('get-os-info').then(res => setOsInfo(res))
+		window.ipcRenderer.invoke('get-app-info').then(res => setAppInfo(res))
 	}, [])
 
 	const checkUpdates = async () => {
-		if (
-			!updateRef.current ||
-			!appInfo ||
-			updateRef.current.className === style.spinAnimation
-		)
+		if (!updateRef.current || !appInfo || updateRef.current.className === style.spinAnimation)
 			return
 		updateRef.current.className = style.spinAnimation
 
@@ -112,14 +108,11 @@ const UpdateBlock = () => {
 					<span style={{ color: 'white' }}>Download update</span>
 				</button>
 			) : (
-				<button
-					className={style.checkForUpdatesBtn}
-					onClick={checkUpdates}
-				>
+				<button className={style.checkForUpdatesBtn} onClick={checkUpdates}>
 					<div ref={updateRef}>
 						<Update />
 					</div>
-					<span>Check for update</span>
+					<span>Check for updates</span>
 				</button>
 			)}
 			{isUpdating && <UpdateModal />}

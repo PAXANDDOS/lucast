@@ -1,10 +1,10 @@
 import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg'
 import { path as ffprobePath } from '@ffprobe-installer/ffprobe'
 import checkDiskSpace from 'check-disk-space'
-import { app, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu, shell } from 'electron'
 import type { FfprobeData } from 'fluent-ffmpeg'
 import ffmpeg from 'fluent-ffmpeg'
-import { existsSync, mkdirSync, readdirSync } from 'fs'
+import { existsSync, mkdirSync, readdirSync, unlink } from 'fs'
 import { join } from 'path'
 import { Readable } from 'stream'
 
@@ -27,11 +27,9 @@ ipcMain.handle('get-all-videos', async () => {
 			})
 		})
 
-	const data = await Promise.all(
-		filenames.map((filename) => ffprobeAsync(join(dir, filename)))
-	)
+	const data = await Promise.all(filenames.map(filename => ffprobeAsync(join(dir, filename))))
 
-	return data.map((object) => {
+	return data.map(object => {
 		return {
 			filename: object.format.filename?.split('\\').pop(),
 			format: object.format,
@@ -53,11 +51,9 @@ ipcMain.on('save-blob', async (event, { blob, duration, video, audio }) => {
 		.input(stream)
 		.setDuration(duration)
 		.on('start', () => console.log('start'))
-		.on('progress', (progress) => console.log(progress))
+		.on('progress', progress => console.log(progress))
 		.on('end', () => event.sender.send('all-videos-updated'))
-		.on('error', (error) =>
-			console.log('Failed to process video: ' + error)
-		)
+		.on('error', error => console.log('Failed to process video: ' + error))
 
 	if (audio.enabled && video.format !== 'gif')
 		command
@@ -96,4 +92,33 @@ ipcMain.on('save-blob', async (event, { blob, duration, video, audio }) => {
 		.output(join(dir, `lucast-${Date.now()}.${video.format}`))
 
 	command.run()
+})
+
+ipcMain.on('show-video-context', async (event, video) => {
+	const template = [
+		{
+			label: 'Open',
+			click: () => shell.openPath(video.format.filename),
+		},
+		{
+			label: 'Show in folder',
+			click: () => shell.showItemInFolder(video.format.filename),
+		},
+		{
+			label: 'Rename',
+			click: () => console.log('Open'),
+		},
+		{
+			label: 'Delete',
+			click: () => {
+				if (existsSync(video.format.filename))
+					unlink(video.format.filename, () => event.sender.send('all-videos-updated'))
+				else event.sender.send('all-videos-updated')
+			},
+		},
+	]
+
+	Menu.buildFromTemplate(template).popup(
+		BrowserWindow.fromWebContents(event.sender) as Electron.PopupOptions
+	)
 })

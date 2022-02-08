@@ -1,20 +1,17 @@
-import type { PopupOptions } from 'electron'
 import { BrowserWindow, desktopCapturer, ipcMain, Menu } from 'electron'
 
 ipcMain.on('show-input-sources', (event, sources: string) => {
-	const template = JSON.parse(sources).map(
-		(source: Electron.DesktopCapturerSource) => {
-			return {
-				label: source.name,
-				click: () => {
-					event.sender.send('input-source-selected', source)
-				},
-			}
+	const template = JSON.parse(sources).map((source: Electron.DesktopCapturerSource) => {
+		return {
+			label: source.name,
+			click: () => {
+				event.sender.send('input-source-selected', source)
+			},
 		}
-	)
+	})
 
 	Menu.buildFromTemplate(template).popup(
-		BrowserWindow.fromWebContents(event.sender) as PopupOptions
+		BrowserWindow.fromWebContents(event.sender) as Electron.PopupOptions
 	)
 })
 
@@ -23,6 +20,6 @@ ipcMain.handle('get-input-sources', async (event, types: []) => {
 	return sources
 })
 
-ipcMain.on('reset-source', (event) => {
+ipcMain.on('reset-source', event => {
 	event.sender.send('input-source-selected')
 })

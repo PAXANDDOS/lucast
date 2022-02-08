@@ -108,3 +108,31 @@ export const Download = (props: SVGProps<SVGSVGElement>) => (
 		/>
 	</svg>
 )
+
+export const Hide = (props: SVGProps<SVGSVGElement>) => (
+	<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
+		<path
+			d="M10.25 11.75c-6 2-8.5-3.75-8.5-3.75s.5-1.75 3-3.25m4-1c3.5.5 5.5 4.25 5.5 4.25s-.5 1.25-1.5 2.25l-4-6.5Z"
+			fill="none"
+			stroke="#000"
+			strokeWidth={1.5}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
+		<path
+			d="M8.625 9.083a1.25 1.25 0 0 1-1.429-2.041L8 8l.625 1.083Z"
+			fill="#000"
+			stroke="#000"
+			strokeWidth={1.5}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
+		<path
+			d="m3.75 1.75 8.5 12.5"
+			stroke="#000"
+			strokeWidth={1.5}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
+	</svg>
+)

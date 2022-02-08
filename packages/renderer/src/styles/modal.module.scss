@@ -260,6 +260,9 @@
 				&:hover {
 					background: $dark-5;
 				}
+				&:active {
+					background: $dark-3;
+				}
 			}
 			.spinAnimation {
 				@include anim.spin();

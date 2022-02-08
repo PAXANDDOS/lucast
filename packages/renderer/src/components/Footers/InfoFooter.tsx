@@ -4,11 +4,7 @@ import style from '@/styles/modal.module.scss'
 const InfoFooter = () => {
 	return (
 		<div className={style.modalFooter}>
-			<a
-				href="https://github.com/PAXANDDOS"
-				target="_blank"
-				rel="noreferrer"
-			>
+			<a href="https://github.com/PAXANDDOS" target="_blank" rel="noreferrer">
 				<GitHub />
 			</a>
 			<a href="https://t.me/PAXANDDOS" target="_blank" rel="noreferrer">
@@ -16,11 +12,7 @@ const InfoFooter = () => {
 			</a>
 			<span>
 				Copyright © 2022{' '}
-				<a
-					href="https://paxanddos.github.io/"
-					target="_blank"
-					rel="noreferrer"
-				>
+				<a href="https://paxanddos.github.io/" target="_blank" rel="noreferrer">
 					Paul Litovka
 				</a>
 				. All rights reserved.

@@ -1,32 +1,24 @@
-process.env.MODE = 'development'
-
 import { spawn } from 'child_process'
 import electron from 'electron'
-import { createRequire } from 'module'
-import { dirname, join } from 'path'
-import { fileURLToPath } from 'url'
 import { build, createServer } from 'vite'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const require = createRequire(import.meta.url)
-const pkg = require('../package.json')
-
 /**
- * @type {() => Promise<import('rollup').RollupWatcher>}
+ * @type {(server: import('vite').ViteDevServer) => Promise<import('rollup').RollupWatcher>}
  */
-const watchMain = () => {
+const watchMain = server => {
 	/**
 	 * @type {import('child_process').ChildProcessWithoutNullStreams | null}
 	 */
 	let electronProcess = null
+	const address = server.httpServer.address()
+	const env = Object.assign(process.env, {
+		VITE_DEV_SERVER_HOST: address.address,
+		VITE_DEV_SERVER_PORT: address.port,
+	})
 
 	return build({
-		configFile: 'scripts/vite.config.mjs',
-		root: join(__dirname, '../packages/main'),
-		build: {
-			outDir: '../../dist/main',
-			watch: true,
-		},
+		configFile: 'packages/main/vite.config.ts',
+		mode: 'development',
 		plugins: [
 			{
 				name: 'electron-main-watcher',
@@ -34,25 +26,24 @@ const watchMain = () => {
 					electronProcess && electronProcess.kill()
 					electronProcess = spawn(electron, ['.'], {
 						stdio: 'inherit',
-						env: Object.assign(process.env, pkg.env),
+						env,
 					})
 				},
 			},
 		],
+		build: {
+			watch: true,
+		},
 	})
 }
 
 /**
  * @type {(server: import('vite').ViteDevServer) => Promise<import('rollup').RollupWatcher>}
  */
-const watchPreload = (server) =>
-	build({
-		configFile: 'scripts/vite.config.mjs',
-		root: join(__dirname, '../packages/preload'),
-		build: {
-			outDir: '../../dist/preload',
-			watch: true,
-		},
+const watchPreload = server => {
+	return build({
+		configFile: 'packages/preload/vite.config.ts',
+		mode: 'development',
 		plugins: [
 			{
 				name: 'electron-preload-watcher',
@@ -61,7 +52,11 @@ const watchPreload = (server) =>
 				},
 			},
 		],
+		build: {
+			watch: true,
+		},
 	})
+}
 
 const server = await createServer({
 	configFile: 'packages/renderer/vite.config.ts',
@@ -69,4 +64,4 @@ const server = await createServer({
 
 await server.listen()
 await watchPreload(server)
-await watchMain()
+await watchMain(server)

@@ -1,4 +1,4 @@
-import { RecordStart, RecordStop, ShareScreen } from '@/assets/icons/Misc'
+import { Hide, RecordStart, RecordStop, ShareScreen } from '@/assets/icons/Misc'
 import style from '@/styles/recorder.module.scss'
 import type { TBinds, TState } from '@/types/Recorder'
 import store from '@/utils/electron-store'
@@ -6,9 +6,7 @@ import type { DesktopCapturerSource } from 'electron'
 import { useEffect, useRef, useState } from 'react'
 
 const Recorder = () => {
-	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
-		null
-	)
+	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null)
 	const [state, setState] = useState<TState>({
 		label: 'Start recording',
 		source: 'Source',
@@ -23,10 +21,7 @@ const Recorder = () => {
 	const recordedChunks: Blob[] = []
 
 	const getSources = async () => {
-		const sources = await window.ipcRenderer.invoke('get-input-sources', [
-			'screen',
-			'window',
-		])
+		const sources = await window.ipcRenderer.invoke('get-input-sources', ['screen', 'window'])
 		window.ipcRenderer.send('show-input-sources', JSON.stringify(sources))
 	}
 
@@ -51,6 +46,10 @@ const Recorder = () => {
 			startActive: true,
 			stopActive: false,
 		})
+	}
+
+	const hidePreview = () => {
+		return
 	}
 
 	useEffect(() => {
@@ -82,82 +81,72 @@ const Recorder = () => {
 	})
 
 	useEffect(() => {
-		window.ipcRenderer.on(
-			'input-source-selected',
-			async (e, source: DesktopCapturerSource) => {
-				if (!ref.current) return
+		window.ipcRenderer.on('input-source-selected', async (e, source: DesktopCapturerSource) => {
+			if (!ref.current) return
 
-				if (!source) {
-					ref.current.srcObject = null
-					setState({
-						label: 'Start recording',
-						startActive: false,
-						stopActive: false,
-						source: 'Source',
-					})
-					setMediaRecorder(null)
-					return
-				}
-
-				const mediaDevices = navigator.mediaDevices as any
-				const videoSettings = await store.get('preferences.video')
-				const audioSettings = await store.get('preferences.audio')
-				const constraints = {
-					mandatory: {
-						chromeMediaSource: 'desktop',
-						chromeMediaSourceId: source.id,
-					},
-				}
-				const stream = await mediaDevices.getUserMedia({
-					audio: audioSettings.enabled ? constraints : false,
-					video: constraints,
-				})
-
-				ref.current.srcObject = stream
-				ref.current.muted = true
-				ref.current.play()
-
-				const newMediaRecorder = new MediaRecorder(stream, {
-					mimeType: `video/webm; codecs=vp9${
-						audioSettings.enabled ? ', opus' : ''
-					}`,
-					audioBitsPerSecond: audioSettings.bitrate,
-					videoBitsPerSecond: videoSettings.bitrate,
-				})
-				newMediaRecorder.ondataavailable = handleDataAvailable
-				newMediaRecorder.onstop = async () => {
-					const blob = new Blob(recordedChunks, {
-						type: `video/webm; codecs=vp9${
-							audioSettings.enabled && ', opus'
-						}`,
-					})
-					window.ipcRenderer.send('save-blob', {
-						blob: await blob.arrayBuffer(),
-						duration: Date.now() - (await store.get('temp.start')),
-						video: videoSettings,
-						audio: audioSettings,
-					})
-					recordedChunks.length = 0
-				}
-
-				setMediaRecorder(newMediaRecorder)
+			if (!source) {
+				ref.current.srcObject = null
 				setState({
-					...state,
-					startActive: true,
-					source:
-						source.name.length > 13
-							? `${source.name.slice(0, 11)}..`
-							: source.name,
+					label: 'Start recording',
+					startActive: false,
+					stopActive: false,
+					source: 'Source',
 				})
+				setMediaRecorder(null)
+				return
 			}
-		)
+
+			const mediaDevices = navigator.mediaDevices as any
+			const videoSettings = await store.get('preferences.video')
+			const audioSettings = await store.get('preferences.audio')
+			const constraints = {
+				mandatory: {
+					chromeMediaSource: 'desktop',
+					chromeMediaSourceId: source.id,
+				},
+			}
+			const stream = await mediaDevices.getUserMedia({
+				audio: audioSettings.enabled ? constraints : false,
+				video: constraints,
+			})
+
+			ref.current.srcObject = stream
+			ref.current.muted = true
+			ref.current.play()
+
+			const newMediaRecorder = new MediaRecorder(stream, {
+				mimeType: `video/webm; codecs=vp9${audioSettings.enabled ? ', opus' : ''}`,
+				audioBitsPerSecond: audioSettings.bitrate,
+				videoBitsPerSecond: videoSettings.bitrate,
+			})
+			newMediaRecorder.ondataavailable = handleDataAvailable
+			newMediaRecorder.onstop = async () => {
+				const blob = new Blob(recordedChunks, {
+					type: `video/webm; codecs=vp9${audioSettings.enabled && ', opus'}`,
+				})
+				window.ipcRenderer.send('save-blob', {
+					blob: await blob.arrayBuffer(),
+					duration: Date.now() - (await store.get('temp.start')),
+					video: videoSettings,
+					audio: audioSettings,
+				})
+				recordedChunks.length = 0
+			}
+
+			setMediaRecorder(newMediaRecorder)
+			setState({
+				...state,
+				startActive: true,
+				source: source.name.length > 13 ? `${source.name.slice(0, 11)}..` : source.name,
+			})
+		})
 		return () => {
 			window.ipcRenderer.removeAllListeners('input-source-selected')
 		}
 	})
 
 	useEffect(() => {
-		store.get('preferences.bindings').then((binds) =>
+		store.get('preferences.bindings').then(binds =>
 			setBinds({
 				start: binds.start,
 				stop: binds.stop,
@@ -175,6 +164,7 @@ const Recorder = () => {
 					<button
 						className={style.controlBtn}
 						name="start"
+						title="Start recording"
 						disabled={!state.startActive}
 						onClick={handleStart}
 					>
@@ -187,6 +177,7 @@ const Recorder = () => {
 					<button
 						className={style.controlBtn}
 						name="stop"
+						title="Stop recording"
 						disabled={!state.stopActive}
 						onClick={handleStop}
 					>
@@ -199,11 +190,22 @@ const Recorder = () => {
 					<button
 						className={style.controlBtn}
 						name="sources"
+						title="Select source"
 						onClick={getSources}
 					>
 						<div>
 							<ShareScreen />
 							<span>{state.source}</span>
+						</div>
+					</button>
+					<button
+						className={style.controlBtn}
+						name="hide"
+						title="Hide preview"
+						onClick={hidePreview}
+					>
+						<div>
+							<Hide />
 						</div>
 					</button>
 				</div>

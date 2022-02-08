@@ -28,11 +28,7 @@
  * @copyright by Jon Papaioannou john.papaioannou@gmail.com
  * @license This function is in the public domain. Do what you want with it, no strings attached.
  */
-export default (
-	v1: string,
-	v2: string,
-	options?: Options
-): number | typeof NaN => {
+export default (v1: string, v2: string, options?: Options): number | typeof NaN => {
 	const lexicographical = options && options.lexicographical,
 		zeroExtend = options && options.zeroExtend
 	let v1parts = v1.split('.') as any
