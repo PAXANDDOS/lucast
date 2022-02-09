@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 
 const Recorder = () => {
 	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null)
+	const [hasPreview, setHasPreview] = useState<boolean>(false)
 	const [state, setState] = useState<TState>({
 		label: 'Start recording',
 		source: 'Source',
@@ -49,7 +50,9 @@ const Recorder = () => {
 	}
 
 	const hidePreview = () => {
-		return
+		const newValue = !hasPreview
+		setHasPreview(newValue)
+		store.set('preferences.previewEnabled', newValue)
 	}
 
 	useEffect(() => {
@@ -152,12 +155,19 @@ const Recorder = () => {
 				stop: binds.stop,
 			})
 		)
+		store.get('preferences.previewEnabled').then(value => setHasPreview(value))
 	}, [])
 
 	return (
 		<div className={style.recordBlock}>
 			<div className={style.videoBox}>
-				<video ref={ref} />
+				{hasPreview ? (
+					<video ref={ref} />
+				) : (
+					<span style={{ color: '#aaaaaa', cursor: 'default' }}>
+						Screen preview disabled
+					</span>
+				)}
 			</div>
 			<div className={style.controlBox}>
 				<div className={style.controlGroup}>

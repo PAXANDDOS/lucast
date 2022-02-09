@@ -6,6 +6,7 @@
 	"description": "Lucast is a free screen-recording application for Windows, macOS, and Linux build with Electron and React.",
 	"author": "Paul Litovka <pashalitovka@gmail.com>",
 	"license": "MIT",
+	"packageManager": "yarn@3.1.1",
 	"main": "dist/main/index.cjs",
 	"keywords": [
 		"screencast",

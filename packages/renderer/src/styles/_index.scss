@@ -57,17 +57,3 @@ $transition-default: 0.1s cubic-bezier(1, 0.3, 0.51, 0.6);
 	}
 	transition-property: background, border, fill, transform, box-shadow, stroke;
 }
-
-@mixin input-dark-border($top, $right, $bottom, $left) {
-	border: 0 solid $dark-5;
-	border-width: $top $right $bottom $left;
-	height: 40px;
-	padding: 6px;
-	font-size: 16px;
-	background: transparent;
-	transition: 160ms cubic-bezier(1, 0.3, 0.51, 0.6);
-	transition-property: background, border, fill, transform, box-shadow, stroke;
-	&:focus {
-		border-color: $dark-6;
-	}
-}

@@ -105,6 +105,7 @@ const store = new Store({
 					start: 'Alt+1',
 					stop: 'Alt+2',
 				},
+				previewEnabled: true,
 			},
 		},
 		update: {
