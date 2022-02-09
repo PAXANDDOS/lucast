@@ -50,9 +50,17 @@ ipcMain.on('save-blob', async (event, { blob, duration, video, audio }) => {
 	const command = ffmpeg()
 		.input(stream)
 		.setDuration(duration)
-		.on('start', () => console.log('start'))
-		.on('progress', progress => console.log(progress))
-		.on('end', () => event.sender.send('all-videos-updated'))
+		.on('start', () => event.sender.send('video-process-started'))
+		.on('progress', progress => {
+			const b = progress.timemark.split('.')
+			const a = b[0].split(':')
+			const ms = +a[0] * 120 + +a[1] * 60 + +a[2] * 1000 + +b[1]
+			event.sender.send('video-process-progress', ((100 * ms) / duration).toFixed())
+		})
+		.on('end', () => {
+			event.sender.send('video-process-ended')
+			event.sender.send('all-videos-updated')
+		})
 		.on('error', error => console.log('Failed to process video: ' + error))
 
 	if (audio.enabled && video.format !== 'gif')
