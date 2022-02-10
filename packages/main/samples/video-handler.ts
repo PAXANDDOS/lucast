@@ -113,10 +113,6 @@ ipcMain.on('show-video-context', async (event, video) => {
 			click: () => shell.showItemInFolder(video.format.filename),
 		},
 		{
-			label: 'Rename',
-			click: () => console.log('Open'),
-		},
-		{
 			label: 'Delete',
 			click: () => {
 				if (existsSync(video.format.filename))

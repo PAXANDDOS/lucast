@@ -166,6 +166,9 @@
 							&:focus {
 								border-color: lighten($dark-1, 5%);
 							}
+							&[type='range'] {
+								padding: 0;
+							}
 						}
 						span {
 							color: $dark-8;

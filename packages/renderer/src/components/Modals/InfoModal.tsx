@@ -45,6 +45,52 @@ const InfoModal = ({ onClose }: ICModalProps) => {
 					</h4>
 					<ul className={style.infoModalContentList}>
 						<li>
+							<b>Toast messages!</b> Until today it was impossible to tell when your
+							recorded video will be ready. This beautiful toast message will show you
+							progress on your recorded video.
+						</li>
+						<li>
+							<b>Preview control.</b> There is one more button on your control panel
+							at the bottom. The new &quot;Hide Preview&quot; button will hide the
+							stream of your screen if you don&apos;t need it. Also, this might help
+							users on low-end systems.
+						</li>
+						<li>
+							<b>Context menu for videos.</b> Besides clicking on the video to open
+							it, you can perform a right-click to open the context menu. Here you can
+							open the video, show it in your folder, or just delete it.
+							#FeatureRequest
+						</li>
+					</ul>
+					<h4 className={style.infoModalContentLabel} data-color="green">
+						<span>FIXES & IMPROVEMENTS</span>
+					</h4>
+					<ul className={style.infoModalContentList}>
+						<li>
+							<b>Fixed title bar on macOS.</b> macOS had the same title bar as windows
+							but also its traffic lights. This update fixes this issue to only have
+							traffic lights and the Lucast at the center.
+						</li>
+						<li>
+							<b>Better spin animation.</b> Spin animation, which is used in toast
+							loading icons and update icons, has been improved to spin with the same
+							speed linearly.
+						</li>
+						<li>
+							<b>New package manager.</b>
+						</li>
+						<li>
+							<b>Updated build tool.</b>
+						</li>
+						<li>
+							<b>Minor fixes.</b>
+						</li>
+					</ul>
+					<h4 className={style.infoModalContentLabel} data-color="yellow">
+						<span>FEATURE LOG: v2.0.0</span>
+					</h4>
+					<ul className={style.infoModalContentList}>
+						<li>
 							<b>Featuring FFmpeg and FFprobe!</b> It&apos;s a huge change for the
 							quality of recorded videos and configuration! FFmpeg helps to handle
 							video, audio, and other multimedia files and streams. What does it mean
@@ -70,29 +116,6 @@ const InfoModal = ({ onClose }: ICModalProps) => {
 							and &quot;settings&quot; buttons are there, as well as the new
 							information about your disk usage, so you can keep track of how many
 							videos you can record until your disk drive is full.
-						</li>
-					</ul>
-					<h4 className={style.infoModalContentLabel} data-color="green">
-						<span>FIXES & OPTIMIZATION</span>
-					</h4>
-					<ul className={style.infoModalContentList}>
-						<li>
-							<b>Updated framework.</b> The core framework was updated to the latest
-							stable version, which brings an updated browser, platform, and engine.
-							Includes different fixes, performance, and security improvements.
-						</li>
-						<li>
-							<b>Restructured source code.</b> More readable and simple, containing
-							new importing choices and fixes.
-						</li>
-						<li>
-							<b>Fixed application name in notifications.</b>
-						</li>
-						<li>
-							<b>Simplified and optimized types.</b>
-						</li>
-						<li>
-							<b>Other fixes and improvements.</b>
 						</li>
 					</ul>
 					<h4 className={style.infoModalContentLabel} data-color="yellow">
