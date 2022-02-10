@@ -22,10 +22,7 @@ const store = {
 }
 
 ;(async () => {
-	console.log(
-		'Config path: ',
-		await window.ipcRenderer.invoke('electron-store', 'path')
-	)
+	console.log('Config path: ', await window.ipcRenderer.invoke('electron-store', 'path'))
 })()
 
 export default store

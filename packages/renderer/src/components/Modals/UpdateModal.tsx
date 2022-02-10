@@ -19,10 +19,7 @@ const UpdateModal = () => {
 	useEffect(() => {
 		const init = async () => {
 			const url = await store.get('update.path')
-			const directory = await window.ipcRenderer.invoke(
-				'get-app-path',
-				'temp'
-			)
+			const directory = await window.ipcRenderer.invoke('get-app-path', 'temp')
 			window.ipcRenderer.send('download-file', {
 				url,
 				properties: { directory },
@@ -32,9 +29,7 @@ const UpdateModal = () => {
 			setProgress({
 				current: `${Math.floor(status.percent * 100)}%`,
 				bytes: formatBytes(status.transferredBytes),
-				total: progress?.total
-					? progress?.total
-					: formatBytes(status.totalBytes),
+				total: progress?.total ? progress?.total : formatBytes(status.totalBytes),
 			})
 		})
 		window.ipcRenderer.on('download-completed', (event, status) => {
@@ -70,12 +65,9 @@ const UpdateModal = () => {
 						</div>
 						<div className={style.updateDataBox}>
 							<h1>{progress?.current}</h1>
-							<ProgressBar
-								current={progress?.current.slice(0, -1)}
-							/>
+							<ProgressBar current={progress?.current.slice(0, -1)} />
 							<span>
-								Downloaded {progress?.bytes} of{' '}
-								{progress?.total}
+								Downloaded {progress?.bytes} of {progress?.total}
 							</span>
 						</div>
 					</div>

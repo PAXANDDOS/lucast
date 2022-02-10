@@ -9,15 +9,11 @@ const VideoList = () => {
 
 	useEffect(() => {
 		const getVideos = () => {
-			window.ipcRenderer
-				.invoke('get-all-videos')
-				.then((res) => setVideos(res))
+			window.ipcRenderer.invoke('get-all-videos').then(res => setVideos(res))
 		}
 		getVideos()
 		window.ipcRenderer.on('all-videos-updated', getVideos)
-		window.ipcRenderer
-			.invoke('get-videos-path')
-			.then((res) => setVideosPath(res))
+		window.ipcRenderer.invoke('get-videos-path').then(res => setVideosPath(res))
 	}, [])
 
 	const openFolder = () => window.ipcRenderer.send('open-videos-folder')
@@ -30,7 +26,7 @@ const VideoList = () => {
 				<small onClick={openFolder}>{videosPath}</small>
 			</h3>
 			<div className={style.listContent}>
-				{videos?.map((video) => (
+				{videos?.map(video => (
 					<VideoObject key={video.filename} video={video} />
 				))}
 			</div>

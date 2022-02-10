@@ -54,10 +54,7 @@ const SettingsModal = ({ onClose }: ICModalProps) => {
 
 		if (e.ctrlKey) trusted = 'CmdOrCtrl'
 		else if (e.altKey) trusted = 'Alt'
-		else
-			return setWarning(
-				'Key combination should start with Control or Alt!'
-			)
+		else return setWarning('Key combination should start with Control or Alt!')
 
 		switch (e.key) {
 			case 'Alt':
@@ -163,20 +160,12 @@ const SettingsModal = ({ onClose }: ICModalProps) => {
 	}
 
 	return (
-		<Modal
-			title="Settings"
-			isOpen={true}
-			onClose={onClose}
-			Footer={<Footer />}
-		>
+		<Modal title="Settings" isOpen={true} onClose={onClose} Footer={<Footer />}>
 			<div className={style.settingsModal}>
 				<div className={style.settingsBox}>
 					<h2 className={style.settingsTitle}>Video</h2>
 					<div className={style.settingsObject}>
-						<select
-							value={videoSettings?.format}
-							onChange={handleVideoFormatChange}
-						>
+						<select value={videoSettings?.format} onChange={handleVideoFormatChange}>
 							<option value="mp4">MP4</option>
 							<option value="avi">AVI</option>
 							<option value="mov">MOV</option>
@@ -187,10 +176,7 @@ const SettingsModal = ({ onClose }: ICModalProps) => {
 						<span>Video format</span>
 					</div>
 					<div className={style.settingsObject}>
-						<select
-							value={videoSettings?.quality}
-							onChange={handleVideoQualityChange}
-						>
+						<select value={videoSettings?.quality} onChange={handleVideoQualityChange}>
 							<option value={0}>Native</option>
 							<option value={2160}>2160p</option>
 							<option value={1440}>1440p</option>
@@ -202,10 +188,7 @@ const SettingsModal = ({ onClose }: ICModalProps) => {
 						<span>Video quality</span>
 					</div>
 					<div className={style.settingsObject}>
-						<select
-							value={videoSettings?.bitrate}
-							onChange={handleVideoBitrateChange}
-						>
+						<select value={videoSettings?.bitrate} onChange={handleVideoBitrateChange}>
 							<option value={41943040}>40Mbps</option>
 							<option value={16777216}>16Mbps</option>
 							<option value={8388608}>8Mbps</option>
@@ -216,10 +199,7 @@ const SettingsModal = ({ onClose }: ICModalProps) => {
 						<span>Video bitrate</span>
 					</div>
 					<div className={style.settingsObject}>
-						<select
-							value={videoSettings?.fps}
-							onChange={handleVideoFrameChange}
-						>
+						<select value={videoSettings?.fps} onChange={handleVideoFrameChange}>
 							<option value={60}>60FPS</option>
 							<option value={30}>30FPS</option>
 							<option value={24}>24FPS</option>
@@ -239,10 +219,7 @@ const SettingsModal = ({ onClose }: ICModalProps) => {
 						<span>Enable audio</span>
 					</div>
 					<div className={style.settingsObject}>
-						<select
-							value={audioSettings.bitrate}
-							onChange={handleAudioBitrateChange}
-						>
+						<select value={audioSettings.bitrate} onChange={handleAudioBitrateChange}>
 							<option value={128000}>128Kbps</option>
 							<option value={64000}>64Kbps</option>
 						</select>
@@ -256,16 +233,12 @@ const SettingsModal = ({ onClose }: ICModalProps) => {
 							value={Math.round(audioSettings.volume * 100)}
 							onChange={handleAudioVolumeChange}
 						/>
-						<span>
-							Volume: {Math.round(audioSettings.volume * 100)}
-						</span>
+						<span>Volume: {Math.round(audioSettings.volume * 100)}</span>
 					</div>
 				</div>
 				<div className={style.settingsBox}>
 					<h2 className={style.settingsTitle}>Key bindings</h2>
-					{warning && (
-						<span className={style.settingsWarning}>{warning}</span>
-					)}
+					{warning && <span className={style.settingsWarning}>{warning}</span>}
 					<div className={style.settingsObject}>
 						<input
 							onChange={() => null}

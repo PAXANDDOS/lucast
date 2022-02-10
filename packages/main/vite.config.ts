@@ -1,18 +1,17 @@
-import { builtinModules, createRequire } from 'module'
+import { builtinModules } from 'module'
 import { defineConfig } from 'vite'
-
-const require = createRequire(import.meta.url)
-const pkg = require('../package.json')
+import pkg from '../../package.json'
 
 export default defineConfig({
-	mode: process.env.MODE,
+	root: __dirname,
 	build: {
+		outDir: '../../dist/main',
 		lib: {
 			entry: 'index.ts',
 			formats: ['cjs'],
 			fileName: () => '[name].cjs',
 		},
-		minify: process.env.MODE === 'production',
+		minify: process.env.NODE_ENV === 'production',
 		emptyOutDir: true,
 		rollupOptions: {
 			external: [

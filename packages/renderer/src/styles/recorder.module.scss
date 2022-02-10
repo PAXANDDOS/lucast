@@ -12,9 +12,10 @@
 		@include grid-center;
 		width: 100%;
 		height: calc(100% - 64px);
+		padding: 20px;
 		video {
-			width: 80%;
-			height: 80%;
+			width: 100%;
+			height: 100%;
 			border: 2px solid $dark-3;
 			border-radius: 6px;
 		}
@@ -47,7 +48,9 @@
 					svg {
 						height: 80%;
 						fill: $dark-8;
-						stroke: $dark-8;
+						path {
+							stroke: $dark-8;
+						}
 					}
 					span {
 						color: $dark-8;
@@ -69,6 +72,9 @@
 					&:hover {
 						background: lighten($brand-blue, 5%);
 					}
+					&:active {
+						background: $brand-blue;
+					}
 				}
 				&[name='stop'] {
 					background: $danger-red;
@@ -76,7 +82,10 @@
 						background: darken($danger-red, 5%);
 					}
 					&:hover {
-						background: lighten($danger-red, 5%);
+						background: darken($danger-red, 5%);
+					}
+					&:active {
+						background: $danger-red;
 					}
 				}
 				&:disabled {
@@ -85,6 +94,9 @@
 				}
 				&:hover {
 					background: lighten($dark-3, 5%);
+				}
+				&:active {
+					background: $dark-3;
 				}
 				.controlBtnHint {
 					color: $dark-5;

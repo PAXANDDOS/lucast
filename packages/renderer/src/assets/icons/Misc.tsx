@@ -54,30 +54,9 @@ export const Settings = (props: SVGProps<SVGSVGElement>) => (
 			strokeWidth={2}
 			strokeLinecap="round"
 		/>
-		<circle
-			cx={19}
-			cy={9}
-			r={2}
-			fill="none"
-			strokeWidth={2}
-			strokeLinecap="round"
-		/>
-		<circle
-			cx={12}
-			cy={17}
-			r={2}
-			fill="none"
-			strokeWidth={2}
-			strokeLinecap="round"
-		/>
-		<circle
-			cx={5}
-			cy={7}
-			r={2}
-			fill="none"
-			strokeWidth={2}
-			strokeLinecap="round"
-		/>
+		<circle cx={19} cy={9} r={2} fill="none" strokeWidth={2} strokeLinecap="round" />
+		<circle cx={12} cy={17} r={2} fill="none" strokeWidth={2} strokeLinecap="round" />
+		<circle cx={5} cy={7} r={2} fill="none" strokeWidth={2} strokeLinecap="round" />
 	</svg>
 )
 
@@ -94,17 +73,53 @@ export const Update = (props: SVGProps<SVGSVGElement>) => (
 )
 
 export const Download = (props: SVGProps<SVGSVGElement>) => (
-	<svg
-		viewBox="0 0 24 24"
-		fill="none"
-		xmlns="http://www.w3.org/2000/svg"
-		{...props}
-	>
+	<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path
 			d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
 		/>
+	</svg>
+)
+
+export const Hide = (props: SVGProps<SVGSVGElement>) => (
+	<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
+		<path
+			d="M10.25 11.75c-6 2-8.5-3.75-8.5-3.75s.5-1.75 3-3.25m4-1c3.5.5 5.5 4.25 5.5 4.25s-.5 1.25-1.5 2.25l-4-6.5Z"
+			fill="none"
+			stroke="#000"
+			strokeWidth={1.5}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
+		<path
+			d="M8.625 9.083a1.25 1.25 0 0 1-1.429-2.041L8 8l.625 1.083Z"
+			fill="#000"
+			stroke="#000"
+			strokeWidth={1.5}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
+		<path
+			d="m3.75 1.75 8.5 12.5"
+			stroke="#000"
+			strokeWidth={1.5}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
+	</svg>
+)
+
+export const Loading = (props: SVGProps<SVGSVGElement>) => (
+	<svg
+		id="eBqQnd2oCwH1"
+		xmlns="http://www.w3.org/2000/svg"
+		viewBox="0 0 1024 1024"
+		shapeRendering="geometricPrecision"
+		textRendering="geometricPrecision"
+		{...props}
+	>
+		<path d="M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.446 440.446 0 0 0-94.3-139.9 437.729 437.729 0 0 0-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150s83.9 101.8 109.7 162.7c26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36Z" />
 	</svg>
 )

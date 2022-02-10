@@ -1,0 +1,59 @@
+@use './index' as *;
+@use './animations' as anim;
+
+.toastContainer {
+	width: 100vw;
+	height: calc(100vh - 30px);
+	position: fixed;
+	bottom: 0;
+	z-index: 3;
+	pointer-events: none;
+	.toast {
+		@include flex-center;
+		flex-direction: column;
+		@include anim.pop-up(0.16s);
+		width: 320px;
+		min-height: 40px;
+		background: darken($brand-blue, 3%);
+		border-radius: 7px;
+		box-shadow: $shadow-darken;
+		margin: 0 20px 20px 0;
+		padding: 6px 10px;
+		bottom: 0;
+		right: 0;
+		position: absolute;
+		pointer-events: all;
+		.toastElement {
+			@include flex-row;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+			height: 40px;
+			margin-top: 10px;
+			&:first-child {
+				margin-top: 0;
+			}
+			div {
+				@include flex-row;
+				width: fit-content;
+				align-items: center;
+				height: 100%;
+			}
+			svg {
+				@include anim.spin(0.35s);
+				height: 50%;
+				fill: $dark-8;
+				path {
+					stroke: $dark-8;
+				}
+				margin-right: 14px;
+			}
+			span {
+				color: $dark-8;
+			}
+		}
+	}
+	.popDownAnimation {
+		@include anim.pop-down(0.16s);
+	}
+}

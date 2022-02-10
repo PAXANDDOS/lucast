@@ -79,6 +79,9 @@
 					&:hover {
 						background: $dark-2;
 					}
+					&:active {
+						background: initial;
+					}
 				}
 			}
 		}
@@ -91,6 +94,7 @@
 		align-items: center;
 		background: darken($dark-2, 2%);
 		padding: 0 10px;
+		cursor: default;
 		span {
 			font-size: 14px;
 			color: $dark-6;
@@ -116,8 +120,10 @@
 					margin-left: 0;
 				}
 				&:hover {
-					background: lighten($dark-3, 5%);
 					background: $dark-3;
+				}
+				&:active {
+					background: lighten($dark-3, 5%);
 				}
 			}
 		}

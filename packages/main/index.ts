@@ -8,7 +8,7 @@ import './samples/notification'
 import './samples/sys-info'
 import './samples/video-handler'
 
-const isDev = import.meta.env.MODE === 'development'
+const isDev = import.meta.env.NODE_ENV === 'development'
 
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
 if (process.platform === 'win32') app.setAppUserModelId(app.getName())
@@ -45,20 +45,14 @@ const createWindow = async () => {
 		isDev && win?.webContents.openDevTools()
 	})
 
-	if (app.isPackaged) {
-		win.loadFile(join(__dirname, '../renderer/index.html'))
-	} else {
-		const pkg = await import('../../package.json')
-		const url = `http://${pkg.env.HOST || '127.0.0.1'}:${pkg.env.PORT}`
-
-		win.loadURL(url)
-	}
+	if (app.isPackaged) win.loadFile(join(__dirname, '../renderer/index.html'))
+	else
+		win.loadURL(
+			`http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
+		)
 
 	win.webContents.on('did-finish-load', () => {
-		win?.webContents.send(
-			'main-process-message',
-			new Date().toLocaleString()
-		)
+		win?.webContents.send('main-process-message', new Date().toLocaleString())
 	})
 
 	win.webContents.setWindowOpenHandler(({ url }) => {
@@ -111,6 +105,7 @@ const store = new Store({
 					start: 'Alt+1',
 					stop: 'Alt+2',
 				},
+				previewEnabled: true,
 			},
 		},
 		update: {
@@ -122,15 +117,10 @@ const store = new Store({
 	},
 })
 
-ipcMain.handle(
-	'electron-store',
-	async (_evnet, methodSign: string, ...args: any[]) => {
-		if (typeof (store as any)[methodSign] === 'function') {
-			return (store as any)[methodSign](...args)
-		}
-		return (store as any)[methodSign]
-	}
-)
+ipcMain.handle('electron-store', async (_evnet, methodSign: string, ...args: any[]) => {
+	if (typeof (store as any)[methodSign] === 'function') return (store as any)[methodSign](...args)
+	return (store as any)[methodSign]
+})
 
 // Registering shortcuts and starting
 //
@@ -151,9 +141,7 @@ app.whenReady()
 
 ipcMain.on('app-minimize', () => win?.minimize())
 
-ipcMain.on('app-maximize', () =>
-	win?.isMaximized() ? win.restore() : win?.maximize()
-)
+ipcMain.on('app-maximize', () => (win?.isMaximized() ? win.restore() : win?.maximize()))
 
 ipcMain.on('app-close', () => {
 	win?.close()

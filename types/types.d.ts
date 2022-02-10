@@ -1,7 +1,7 @@
 declare namespace NodeJS {
 	interface ProcessEnv {
-		MODE: 'development' | 'production'
-		readonly HOST: string
-		readonly PORT: number
+		NODE_ENV: 'development' | 'production'
+		readonly VITE_DEV_SERVER_HOST: string
+		readonly VITE_DEV_SERVER_PORT: string
 	}
 }

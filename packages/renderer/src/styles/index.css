@@ -62,7 +62,7 @@ a {
 body {
 	background-color: rgb(250, 249, 250);
 	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow-y: hidden;
 	scroll-behavior: smooth;
 }
 ::-webkit-scrollbar {
