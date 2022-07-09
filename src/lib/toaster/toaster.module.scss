@@ -1,0 +1,49 @@
+.toastContainer {
+    @include unselectable;
+    @include flex-column;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;
+    padding: 20px;
+
+    .toast {
+        @include flex-row;
+        align-items: center;
+        @include pop-up(0.16s);
+        width: 320px;
+        min-height: 50px;
+        background: $white-2;
+        border: $border-thin-darker;
+        border-radius: $radius-large-auto;
+        box-shadow: $shadow-darken;
+        padding: 6px 10px;
+        pointer-events: all;
+        position: absolute;
+        font-size: $fs-s;
+        font-weight: 500;
+
+        svg {
+            width: 24px;
+            fill: $brand-blue;
+            path {
+                stroke: $brand-blue;
+            }
+            margin-right: 14px;
+        }
+        span {
+            width: calc(100% - 24px);
+            color: $dark-2;
+        }
+        .spinAnimation {
+            @include spin(350ms);
+        }
+    }
+    .popDownAnimation {
+        @include pop-down(160ms);
+    }
+}

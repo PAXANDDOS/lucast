@@ -1,0 +1,83 @@
+*,
+*::before,
+*::after {
+    font-family: 'Proxima Nova', Roboto, Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, monospace;
+}
+
+button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+button,
+input,
+select,
+textarea {
+    outline: none;
+    border: none;
+    color: #d5d5d5;
+}
+button:enabled,
+input:enabled,
+select:enabled,
+textarea:enabled {
+    outline: none;
+    border: none;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+img {
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+a {
+    text-decoration: none;
+    color: #d4d4d4;
+}
+
+body {
+    background-color: rgb(250, 249, 250);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+    width: 0;
+}
+::selection {
+    background: #6775ee;
+    color: rgb(250, 249, 250);
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: #d5d5d5;
+}
+
+p {
+    color: #d4d4d4;
+}

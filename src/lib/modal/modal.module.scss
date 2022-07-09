@@ -1,0 +1,278 @@
+.modalContainer {
+    @include flex-center;
+    @include anim.fade-in(0.16s);
+    width: 100vw;
+    height: calc(100vh - 30px);
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    .modalOverlay {
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        background: black;
+        opacity: 0.7;
+        position: absolute;
+    }
+    .modalContent {
+        @include flex-column;
+        @include anim.pop-in(0.16s);
+        width: 460px;
+        height: 560px;
+        max-height: calc(100vh - 40px);
+        background: $dark-3;
+        border-radius: 6px;
+        z-index: 3;
+        box-shadow: $shadow-darken;
+        overflow: hidden;
+        margin: 40px 0;
+        .modalHeader {
+            @include flex-row;
+            @include unselectable;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 20px;
+            margin: 18px 0 24px 0;
+            padding: 0 14px;
+            .modalTitle {
+                font-weight: 700;
+                font-size: 22px;
+            }
+            .modalCloseBtn {
+                height: 100%;
+                svg {
+                    @include flex-center;
+                    width: 20px;
+                    fill: $svg;
+                    opacity: 0.6;
+                    transition: opacity 0.1s cubic-bezier(1, 0.3, 0.51, 0.6);
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+        .modalBody {
+            width: 100%;
+            height: calc(100% - 20px);
+            overflow-y: scroll;
+            .infoModal {
+                @include flex-column;
+                width: 100%;
+                height: 100%;
+                padding: 0 14px;
+                .infoModalPreview {
+                    width: 100%;
+                    min-height: 216px;
+                    border-radius: 6px;
+                    overflow: hidden;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .infoModalContent {
+                    @include flex-column;
+                    width: 100%;
+                    height: fit-content;
+                    margin: 20px 0;
+                    .infoModalContentText {
+                        font-size: initial;
+                    }
+                    .infoModalContentLabel {
+                        width: 100%;
+                        font-size: large;
+                        text-align: start;
+                        line-height: 0.1em;
+                        margin: 20px 0 14px 0;
+                        span {
+                            padding: 0 10px 0 0;
+                            background: $dark-3;
+                        }
+                        &[data-color='pink'] {
+                            border-bottom: 1px solid $brand-pink;
+                            span {
+                                color: $brand-pink;
+                            }
+                        }
+                        &[data-color='green'] {
+                            border-bottom: 1px solid $brand-green;
+                            span {
+                                color: $brand-green;
+                            }
+                        }
+                        &[data-color='yellow'] {
+                            border-bottom: 1px solid $brand-yellow;
+                            span {
+                                color: $brand-yellow;
+                            }
+                        }
+                    }
+                    .infoModalContentList {
+                        color: $dark-8;
+                        padding-left: 20px;
+                        padding-right: 10px;
+                        font-weight: 300;
+                        li {
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+            }
+            .settingsModal {
+                @include flex-column;
+                width: 100%;
+                padding: 0 14px;
+                .settingsBox {
+                    width: 100%;
+                    height: fit-content;
+                    margin-top: 14px;
+                    &:first-child {
+                        margin: 0;
+                    }
+                    .settingsTitle {
+                        font-size: 18px;
+                    }
+                    .settingsWarning {
+                        font-size: 14px;
+                        font-weight: 600;
+                        padding-left: 10px;
+                        color: rgb(230, 41, 41);
+                    }
+                    .settingsObject {
+                        @include flex-row;
+                        align-items: center;
+                        height: 32px;
+                        margin: 16px 0;
+                        padding-left: 10px;
+                        input,
+                        select {
+                            margin-right: 12px;
+                            width: 40%;
+                            padding: 8px;
+                            background: $dark-2;
+                            border: 2px solid $dark-1;
+                            border-radius: 4px;
+                            font-size: 14px;
+                            cursor: pointer;
+                            @include transition;
+                            &:hover {
+                                background: lighten($dark-2, 2%);
+                            }
+                            &:focus {
+                                border-color: lighten($dark-1, 5%);
+                            }
+                            &[type='range'] {
+                                padding: 0;
+                            }
+                        }
+                        span {
+                            color: $dark-8;
+                            cursor: default;
+                        }
+                    }
+                }
+            }
+            .updateModal {
+                @include flex-center;
+                flex-direction: column;
+                padding: 30px;
+                width: 100%;
+                height: 100%;
+                cursor: default;
+                .updateLogoBox {
+                    width: 200px;
+                    height: 200px;
+                    @include anim.spin;
+                }
+                .updateDataBox {
+                    @include flex-column;
+                    margin-top: 50px;
+                    align-items: center;
+                    width: 100%;
+                    h1 {
+                        font-size: 36px;
+                    }
+                    span {
+                        color: $dark-7;
+                    }
+                }
+            }
+        }
+        .modalFooter {
+            @include flex-row;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            padding: 8px 14px;
+            background: $dark-2;
+            a {
+                @include grid-center;
+                width: fit-content;
+                height: 100%;
+                margin-right: 10px;
+                cursor: pointer;
+                svg {
+                    fill: $svg;
+                    width: 20px;
+                    &:hover {
+                        fill: lighten($svg, 8%);
+                    }
+                }
+            }
+            span {
+                color: $dark-6;
+                font-size: 13px;
+                margin-left: 6px;
+                a {
+                    display: initial;
+                    margin: 0;
+                }
+            }
+        }
+        .modalFooterSettings {
+            @extend .modalFooter;
+            justify-content: space-between;
+            .checkForUpdatesBtn {
+                @include flex-center;
+                background: $dark-4;
+                padding: 6px;
+                border-radius: 6px;
+                box-shadow: $shadow-lighten;
+                div {
+                    width: 20px;
+                    height: 20px;
+                    svg {
+                        width: 20px;
+                        fill: $dark-7;
+                        stroke: $dark-7;
+                        &[name='nofill'] {
+                            fill: none;
+                        }
+                    }
+                }
+                span {
+                    color: $dark-7;
+                }
+                @include transition;
+                &:hover {
+                    background: $dark-5;
+                }
+                &:active {
+                    background: $dark-3;
+                }
+            }
+            .spinAnimation {
+                @include anim.spin();
+            }
+        }
+    }
+    .popOutAnimation {
+        @include anim.pop-out(0.16s);
+    }
+}
+.fadeOutAnimation {
+    @include anim.fade-out(0.16s);
+}

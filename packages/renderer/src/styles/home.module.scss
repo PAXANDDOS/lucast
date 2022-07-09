@@ -1,9 +1,0 @@
-@use './index' as *;
-
-.homePage {
-	@include flex-row;
-	width: 100vw;
-	height: calc(100vh - 30px);
-	background: $dark-1;
-	overflow: hidden;
-}

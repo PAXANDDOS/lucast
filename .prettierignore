@@ -1,0 +1,7 @@
+/.git/
+/node_modules/
+/public/
+/dist/
+/.vscode/
+/release/
+/electron/resources/
