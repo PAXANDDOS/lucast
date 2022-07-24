@@ -1,10 +1,11 @@
-import { useModal } from '#/lib/modal/ModalProvider'
-import { formatBytes } from '#/utils/format-bytes'
+import { formatBytes } from '#/lib/formatBytes'
+import { useModal } from '#/modules/Modal/ModalProvider'
 
 import { Info, Settings } from 'icons/Misc'
 import style from 'styles/menu.module.scss'
 
 const diskRawInfo = window.api.invokeSync('get-disk-info')
+
 const diskInfo = {
     free: formatBytes(diskRawInfo.free),
     size: formatBytes(diskRawInfo.size),

@@ -4,9 +4,9 @@ import { Download, Update } from 'icons/Misc'
 import style from 'styles/modal.module.scss'
 import { UpdateModal } from '../Modals/UpdateModal'
 
-import store from '#/utils/electron-store'
-import { sleep } from '#/utils/sleep'
-import { cmpVersions } from '#/utils/version-cmp'
+import { compareVersions } from '#/lib/compareVersions'
+import { sleep } from '#/lib/sleep'
+import store from '#/lib/store'
 
 const osInfo = window.api.invokeSync('get-os-info') as OSInfo
 const appInfo = window.api.invokeSync('get-app-info') as AppInfo
@@ -32,7 +32,7 @@ export const UpdateFooter: React.FC = () => {
         release.tag_name = release.tag_name.substring(1)
         await sleep(2000)
 
-        switch (cmpVersions(release.tag_name, appInfo.version)) {
+        switch (compareVersions(release.tag_name, appInfo.version)) {
             case 1:
                 break
             case 0:

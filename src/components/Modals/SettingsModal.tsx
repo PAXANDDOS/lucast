@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { Modal } from '#/lib/modal/Modal'
-import store from '#/utils/electron-store'
+import store from '#/lib/store'
+import { Modal } from '#/modules/Modal/Modal'
 
 import { UpdateFooter } from '@/Footers/UpdateFooter'
 import style from 'styles/modal.module.scss'

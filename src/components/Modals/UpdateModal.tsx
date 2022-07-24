@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-import store from '#/utils/electron-store'
-import { formatBytes } from '#/utils/format-bytes'
+import { formatBytes } from '#/lib/formatBytes'
+import store from '#/lib/store'
 
 import { ProgressBar } from '@/ProgressBar'
 import { Logo } from 'icons/Brand'

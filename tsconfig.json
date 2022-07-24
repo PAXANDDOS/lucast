@@ -23,7 +23,7 @@
         "sourceMap": true,
         "strict": true,
         "target": "ESNext",
-        "typeRoots": ["./node_modules/@types"],
+        "typeRoots": ["./node_modules/@types", "./src/assets/@types"],
         "types": ["node"],
         "useDefineForClassFields": true
     },

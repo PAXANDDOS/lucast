@@ -80,8 +80,10 @@ const { appendLoading, removeLoading } = withLoading()
 domReady().then(appendLoading)
 
 window.onmessage = e => {
-    e.data.payload === 'removeLoading' && removeLoading()
+    e.data.payload === 'ready' && removeLoading()
 }
+
+setTimeout(removeLoading, 3000)
 
 contextBridge.exposeInMainWorld('api', {
     send: ipcRenderer.send,
@@ -90,5 +92,3 @@ contextBridge.exposeInMainWorld('api', {
     invokeSync: ipcRenderer.sendSync,
     removeAll: ipcRenderer.removeAllListeners,
 })
-
-setTimeout(removeLoading, 4999)

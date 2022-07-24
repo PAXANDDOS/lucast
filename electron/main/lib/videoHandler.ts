@@ -39,10 +39,11 @@ ipcMain.handle('get-all-videos', async () => {
     })
 })
 
-ipcMain.addListener('get-videos-path', () => dir)
+ipcMain.addListener('get-disk-info', async event => (event.returnValue = await checkDiskSpace(dir)))
+ipcMain.addListener('get-videos-path', event => (event.returnValue = dir))
+
 ipcMain.on('open-videos-folder', () => shell.openPath(dir))
 ipcMain.on('open-video', (_event, path) => shell.openPath(path))
-ipcMain.addListener('get-disk-info', () => checkDiskSpace(dir))
 
 ipcMain.on('save-blob', async (event, { blob, duration, video, audio }) => {
     const stream = Readable.from(Buffer.from(blob))

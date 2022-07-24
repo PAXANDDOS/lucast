@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import type { Video } from '#/typings/Video'
+import type { Video } from '#/assets/@types/Video'
 import style from 'styles/menu.module.scss'
 import { VideoObject } from './VideoObject'
 
 const videosPath = window.api.invokeSync('get-videos-path')
+console.log(videosPath)
 
 export const VideoList: React.FC = () => {
     const [videos, setVideos] = useState<Video[]>()

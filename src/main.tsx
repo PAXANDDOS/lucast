@@ -1,11 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { ToastProvider } from '#/lib/toaster/Toaster'
+import { ModalProvider } from '#/modules/Modal/ModalProvider'
+import { ToastProvider } from '#/modules/Toaster/Toaster'
 import { Menu } from '@/Menu'
 import { Recorder } from '@/Recorder'
 import { TitleBar } from '@/TitleBar'
-import { ModalProvider } from './lib/modal/ModalProvider'
 
 import 'styles/globals.css'
 
@@ -22,3 +22,5 @@ createRoot(document.getElementById('root')!).render(
         </ToastProvider>
     </StrictMode>
 )
+
+postMessage({ payload: 'ready' }, '*')

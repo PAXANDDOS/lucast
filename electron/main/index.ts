@@ -1,13 +1,14 @@
 import { app, BrowserWindow, globalShortcut, ipcMain, shell } from 'electron'
-import Store from 'electron-store'
 import { release } from 'os'
 import { join } from 'path'
+import { store } from './lib/store'
 
-import './lib/download-update'
-import './lib/input-sources'
+import './lib/desktopCapturer'
+import './lib/downloader'
 import './lib/notification'
-import './lib/sys-info'
-import './lib/video-handler'
+import './lib/store'
+import './lib/systemInfo'
+import './lib/videoHandler'
 
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
 if (process.platform === 'win32') app.setAppUserModelId(app.getName())
@@ -16,7 +17,7 @@ if (!app.requestSingleInstanceLock()) {
     process.exit(0)
 }
 
-export const ROOT_PATH = {
+const ROOT_PATH = {
     dist: join(__dirname, '../..'),
     public: join(__dirname, app.isPackaged ? '../..' : '../../../public'),
     resources: join(__dirname, '../resources'),
@@ -64,8 +65,11 @@ const createWindow = async () => {
         return { action: 'deny' }
     })
 
-    win.on('maximize', () => win.webContents.send('isMaximized'))
-    win.on('unmaximize', () => win.webContents.send('isRestored'))
+    win.on('maximize', () => {
+        console.log('max')
+        return win.webContents.send('maximize')
+    })
+    win.on('unmaximize', () => win.webContents.send('unmaximize'))
 }
 
 app.on('second-instance', () => {
@@ -84,48 +88,7 @@ app.on('window-all-closed', () => {
     process.platform !== 'darwin' && app.quit()
 })
 
-// Electron Store
-//
-
-const store = new Store({
-    schema: {
-        preferences: {
-            type: 'object',
-            default: {
-                video: {
-                    format: 'mp4',
-                    quality: 0,
-                    bitrate: 8388608,
-                    fps: 30,
-                },
-                audio: {
-                    enabled: false,
-                    bitrate: 128000,
-                    volume: 1.0,
-                },
-                bindings: {
-                    start: 'Alt+1',
-                    stop: 'Alt+2',
-                },
-                previewEnabled: true,
-            },
-        },
-        update: {
-            type: 'object',
-            default: {
-                available: false,
-            },
-        },
-    },
-})
-
-ipcMain.handle('electron-store', async (_event, methodSign: string, ...args: any[]) => {
-    if (typeof store[methodSign] === 'function') return store[methodSign](...args)
-    return store[methodSign]
-})
-
 // Registering shortcuts and starting
-//
 
 app.whenReady()
     .then(() => {
@@ -139,12 +102,12 @@ app.whenReady()
     .then(createWindow)
 
 // Custom title bar handlers
-//
 
 ipcMain.on('app-minimize', () => win.minimize())
-
-ipcMain.on('app-maximize', () => (win.isMaximized() ? win.restore() : win.maximize()))
-
+ipcMain.on('app-maximize', () => {
+    win.webContents.send('maximize')
+    win.isMaximized() ? win.restore() : win.maximize()
+})
 ipcMain.on('app-close', () => {
     win.close()
     win = null

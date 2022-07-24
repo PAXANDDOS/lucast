@@ -1,6 +1,6 @@
-import type { Video } from '#/typings/Video'
+import type { Video } from '#/assets/@types/Video'
 
-import { formatDuration } from '#/utils/format-duration'
+import { formatDuration } from '#/lib/formatDuration'
 import style from 'styles/menu.module.scss'
 
 export const VideoObject: React.FC<{ video: Video }> = ({ video }) => {

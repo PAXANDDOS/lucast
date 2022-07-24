@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-import store from '#/utils/electron-store'
+import store from '#/lib/store'
 import type { DesktopCapturerSource } from 'electron'
 
 import { Hide, RecordStart, RecordStop, ShareScreen } from 'icons/Misc'

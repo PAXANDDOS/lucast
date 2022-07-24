@@ -87,7 +87,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                             </div>
                         </div>
                     ),
-                    document.getElementById('__next')!
+                    document.getElementById('root')!
                 )}
         </>
     )

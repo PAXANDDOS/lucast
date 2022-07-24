@@ -1,0 +1,37 @@
+@mixin unselectable {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin grid-center {
+    display: grid;
+    place-items: center;
+}
+
+@mixin transition($duration: 0) {
+    @if $duration != 0 {
+        transition: $duration cubic-bezier(1, 0.3, 0.51, 0.6);
+    } @else {
+        transition: $transition-default;
+    }
+    transition-property: background, border, fill, transform, box-shadow, stroke;
+}

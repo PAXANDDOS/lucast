@@ -1,6 +1,6 @@
 .modalContainer {
     @include flex-center;
-    @include anim.fade-in(0.16s);
+    @include fade-in(0.16s);
     width: 100vw;
     height: calc(100vh - 30px);
     position: fixed;
@@ -16,7 +16,7 @@
     }
     .modalContent {
         @include flex-column;
-        @include anim.pop-in(0.16s);
+        @include pop-in(0.16s);
         width: 460px;
         height: 560px;
         max-height: calc(100vh - 40px);
@@ -184,7 +184,7 @@
                 .updateLogoBox {
                     width: 200px;
                     height: 200px;
-                    @include anim.spin;
+                    @include spin;
                 }
                 .updateDataBox {
                     @include flex-column;
@@ -265,14 +265,14 @@
                 }
             }
             .spinAnimation {
-                @include anim.spin();
+                @include spin();
             }
         }
     }
     .popOutAnimation {
-        @include anim.pop-out(0.16s);
+        @include pop-out(0.16s);
     }
 }
 .fadeOutAnimation {
-    @include anim.fade-out(0.16s);
+    @include fade-out(0.16s);
 }

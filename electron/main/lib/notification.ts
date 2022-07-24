@@ -1,4 +1,3 @@
-import type { NotificationConstructorOptions } from 'electron'
 import { ipcMain, Notification } from 'electron'
 import { join } from 'path'
 
@@ -10,7 +9,7 @@ ipcMain.on(
             title,
             body,
             icon = join(__dirname, '../../resources/icon.ico'),
-        }: NotificationConstructorOptions
+        }: Electron.NotificationConstructorOptions
     ) =>
         new Notification({
             title,

@@ -9,8 +9,7 @@ export default {
      * @return The value of the key.
      */
     get: async (key: string): Promise<any> => {
-        const { invoke } = window.api
-        return JSON.parse(await invoke('electron-store', 'get', key))
+        return await window.api.invoke('electron-store', 'get', key)
     },
 
     /**
@@ -19,9 +18,8 @@ export default {
      * @param value The value to set.
      */
     set: async (key: string, value: any) => {
-        const { invoke } = window.api
         let val: any
         value && typeof value === 'object' ? (val = JSON.stringify(value)) : (val = value)
-        await invoke('electron-store', 'set', key, val)
+        await window.api.invoke('electron-store', 'set', key, val)
     },
 }

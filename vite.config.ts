@@ -8,7 +8,6 @@ import pkg from './package.json'
 rmSync(join(__dirname, 'dist'), { recursive: true, force: true })
 
 export default defineConfig({
-    mode: process.env.NODE_ENV,
     resolve: {
         alias: {
             '@': join(__dirname, 'src/components'),
@@ -40,7 +39,6 @@ export default defineConfig({
                     },
                 },
             },
-            renderer: {},
         }),
     ],
     css: {
@@ -48,6 +46,7 @@ export default defineConfig({
             scss: {
                 additionalData:
                     '@import "src/assets/styles/variables"; \
+                    @import "src/assets/styles/mixins"; \
                     @import "src/assets/styles/animations";',
             },
         },

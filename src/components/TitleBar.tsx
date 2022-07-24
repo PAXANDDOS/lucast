@@ -9,8 +9,8 @@ export const TitleBar: React.FC = () => {
     const [maximized, setMaximized] = useState(<Maximize />)
 
     useEffect(() => {
-        window.api.on('isMaximized', () => setMaximized(<MaximizeRestore />))
-        window.api.on('isRestored', () => setMaximized(<Maximize />))
+        window.api.on('maximize', () => setMaximized(<MaximizeRestore />))
+        window.api.on('unmaximize', () => setMaximized(<Maximize />))
     }, [])
 
     return (
