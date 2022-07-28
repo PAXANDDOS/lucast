@@ -3,10 +3,9 @@ import { createRoot } from 'react-dom/client'
 
 import { ModalProvider } from '#/modules/Modal/ModalProvider'
 import { ToastProvider } from '#/modules/Toaster/Toaster'
-import { Menu } from '@/Menu'
-import { Recorder } from '@/Recorder'
-import { TitleBar } from '@/TitleBar'
 
+import { App } from '@/App'
+import { TitleBar } from '@/TitleBar'
 import 'styles/globals.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -14,10 +13,7 @@ createRoot(document.getElementById('root')!).render(
         <ToastProvider>
             <ModalProvider>
                 <TitleBar />
-                <main>
-                    <Menu />
-                    <Recorder />
-                </main>
+                <App />
             </ModalProvider>
         </ToastProvider>
     </StrictMode>

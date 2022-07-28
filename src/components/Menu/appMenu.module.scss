@@ -1,0 +1,45 @@
+.appMenu {
+    @include flex-row;
+    justify-content: space-between;
+    width: 100%;
+    height: 64px;
+    align-items: center;
+    background: darken($dark-2, 2%);
+    padding: 0 10px;
+    cursor: default;
+
+    span {
+        font-size: 14px;
+        color: $dark-6;
+    }
+
+    .menuGroup {
+        @include flex-row;
+
+        .menuBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 36px;
+            border-radius: 6px;
+            padding: 6px;
+            cursor: pointer;
+            margin-left: 6px;
+            @include transition;
+            svg {
+                height: 80%;
+                fill: $dark-8;
+                stroke: $dark-8;
+            }
+            &:first-child {
+                margin-left: 0;
+            }
+            &:hover {
+                background: $dark-3;
+            }
+            &:active {
+                background: lighten($dark-3, 5%);
+            }
+        }
+    }
+}

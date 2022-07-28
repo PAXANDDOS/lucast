@@ -65,10 +65,7 @@ const createWindow = async () => {
         return { action: 'deny' }
     })
 
-    win.on('maximize', () => {
-        console.log('max')
-        return win.webContents.send('maximize')
-    })
+    win.on('maximize', () => win.webContents.send('maximize'))
     win.on('unmaximize', () => win.webContents.send('unmaximize'))
 }
 
@@ -104,10 +101,7 @@ app.whenReady()
 // Custom title bar handlers
 
 ipcMain.on('app-minimize', () => win.minimize())
-ipcMain.on('app-maximize', () => {
-    win.webContents.send('maximize')
-    win.isMaximized() ? win.restore() : win.maximize()
-})
+ipcMain.on('app-maximize', () => (win.isMaximized() ? win.restore() : win.maximize()))
 ipcMain.on('app-close', () => {
     win.close()
     win = null

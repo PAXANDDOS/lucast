@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import type { Video } from '#/assets/@types/Video'
-import style from 'styles/menu.module.scss'
-import { VideoObject } from './VideoObject'
+import { VideoItem } from './VideoItem'
+
+import style from './videoList.module.scss'
 
 const videosPath = window.api.invokeSync('get-videos-path')
-console.log(videosPath)
 
 export const VideoList: React.FC = () => {
     const [videos, setVideos] = useState<Video[]>()
@@ -27,7 +27,7 @@ export const VideoList: React.FC = () => {
             </h3>
             <div className={style.listContent}>
                 {videos?.map(video => (
-                    <VideoObject key={video.filename} video={video} />
+                    <VideoItem key={video.filename} video={video} />
                 ))}
             </div>
         </div>

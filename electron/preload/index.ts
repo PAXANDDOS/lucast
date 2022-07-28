@@ -87,7 +87,8 @@ setTimeout(removeLoading, 3000)
 
 contextBridge.exposeInMainWorld('api', {
     send: ipcRenderer.send,
-    on: ipcRenderer.on,
+    on: (channel: string, listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void) =>
+        ipcRenderer.on(channel, listener),
     invoke: ipcRenderer.invoke,
     invokeSync: ipcRenderer.sendSync,
     removeAll: ipcRenderer.removeAllListeners,

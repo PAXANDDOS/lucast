@@ -4,7 +4,7 @@ import store from '#/lib/store'
 import type { DesktopCapturerSource } from 'electron'
 
 import { Hide, RecordStart, RecordStop, ShareScreen } from 'icons/Misc'
-import style from 'styles/recorder.module.scss'
+import style from './recorder.module.scss'
 
 export const Recorder: React.FC = () => {
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null)

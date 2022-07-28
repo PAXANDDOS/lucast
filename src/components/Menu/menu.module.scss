@@ -1,0 +1,7 @@
+.menu {
+    @include flex-column;
+    width: 30%;
+    max-width: 320px;
+    height: calc(100vh - 30px);
+    background: $dark-1;
+}

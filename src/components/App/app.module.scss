@@ -1,7 +1,6 @@
-.homePage {
+.app {
     @include flex-row;
     width: 100vw;
-    height: calc(100vh - 30px);
+    height: calc(100vh - $titlebar-height);
     background: $dark-1;
-    overflow: hidden;
 }

@@ -2,7 +2,7 @@ import { formatBytes } from '#/lib/formatBytes'
 import { useModal } from '#/modules/Modal/ModalProvider'
 
 import { Info, Settings } from 'icons/Misc'
-import style from 'styles/menu.module.scss'
+import style from './appMenu.module.scss'
 
 const diskRawInfo = window.api.invokeSync('get-disk-info')
 

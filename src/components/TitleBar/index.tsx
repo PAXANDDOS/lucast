@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Cross, Maximize, MaximizeRestore, Minimize } from 'icons/Misc'
-import style from 'styles/titleBar.module.scss'
+import style from './titleBar.module.scss'
 
 const isDarwin = window.api.invokeSync('get-os-info').os === 'macOS'
 
