@@ -1,39 +1,25 @@
 .titleBar {
     @include flex-row;
     @include unselectable;
-    justify-content: space-between;
-    align-items: center;
-    width: 100vw;
     height: $titlebar-height;
     background: $dark-0;
     -webkit-app-region: drag;
 
-    .titleBox {
-        @include flex-row;
-        width: fit-content;
-        height: 100%;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 0 10px;
-
-        h4 {
-            font-weight: 600;
-            font-size: 14px;
-            color: $dark-6;
-            opacity: 0.7;
-        }
+    .title {
+        @include grid-center;
+        margin-left: $su-3;
+        font-weight: 700;
+        font-size: $fs-s;
+        color: $dark-6;
     }
 
-    .systemBox {
+    .handlers {
         @include flex-row;
-        width: fit-content;
-        height: 100%;
         -webkit-app-region: no-drag;
 
-        .systemBoxProp {
+        .handler {
             @include grid-center;
             width: 40px;
-            height: 100%;
             background: transparent;
             cursor: pointer;
 
@@ -45,12 +31,12 @@
 
             @include transition;
             &:hover {
-                background-color: $dark-3;
-                &[data-type='close'] {
-                    background-color: $danger-red;
-                }
+                background: $dark-3;
                 svg {
                     fill: white;
+                }
+                &[data-type='danger'] {
+                    background: $danger-red;
                 }
             }
         }

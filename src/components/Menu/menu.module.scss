@@ -1,7 +1,65 @@
 .menu {
     @include flex-column;
-    width: 30%;
-    max-width: 320px;
-    height: calc(100vh - 30px);
+    width: $menu-width;
     background: $dark-1;
+
+    .list {
+        @include flex-column;
+        @include unselectable;
+        width: 100%;
+        height: calc(100% - $menubar-height);
+
+        .head {
+            font-size: $fs-xl;
+            padding: $su-3 $su-4;
+
+            small {
+                font-size: $fs-xs;
+                color: $dark-5;
+                cursor: pointer;
+            }
+        }
+
+        .content {
+            width: inherit;
+            overflow-x: hidden;
+        }
+    }
+
+    .bar {
+        @include flex-row;
+        align-items: center;
+        width: 100%;
+        height: $menubar-height;
+        background: darken($dark-2, 2%);
+        padding: 0 $su-3;
+        gap: $su-1;
+
+        .disk {
+            font-size: 14px;
+            color: $dark-6;
+            margin-right: auto;
+            cursor: default;
+        }
+
+        .button {
+            @include grid-center;
+            padding: $su-2;
+            border-radius: $radius-auto;
+            cursor: pointer;
+
+            @include transition;
+            &:hover {
+                background: $dark-3;
+            }
+            &:active {
+                background: lighten($dark-3, 5%);
+            }
+
+            svg {
+                fill: $dark-8;
+                stroke: $dark-8;
+            }
+        }
+    }
 }

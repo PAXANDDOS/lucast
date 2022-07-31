@@ -1,4 +1,4 @@
-import { Modal } from '#/modules/Modal/Modal'
+import { Modal } from '#/modules/Modal'
 import { InfoFooter } from '@/Footers/InfoFooter'
 import style from '@/styles/modal.module.scss'
 

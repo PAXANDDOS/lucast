@@ -5,6 +5,7 @@
         "baseUrl": ".",
         "esModuleInterop": false,
         "forceConsistentCasingInFileNames": true,
+        "incremental": true,
         "isolatedModules": true,
         "jsx": "react-jsx",
         "lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -12,10 +13,10 @@
         "moduleResolution": "Node",
         "noEmit": true,
         "paths": {
+            "#/*": ["src/*"],
             "@/*": ["src/components/*"],
             "icons/*": ["src/assets/icons/*"],
-            "styles/*": ["src/assets/styles/*"],
-            "#/*": ["src/*"]
+            "styles/*": ["src/assets/styles/*"]
         },
         "resolveJsonModule": true,
         "skipDefaultLibCheck": true,
@@ -23,10 +24,10 @@
         "sourceMap": true,
         "strict": true,
         "target": "ESNext",
-        "typeRoots": ["./node_modules/@types", "./src/assets/@types"],
+        "typeRoots": ["node_modules/@types", "src/assets/@types"],
         "types": ["node"],
         "useDefineForClassFields": true
     },
-    "include": ["src"],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    "include": ["**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"]
 }

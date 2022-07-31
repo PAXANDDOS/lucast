@@ -1,8 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { ModalProvider } from '#/modules/Modal/ModalProvider'
-import { ToastProvider } from '#/modules/Toaster/Toaster'
+import { ModalProvider } from '#/modules/Modal'
+import { ToastProvider } from '#/modules/Toaster'
 
 import { App } from '@/App'
 import { TitleBar } from '@/TitleBar'

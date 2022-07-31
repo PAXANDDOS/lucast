@@ -20,29 +20,19 @@ export const TitleBar: React.FC = () => {
                 justifyContent: isDarwin ? 'center' : 'space-between',
             }}
         >
-            <div className={style.titleBox}>
-                <h4>Lucast</h4>
-            </div>
+            <h4 className={style.title}>Lucast</h4>
             {isDarwin || (
-                <div className={style.systemBox}>
-                    <div
-                        data-type="min"
-                        onClick={() => window.api.send('app-minimize')}
-                        className={style.systemBoxProp}
-                    >
+                <div className={style.handlers}>
+                    <div onClick={() => window.api.send('app-minimize')} className={style.handler}>
                         <Minimize />
                     </div>
-                    <div
-                        data-type="max"
-                        onClick={() => window.api.send('app-maximize')}
-                        className={style.systemBoxProp}
-                    >
+                    <div onClick={() => window.api.send('app-maximize')} className={style.handler}>
                         {maximized}
                     </div>
                     <div
-                        data-type="close"
+                        data-type="danger"
                         onClick={() => window.api.send('app-close')}
-                        className={style.systemBoxProp}
+                        className={style.handler}
                     >
                         <Cross />
                     </div>

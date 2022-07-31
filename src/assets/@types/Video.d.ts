@@ -1,8 +1,6 @@
-import type { FfprobeFormat, FfprobeStream } from 'fluent-ffmpeg'
-
-export type Video = {
+declare type Video = {
     filename: string
-    format: FfprobeFormat
-    video: FfprobeStream
-    audio: FfprobeStream
+    format: FFmpeg.FfprobeFormat
+    video: FFmpeg.FfprobeStream
+    audio: FFmpeg.FfprobeStream
 }

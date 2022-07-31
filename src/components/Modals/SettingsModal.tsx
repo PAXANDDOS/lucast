@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import store from '#/lib/store'
-import { Modal } from '#/modules/Modal/Modal'
+import { Modal } from '#/modules/Modal'
 
 import { UpdateFooter } from '@/Footers/UpdateFooter'
 import style from 'styles/modal.module.scss'
