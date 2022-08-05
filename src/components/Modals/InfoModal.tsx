@@ -1,9 +1,9 @@
+import { GitHub, Telegram } from '#/assets/icons/Social'
 import { Modal } from '#/modules/Modal'
-import { InfoFooter } from '@/Footers/InfoFooter'
-import style from '@/styles/modal.module.scss'
+import style from './infoModal.module.scss'
 
-export const InfoModal: React.FC<{ onClose: () => void }> = ({ onClose }) => (
-    <Modal title="About Lucast" isOpen={true} onClose={onClose} Footer={<InfoFooter />}>
+const InfoModal: React.FC<{ onClose: () => void }> = ({ onClose }) => (
+    <Modal title="About Lucast" onClose={onClose}>
         <div className={style.infoModal}>
             <div className={style.infoModalPreview}>
                 <img src={'/cover.png'} />
@@ -182,5 +182,22 @@ export const InfoModal: React.FC<{ onClose: () => void }> = ({ onClose }) => (
                 </ul>
             </div>
         </div>
+        <div className={style.modalFooter}>
+            <a href="https://github.com/PAXANDDOS" target="_blank" rel="noreferrer">
+                <GitHub />
+            </a>
+            <a href="https://t.me/PAXANDDOS" target="_blank" rel="noreferrer">
+                <Telegram />
+            </a>
+            <span>
+                Copyright © 2022{' '}
+                <a href="https://paxanddos.github.io/" target="_blank" rel="noreferrer">
+                    Paul Litovka
+                </a>
+                . All rights reserved.
+            </span>
+        </div>
     </Modal>
 )
+
+export default InfoModal

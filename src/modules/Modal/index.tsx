@@ -1,4 +1,4 @@
-import { createContext, lazy, Suspense, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, lazy, Suspense, useContext, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import { Cross } from 'icons/Misc'
@@ -6,20 +6,13 @@ import style from './modal.module.scss'
 
 type Props = {
     title: string
-    isOpen: boolean
     children: React.ReactNode
-    Footer: React.ReactNode
     onClose: () => void
 }
 
-export const Modal: React.FC<Props> = ({ title, isOpen, children, Footer, onClose }) => {
-    const [rendered, setRendered] = useState(isOpen)
+export const Modal: React.FC<Props> = ({ title, children, onClose }) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        isOpen && setRendered(true)
-    }, [isOpen])
 
     const handleClose = () => {
         if (!containerRef.current || !contentRef.current) return
@@ -29,30 +22,25 @@ export const Modal: React.FC<Props> = ({ title, isOpen, children, Footer, onClos
     }
 
     return createPortal(
-        rendered && (
-            <div className={style.modalContainer} ref={containerRef}>
-                <button className={style.modalOverlay} onClick={handleClose} />
-                <div className={style.modalContent} ref={contentRef}>
-                    <div className={style.modalHeader}>
-                        <h2 className={style.modalTitle}>{title}</h2>
-                        <button onClick={handleClose} className={style.modalCloseBtn}>
-                            <Cross />
-                        </button>
-                    </div>
-                    <div className={style.modalBody}>{children}</div>
-                    {Footer && Footer}
+        <div className={style.modalContainer} ref={containerRef}>
+            <button className={style.modalOverlay} onClick={handleClose} />
+            <div className={style.modalContent} ref={contentRef}>
+                <div className={style.modalHeader}>
+                    <h2 className={style.modalTitle}>{title}</h2>
+                    <button onClick={handleClose} className={style.modalCloseBtn}>
+                        <Cross />
+                    </button>
                 </div>
+                <div className={style.modalBody}>{children}</div>
             </div>
-        ),
-        document.querySelector('main')!
+        </div>,
+        document.querySelector('root')!
     )
 }
 
 Modal.defaultProps = {
     title: 'Modal',
-    isOpen: false,
-    children: null,
-    Footer: null,
+    children: undefined,
     onClose: () => console.warn('No action on modal close'),
 }
 
@@ -64,18 +52,12 @@ interface Modal {
 }
 
 export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [Modal, setModal] = useState<any>()
+    const [Modal, setModal] = useState<any>(null)
     const [props, setProps] = useState<object>()
 
     const showModal = (name: string, payload?: typeof props) => {
         setProps(payload)
-        setModal(
-            lazy(() =>
-                import(`../../components/Modals/${name}Modal.tsx`).then(module => ({
-                    default: module[name],
-                }))
-            )
-        )
+        setModal(lazy(() => import(`../../components/Modals/${name}Modal.tsx`)))
     }
 
     return (
