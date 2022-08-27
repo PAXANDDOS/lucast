@@ -25,7 +25,7 @@ const ROOT_PATH = {
 
 let win: BrowserWindow | null = null
 const preload = join(__dirname, '../preload/index.js')
-const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
+const url = process.env.VITE_DEV_SERVER_URL!
 const html = join(ROOT_PATH.dist, 'index.html')
 
 app.commandLine.appendSwitch('enable-webgl')
@@ -49,15 +49,15 @@ const createWindow = async () => {
     })
 
     win.on('ready-to-show', () => {
-        win.show()
-        process.env.NODE_ENV === 'development' && win.webContents.openDevTools()
+        win!.show()
+        process.env.NODE_ENV === 'development' && win?.webContents.openDevTools()
     })
 
     if (app.isPackaged) win.loadFile(html)
     else win.loadURL(url)
 
     win.webContents.on('did-finish-load', () => {
-        win.webContents.send('main-process-message', new Date().toLocaleString())
+        win?.webContents.send('main-process-message', new Date().toLocaleString())
     })
 
     win.webContents.setWindowOpenHandler(({ url }) => {
@@ -65,8 +65,8 @@ const createWindow = async () => {
         return { action: 'deny' }
     })
 
-    win.on('maximize', () => win.webContents.send('maximize'))
-    win.on('unmaximize', () => win.webContents.send('unmaximize'))
+    win.on('maximize', () => win?.webContents.send('maximize'))
+    win.on('unmaximize', () => win?.webContents.send('unmaximize'))
 }
 
 app.on('second-instance', () => {
@@ -90,20 +90,20 @@ app.on('window-all-closed', () => {
 app.whenReady()
     .then(() => {
         globalShortcut.register(store.get('preferences.bindings.start'), () =>
-            win.webContents.send('start-recording')
+            win!.webContents.send('start-recording')
         )
         globalShortcut.register(store.get('preferences.bindings.stop'), () =>
-            win.webContents.send('stop-recording')
+            win!.webContents.send('stop-recording')
         )
     })
     .then(createWindow)
 
 // Custom title bar handlers
 
-ipcMain.on('app-minimize', () => win.minimize())
-ipcMain.on('app-maximize', () => (win.isMaximized() ? win.restore() : win.maximize()))
+ipcMain.on('app-minimize', () => win?.minimize())
+ipcMain.on('app-maximize', () => (win?.isMaximized() ? win.restore() : win!.maximize()))
 ipcMain.on('app-close', () => {
-    win.close()
+    win!.close()
     win = null
     process.platform !== 'darwin' && app.quit()
 })

@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react'
 import { rmSync } from 'fs'
 import { join } from 'path'
 import { defineConfig } from 'vite'
-import electron from 'vite-plugin-electron'
+import electron, { onstart } from 'vite-plugin-electron'
 import pkg from './package.json'
 
 rmSync(join(__dirname, 'dist'), { recursive: true, force: true })
@@ -23,9 +23,10 @@ export default defineConfig({
                 entry: 'electron/main/index.ts',
                 vite: {
                     build: {
-                        sourcemap: false,
+                        sourcemap: true,
                         outDir: 'dist/electron/main',
                     },
+                    plugins: [process.env.VSCODE_DEBUG ? onstart() : null],
                 },
             },
             preload: {
@@ -51,8 +52,10 @@ export default defineConfig({
             },
         },
     },
-    server: {
-        host: pkg.env.VITE_DEV_SERVER_HOST,
-        port: pkg.env.VITE_DEV_SERVER_PORT,
-    },
+    server: process.env.VSCODE_DEBUG
+        ? {
+              host: pkg.debug.env.VITE_DEV_SERVER_HOST,
+              port: pkg.debug.env.VITE_DEV_SERVER_PORT,
+          }
+        : undefined,
 })

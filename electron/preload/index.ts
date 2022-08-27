@@ -1,5 +1,14 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
+contextBridge.exposeInMainWorld('api', {
+    send: ipcRenderer.send,
+    on: (channel: string, listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void) =>
+        ipcRenderer.on(channel, listener),
+    invoke: ipcRenderer.invoke,
+    invokeSync: ipcRenderer.sendSync,
+    removeAll: ipcRenderer.removeAllListeners,
+})
+
 const domReady = (condition: DocumentReadyState[] = ['complete', 'interactive']) =>
     new Promise(resolve => {
         if (condition.includes(document.readyState)) {
@@ -74,8 +83,6 @@ const withLoading = () => {
     }
 }
 
-// ----------------------------------------------------------------------
-
 const { appendLoading, removeLoading } = withLoading()
 domReady().then(appendLoading)
 
@@ -84,12 +91,3 @@ window.onmessage = e => {
 }
 
 setTimeout(removeLoading, 3000)
-
-contextBridge.exposeInMainWorld('api', {
-    send: ipcRenderer.send,
-    on: (channel: string, listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void) =>
-        ipcRenderer.on(channel, listener),
-    invoke: ipcRenderer.invoke,
-    invokeSync: ipcRenderer.sendSync,
-    removeAll: ipcRenderer.removeAllListeners,
-})
