@@ -7,5 +7,6 @@ node_modules
 .env
 .DS_Store
 dist
+dist-electron
 release
 tsconfig.tsbuildinfo

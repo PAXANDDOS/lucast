@@ -1,3 +1,9 @@
+process.env.DIST_ELECTRON = join(__dirname, '../..')
+process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
+process.env.PUBLIC = app.isPackaged
+    ? process.env.DIST
+    : join(process.env.DIST_ELECTRON, '../public')
+
 import { app, BrowserWindow, globalShortcut, ipcMain, shell } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
@@ -17,16 +23,10 @@ if (!app.requestSingleInstanceLock()) {
     process.exit(0)
 }
 
-const ROOT_PATH = {
-    dist: join(__dirname, '../..'),
-    public: join(__dirname, app.isPackaged ? '../..' : '../../../public'),
-    resources: join(__dirname, '../resources'),
-}
-
 let win: BrowserWindow | null = null
 const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL!
-const html = join(ROOT_PATH.dist, 'index.html')
+const html = join(process.env.DIST, 'index.html')
 
 app.commandLine.appendSwitch('enable-webgl')
 
@@ -38,7 +38,7 @@ const createWindow = async () => {
         minWidth: 1040,
         minHeight: 560,
         show: false,
-        icon: join(ROOT_PATH.resources, 'icon.ico'),
+        icon: join(__dirname, '../resources/icon.ico'),
         autoHideMenuBar: true,
         titleBarStyle: 'hidden',
         webPreferences: {
@@ -53,8 +53,10 @@ const createWindow = async () => {
         process.env.NODE_ENV === 'development' && win?.webContents.openDevTools()
     })
 
-    if (app.isPackaged) win.loadFile(html)
-    else win.loadURL(url)
+    if (process.env.VITE_DEV_SERVER_URL) {
+        win.loadURL(url)
+        win.webContents.openDevTools()
+    } else win.loadFile(html)
 
     win.webContents.on('did-finish-load', () => {
         win?.webContents.send('main-process-message', new Date().toLocaleString())

@@ -2,10 +2,9 @@ import react from '@vitejs/plugin-react'
 import { rmSync } from 'fs'
 import { join } from 'path'
 import { defineConfig } from 'vite'
-import electron, { onstart } from 'vite-plugin-electron'
-import pkg from './package.json'
+import electron from 'vite-electron-plugin'
 
-rmSync(join(__dirname, 'dist'), { recursive: true, force: true })
+rmSync(join(__dirname, 'dist-electron'), { recursive: true, force: true })
 
 export default defineConfig({
     resolve: {
@@ -16,32 +15,6 @@ export default defineConfig({
             '#': join(__dirname, 'src'),
         },
     },
-    plugins: [
-        react(),
-        electron({
-            main: {
-                entry: 'electron/main/index.ts',
-                vite: {
-                    build: {
-                        sourcemap: true,
-                        outDir: 'dist/electron/main',
-                    },
-                    plugins: [process.env.VSCODE_DEBUG ? onstart() : null],
-                },
-            },
-            preload: {
-                input: {
-                    index: join(__dirname, 'electron/preload/index.ts'),
-                },
-                vite: {
-                    build: {
-                        sourcemap: 'inline',
-                        outDir: 'dist/electron/preload',
-                    },
-                },
-            },
-        }),
-    ],
     css: {
         preprocessorOptions: {
             scss: {
@@ -52,10 +25,14 @@ export default defineConfig({
             },
         },
     },
-    server: process.env.VSCODE_DEBUG
-        ? {
-              host: pkg.debug.env.VITE_DEV_SERVER_HOSTNAME,
-              port: pkg.debug.env.VITE_DEV_SERVER_PORT,
-          }
-        : undefined,
+    plugins: [
+        react(),
+        electron({
+            include: ['electron', 'preload'],
+            transformOptions: {
+                sourcemap: !!process.env.VSCODE_DEBUG,
+            },
+        }),
+    ],
+    clearScreen: false,
 })
