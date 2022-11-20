@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 import store from '#/lib/store'
 import { Modal } from '#/modules/Modal'
 
-import { UpdateFooter } from '@/Footers/UpdateFooter'
-import style from 'styles/modal.module.scss'
+import style from './settingsModal.module.scss'
+import { SettingsUpdater } from './SettingsUpdater'
 
-export const SettingsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const SettingsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const [videoSettings, setVideoSettings] = useState<Video>({
         format: 'mp4',
         quality: 1080,
@@ -161,7 +161,7 @@ export const SettingsModal: React.FC<{ onClose: () => void }> = ({ onClose }) =>
     }
 
     return (
-        <Modal title="Settings" isOpen={true} onClose={onClose} Footer={<UpdateFooter />}>
+        <Modal title="Settings" onClose={onClose}>
             <div className={style.settingsModal}>
                 <div className={style.settingsBox}>
                     <h2 className={style.settingsTitle}>Video</h2>
@@ -262,9 +262,12 @@ export const SettingsModal: React.FC<{ onClose: () => void }> = ({ onClose }) =>
                     </div>
                 </div>
             </div>
+            <SettingsUpdater />
         </Modal>
     )
 }
+
+export default SettingsModal
 
 type Video = {
     format: string

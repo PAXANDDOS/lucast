@@ -100,6 +100,10 @@ app.whenReady()
     })
     .then(createWindow)
 
+app.on('will-quit', () => {
+    globalShortcut.unregisterAll()
+})
+
 // Custom title bar handlers
 
 ipcMain.on('app-minimize', () => win?.minimize())

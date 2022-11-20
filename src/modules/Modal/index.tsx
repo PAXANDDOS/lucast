@@ -34,7 +34,7 @@ export const Modal: React.FC<Props> = ({ title, children, onClose }) => {
                 <div className={style.modalBody}>{children}</div>
             </div>
         </div>,
-        document.querySelector('root')!
+        document.getElementById('root')!
     )
 }
 

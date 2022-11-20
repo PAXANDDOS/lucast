@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { Download, Update } from 'icons/Misc'
-import style from 'styles/modal.module.scss'
-import { UpdateModal } from '../Modals/UpdateModal'
+import style from './settingsUpdater.module.scss'
+import { UpdateModal } from './UpdateModal'
 
 import { compareVersions } from '#/lib/compareVersions'
 import { sleep } from '#/lib/sleep'
@@ -11,7 +11,7 @@ import store from '#/lib/store'
 const osInfo = window.api.invokeSync('get-os-info') as OSInfo
 const appInfo = window.api.invokeSync('get-app-info') as AppInfo
 
-export const UpdateFooter: React.FC = () => {
+export const SettingsUpdater: React.FC = () => {
     const [updateData, setUpdateData] = useState<UpdatePayload>()
     const [isUpdating, setIsUpdating] = useState(false)
     const updateRef = useRef<HTMLDivElement>(null)
@@ -83,7 +83,7 @@ export const UpdateFooter: React.FC = () => {
     }
 
     return (
-        <div className={style.modalFooterSettings}>
+        <div className={style.modalFooter}>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <span>Stable v{appInfo.version} (10.02.2022)</span>
                 <span>

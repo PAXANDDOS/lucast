@@ -1,7 +1,6 @@
 .infoModal {
     @include flex-column;
     width: 100%;
-    height: 100%;
     padding: 0 14px;
     .infoModalPreview {
         width: 100%;
@@ -58,6 +57,38 @@
             li {
                 margin-bottom: 10px;
             }
+        }
+    }
+}
+.modalFooter {
+    @include flex-row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    padding: 8px 14px;
+    background: $dark-2;
+    a {
+        @include grid-center;
+        width: fit-content;
+        height: 100%;
+        margin-right: 10px;
+        cursor: pointer;
+        svg {
+            fill: $svg;
+            width: 20px;
+            &:hover {
+                fill: lighten($svg, 8%);
+            }
+        }
+    }
+    span {
+        color: $dark-6;
+        font-size: 13px;
+        margin-left: 6px;
+        a {
+            display: initial;
+            margin: 0;
         }
     }
 }

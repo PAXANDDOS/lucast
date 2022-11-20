@@ -86,10 +86,8 @@ export const Recorder: React.FC = () => {
 
     useEffect(() => {
         window.api.on('input-source-selected', async (_event, source: DesktopCapturerSource) => {
-            if (!ref.current) return
-
             if (!source) {
-                ref.current.srcObject = null
+                ref.current!.srcObject = null
                 setState({
                     label: 'Start recording',
                     startActive: false,
@@ -103,6 +101,7 @@ export const Recorder: React.FC = () => {
             const mediaDevices = navigator.mediaDevices as any
             const videoSettings = await store.get('preferences.video')
             const audioSettings = await store.get('preferences.audio')
+            const previewEnabled = await store.get('preferences.previewEnabled')
             const constraints = {
                 mandatory: {
                     chromeMediaSource: 'desktop',
@@ -114,9 +113,11 @@ export const Recorder: React.FC = () => {
                 video: constraints,
             })
 
-            ref.current.srcObject = stream
-            ref.current.muted = true
-            ref.current.play()
+            if (previewEnabled) {
+                ref.current!.srcObject = stream
+                ref.current!.muted = true
+                ref.current!.play()
+            }
 
             const newMediaRecorder = new MediaRecorder(stream, {
                 mimeType: `video/webm; codecs=vp9${audioSettings.enabled ? ', opus' : ''}`,

@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld('api', {
         ipcRenderer.on(channel, listener),
     invoke: ipcRenderer.invoke,
     invokeSync: ipcRenderer.sendSync,
-    removeAll: ipcRenderer.removeAllListeners,
+    removeAll: (channel: string) => ipcRenderer.removeAllListeners(channel),
 })
 
 const domReady = (condition: DocumentReadyState[] = ['complete', 'interactive']) =>

@@ -6,7 +6,7 @@ import store from '#/lib/store'
 
 import { ProgressBar } from '@/ProgressBar'
 import { Logo } from 'icons/Brand'
-import style from 'styles/modal.module.scss'
+import style from './updateModal.module.scss'
 
 const tempDir = window.api.invokeSync('get-app-path', 'temp')
 

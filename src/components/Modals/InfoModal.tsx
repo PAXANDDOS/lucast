@@ -11,31 +11,32 @@ const InfoModal: React.FC<{ onClose: () => void }> = ({ onClose }) => (
             <div className={style.infoModalContent}>
                 <p className={style.infoModalContentText}>
                     <b>Lucast</b> is a free screen-recording application for Windows, macOS, and
-                    Linux. Capture how you work, how you play, how you do anything, and share it
-                    with the world in a simple way!
+                    Linux. Capture how you work, how you play, and how you live, and share it with
+                    the world in a simple way!
                 </p>
-                <p className={style.infoModalContentText} style={{ marginTop: 10, fontSize: 14 }}>
-                    <b>Found a bug?</b>{' '}
-                    <a
-                        href="https://github.com/PAXANDDOS/lucast-electron/issues/new"
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{ opacity: 0.8, color: '#fee75c' }}
-                    >
-                        Report it here!
-                    </a>
-                </p>
-                <p
-                    className={style.infoModalContentText}
-                    style={{ opacity: 0.7, marginTop: 10, fontSize: 12 }}
-                >
-                    <b>Developer note:</b> This project is fully free-to-use and supported only by
-                    me. Build with Electron and React. It&apos;s my first project on Electron and
-                    I&apos;m still learning it. Feel free to visit the GitHub page below, pull
-                    requests are always welcome!
-                </p>
-                <h4 className={style.infoModalContentLabel} data-color="pink">
-                    <span>FEATURES</span>
+                <h4 className={style.infoModalContentLabel} data-color="green">
+                    <span>FINAL RELEASE</span>
+                </h4>
+                <ul className={style.infoModalContentList}>
+                    <li>
+                        <b>Faster and more efficient.</b> Refactored the entire codebase with better
+                        approaches. The application now will take up less space on the hard drive
+                        and use fewer resources. Some visuals were also improved.
+                    </li>
+                    <li>
+                        <b>Better framework.</b> Use of a totally different approach to building the
+                        app. Updated a lot of important dependencies after almost a year. These
+                        updates will make the app more faster and secure.
+                    </li>
+                    <li>
+                        <b>Final release.</b> It&apos;s time for a feature freeze. Lucast already
+                        has what it needs to be a good screen-recording application. I will continue
+                        to support this project to improve stability and fix vulnerabilities, but no
+                        new features will be added.
+                    </li>
+                </ul>
+                <h4 className={style.infoModalContentLabel} data-color="yellow">
+                    <span>FEATURE LOG: v2.1.0</span>
                 </h4>
                 <ul className={style.infoModalContentList}>
                     <li>
@@ -55,43 +56,19 @@ const InfoModal: React.FC<{ onClose: () => void }> = ({ onClose }) => (
                         the video, show it in your folder, or just delete it. #FeatureRequest
                     </li>
                 </ul>
-                <h4 className={style.infoModalContentLabel} data-color="green">
-                    <span>FIXES & IMPROVEMENTS</span>
-                </h4>
-                <ul className={style.infoModalContentList}>
-                    <li>
-                        <b>Fixed title bar on macOS.</b> macOS had the same title bar as windows but
-                        also its traffic lights. This update fixes this issue to only have traffic
-                        lights and the Lucast at the center.
-                    </li>
-                    <li>
-                        <b>Better spin animation.</b> Spin animation, which is used in toast loading
-                        icons and update icons, has been improved to spin with the same speed
-                        linearly.
-                    </li>
-                    <li>
-                        <b>New package manager.</b>
-                    </li>
-                    <li>
-                        <b>Updated build tool.</b>
-                    </li>
-                    <li>
-                        <b>Minor fixes.</b>
-                    </li>
-                </ul>
                 <h4 className={style.infoModalContentLabel} data-color="yellow">
                     <span>FEATURE LOG: v2.0.0</span>
                 </h4>
                 <ul className={style.infoModalContentList}>
                     <li>
-                        <b>Featuring FFmpeg and FFprobe!</b> It&apos;s a huge change for the quality
+                        <b>Featuring FFmpeg and FFprobe!</b> It&apos;s a huge change in the quality
                         of recorded videos and configuration! FFmpeg helps to handle video, audio,
                         and other multimedia files and streams. What does it mean for Lucast? Now
                         you have a wide variety of formats to choose from, you can set a resolution
-                        that differs from your native, you can customize your recorder videos frame
+                        that differs from your native, you can customize your recorder video frame
                         rate, and you can configure the volume of your audio! Whatever you choose,
                         the quality of the output video will be so much better than in v1.3.0!
-                        High-quality video and clear audio with a small file size, that is what it
+                        High-quality video and clear audio with small file size, that is what it
                         means!
                     </li>
                     <li>
@@ -155,8 +132,8 @@ const InfoModal: React.FC<{ onClose: () => void }> = ({ onClose }) => (
                     </li>
                     <li>
                         <b>System info and updater.</b> Your system information is displayed
-                        alongside the application information. Also, start of the Updater feature
-                        development!
+                        alongside the application information. Also, the start of the Updater beta
+                        testing!
                     </li>
                 </ul>
                 <h4 className={style.infoModalContentLabel} data-color="yellow">
