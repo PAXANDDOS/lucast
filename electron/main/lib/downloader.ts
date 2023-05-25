@@ -16,5 +16,5 @@ ipcMain.on('download-update', async (event, { url, properties }) => {
         event.sender.send('download-completed', status)
         exec(`${status.path} /S /currentuser`)
     }
-    await download(BrowserWindow.getFocusedWindow(), url, properties)
+    await download(BrowserWindow.getFocusedWindow()!, url, properties)
 })

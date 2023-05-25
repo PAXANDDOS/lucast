@@ -20,6 +20,7 @@
     "ignorePatterns": [
         "node_modules/**",
         "dist/**",
+        "dist-electron/**",
         "electron/resources/**",
         "release/**",
         "public/**"
