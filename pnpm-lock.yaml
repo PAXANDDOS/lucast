@@ -22,7 +22,7 @@ specifiers:
   react-dom: ^18.2.0
   sass: ^1.53.0
   typescript: ^4.7.4
-  vite: ^2.9.13
+  vite: ^2.9.16
   vite-plugin-resolve: ^2.1.2
 
 dependencies:
@@ -49,7 +49,7 @@ devDependencies:
   react-dom: 18.2.0_react@18.2.0
   sass: 1.53.0
   typescript: 4.7.4
-  vite: 2.9.13_sass@1.53.0
+  vite: 2.9.16_sass@1.53.0
   vite-plugin-resolve: 2.1.2
 
 packages:
@@ -1112,6 +1112,7 @@ packages:
 
   /base64-js/1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+    requiresBuild: true
     dev: true
 
   /binary-extensions/2.2.0:
@@ -4084,8 +4085,8 @@ packages:
     resolution: {integrity: sha512-u1qAHClpMS6v/UM6yBiLOXEeceeK+zvZYRjYC0ReOy1Y2Anxcbf9oKHqN29MOMPxif5ZFLqy2dSsSdXv3rz9eQ==}
     dev: true
 
-  /vite/2.9.13_sass@1.53.0:
-    resolution: {integrity: sha512-AsOBAaT0AD7Mhe8DuK+/kE4aWYFMx/i0ZNi98hJclxb4e0OhQcZYUrvLjIaQ8e59Ui7txcvKMiJC1yftqpQoDw==}
+  /vite/2.9.16_sass@1.53.0:
+    resolution: {integrity: sha512-X+6q8KPyeuBvTQV8AVSnKDvXoBMnTx8zxh54sOwmmuOdxkjMmEJXH2UEchA+vTMps1xw9vL64uwJOWryULg7nA==}
     engines: {node: '>=12.2.0'}
     hasBin: true
     peerDependencies:
@@ -4183,6 +4184,7 @@ packages:
   /xmlbuilder/9.0.7:
     resolution: {integrity: sha512-7YXTQc3P2l9+0rjaUbLwMKRhtmwg1M1eDf6nag7urC7pIPYLD9W/jmzQ4ptRSUbodw5S0jfoGTflLemQibSpeQ==}
     engines: {node: '>=4.0'}
+    requiresBuild: true
     dev: true
 
   /y18n/5.0.8:
