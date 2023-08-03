@@ -10,7 +10,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.30.0
   '@vitejs/plugin-react': ^1.3.2
   check-disk-space: ^3.3.0
-  electron: ^19.0.6
+  electron: ^19.1.8
   electron-builder: ^23.1.0
   electron-dl: ^3.3.1
   electron-store: ^8.0.2
@@ -40,7 +40,7 @@ devDependencies:
   '@typescript-eslint/eslint-plugin': 5.30.0_5mtqsiui4sk53pmkx7i7ue45wm
   '@typescript-eslint/parser': 5.30.0_b5e7v2qnwxfo6hmiq56u52mz3e
   '@vitejs/plugin-react': 1.3.2
-  electron: 19.0.6
+  electron: 19.1.8
   electron-builder: 23.1.0
   eslint: 8.18.0
   eslint-plugin-react: 7.30.1_eslint@8.18.0
@@ -683,7 +683,7 @@ packages:
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 16.11.41
+      '@types/node': 18.0.0
     dev: true
 
   /@types/minimatch/3.0.5:
@@ -733,7 +733,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 16.11.41
+      '@types/node': 18.0.0
     dev: true
 
   /@types/scheduler/0.16.2:
@@ -1112,6 +1112,7 @@ packages:
 
   /base64-js/1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+    requiresBuild: true
     dev: true
 
   /binary-extensions/2.2.0:
@@ -1746,8 +1747,8 @@ packages:
     resolution: {integrity: sha512-yDoFfTJnqBAB6hSiPvzmsBJSrjOXJtHSJoqJdI/zSIh7DYupYnIOHt/bbPw/WE31BJjNTybDdNAs21gCMnTh0Q==}
     dev: true
 
-  /electron/19.0.6:
-    resolution: {integrity: sha512-S9Yud32nKhB0iWC0lGl2JXz4FQnCiLCnP5Vehm1/CqyeICcQGmgQaZl2HYpCJ2pesKIsYL9nsgmku/10cxm/gg==}
+  /electron/19.1.8:
+    resolution: {integrity: sha512-UfPQdFjgKI0xCm1V5sV3iAVOs0kCwAE91xWzV5tI7ij14yOkxTdXp9BqTzFaSbQYLYxn6q1BUUe1nlzjJjzAnw==}
     engines: {node: '>= 8.6'}
     hasBin: true
     requiresBuild: true
@@ -4183,6 +4184,7 @@ packages:
   /xmlbuilder/9.0.7:
     resolution: {integrity: sha512-7YXTQc3P2l9+0rjaUbLwMKRhtmwg1M1eDf6nag7urC7pIPYLD9W/jmzQ4ptRSUbodw5S0jfoGTflLemQibSpeQ==}
     engines: {node: '>=4.0'}
+    requiresBuild: true
     dev: true
 
   /y18n/5.0.8:
